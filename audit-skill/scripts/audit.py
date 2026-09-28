@@ -23,8 +23,8 @@ def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: 
     if not is_meta:
         for idx, line in enumerate(src.splitlines(), start=1):
             if not line.strip().startswith("#") and not any(k in line for k in ("re.search", "re.compile", "Zero-Leakage", "r'/", 'r"/')):
-                if re.search(r'/(Users|home)/[a-zA-Z0-9_-]+/', line):
-                    blockers.append(f"Line {idx}: Hardcoded absolute user path (~/ or $HOME required)")
+                if re.search(r"(?:/(?:Users|home)/[a-zA-Z0-9_-]+/|/root/|(?<![a-zA-Z0-9])[a-zA-Z]:[\\/]|\\\\[a-zA-Z0-9_.-]+\\[a-zA-Z0-9_.-]+|file:////?)", line):
+                    blockers.append(f"Line {idx}: Hardcoded absolute user path or file:/// URL (~/ or $HOME required)")
                     break
         for s in SECRETS:
             if re.search(s, src): blockers.append("Plaintext secret/API key")
@@ -147,9 +147,11 @@ def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: 
                 if dep.lower() not in skill_txt.lower() and dep_norm not in skill_txt.lower(): blockers.append(f"{tag} undeclared external dependency '{dep}'")
                 elif re.search(rf'{dep}\s*==\s*\*|{dep_norm}\s*==\s*\*|\*\s*$', skill_txt): blockers.append(f"{tag} wildcard version '*' for '{dep}' prohibited")
 
-        if not is_markdown:
-            unused = sorted(list(import_names - used_names))
-            if unused: warnings.append(f"Unused imports: {unused}")
+        if not is_markdown and not is_meta:
+            if skill_txt and (refs := sum(1 for l in skill_txt.splitlines() if filename in l and any(k in l for k in ("python", "scripts/", "|", "-")))) >= 3:
+                if not re.search(r'(?:add_argument\(\s*["\']|["\'])(--[a-zA-Z0-9_-]+)', src):
+                    warnings.append(f"Consolidation Advisory: SKILL.md routes {refs} features to '{filename}'. Expose semantic flags (--<action>, --batch, --format).")
+            if unused := sorted(import_names - used_names): warnings.append(f"Unused imports: {unused}")
 
     status = "[✗] FAIL" if blockers else ("[!] WARN" if warnings else "[✓] PASS")
     report = f"{status} {filename} ({lines} lines)"
