@@ -13,6 +13,7 @@ import math
 
 # Detector patterns defined with concatenation to prevent AST audit engines from false-flagging rule definitions
 AWS_PREFIX = "AK" + "IA"
+PATH_REGEX = re.compile(r"(?:/(?:Users|home)/[a-zA-Z0-9_-]+/|/root/|(?<![a-zA-Z0-9])[a-zA-Z]:[\\/]|\\\\[a-zA-Z0-9_.-]+\\[a-zA-Z0-9_.-]+|file:///)")
 SECRET_PATTERNS = [
     ("AWS Access Key ID", re.compile(rf"\b({AWS_PREFIX}|ASIA|ABIA|ACCA)[0-9A-Z]{{16}}\b")),
     ("OpenAI / Anthropic API Key", re.compile(r"\b(sk-[a-zA-Z0-9_-]{20,}|sk-proj-[a-zA-Z0-9_-]{20,}|sk-ant-[a-zA-Z0-9_-]{20,})\b")),
@@ -73,13 +74,19 @@ def scan_content(content: str) -> dict | None:
         return None
 
     for line_idx, line in enumerate(content.splitlines(), start=1):
+        if not is_line_exempt(line) and PATH_REGEX.search(line):
+            return {
+                "decision": "deny",
+                "reason": f"[SECURITY DENIAL] Line {line_idx} contains hardcoded local path or file:/// URL! Use ~ or relative paths."
+            }
+
         for sec_name, pattern in SECRET_PATTERNS:
             for match in pattern.finditer(line):
                 token = match.group(0)
                 if not is_false_positive(sec_name, token, line):
                     return {
                         "decision": "deny",
-                        "reason": f"【密鑰洩漏防護】檢測到第 {line_idx} 行含有未受保護的明文 {sec_name}！請改用環境變數管理，嚴禁寫入原始碼。"
+                        "reason": f"[SECURITY DENIAL] Line {line_idx} contains plaintext {sec_name}! Manage credentials via environment variables."
                     }
     return None
 

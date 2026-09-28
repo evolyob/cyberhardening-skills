@@ -26,28 +26,32 @@ def main():
         if not target.is_file() or target.suffix.lower() in MEDIA_EXTS:
             print(json.dumps({"decision": "allow"})); return
 
-        # 1. 二進制阻斷
+        # 1. Binary check
         with open(target, "rb") as f:
             if b"\x00" in f.read(512):
-                print(json.dumps({"decision": "deny", "reason": f"【二進制阻斷】{target.name} 為非文字檔案。"}, ensure_ascii=False))
+                print(json.dumps({"decision": "deny", "reason": f"[BINARY BLOCK] {target.name} is a binary file."}))
                 return
 
-        # 2. 已指定行數範圍
+        # 2. Specified range check
         start, end = args.get("StartLine"), args.get("EndLine")
         if start is not None and end is not None:
             if (int(end) - int(start) + 1) > MAX_VIEW_LINES:
-                print(json.dumps({"decision": "deny", "reason": f"【跨度超限】單次最多讀取 {MAX_VIEW_LINES} 行。"}, ensure_ascii=False))
+                print(json.dumps({"decision": "deny", "reason": f"[SPAN EXCEEDED] Maximum {MAX_VIEW_LINES} lines per read."}))
                 return
             print(json.dumps({"decision": "allow"})); return
 
-        # 3. 未指定行數且超過 800 行時，輸出重疊分段規劃
+        # 3. Unspecified range on large files: chunk plan or grep guidance
         total = count_lines(target)
         if total > MAX_VIEW_LINES:
-            batches = [f"批次 {i+1} (StartLine: {s}, EndLine: {min(s + MAX_VIEW_LINES - 1, total)})"
-                       for i, s in enumerate(range(1, total + 1, STEP))][:4]
-            plan = "；".join(batches) + ("..." if total > STEP * 4 else "")
-            reason = f"【防截斷分段建議】{target.name} 共 {total} 行。請依序分段閱讀：{plan}。"
-            print(json.dumps({"decision": "deny", "reason": reason}, ensure_ascii=False))
+            total_batches = (total + STEP - 1) // STEP
+            if total > 3000:
+                reason = f"[LARGE FILE PROTECTION] {target.name} has {total} lines (~{total_batches} batches). Prohibited from full continuous reads! Use grep -n to probe headings or inspect precise line ranges."
+            else:
+                batches = [f"Batch {i+1} (StartLine: {s}, EndLine: {min(s + MAX_VIEW_LINES - 1, total)})"
+                           for i, s in enumerate(range(1, total + 1, STEP))]
+                plan = "; ".join(batches)
+                reason = f"[CHUNK READING PLAN] {target.name} has {total} lines ({total_batches} batches). Read sequentially via: {plan}."
+            print(json.dumps({"decision": "deny", "reason": reason}))
             return
 
     except Exception:

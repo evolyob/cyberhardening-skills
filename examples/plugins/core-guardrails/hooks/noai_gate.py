@@ -7,14 +7,6 @@ from pathlib import Path
 RULES_PATH = Path(__file__).resolve().parent / "rules_gate.json"
 TARGET_EXTS = (".md", ".typ", ".tex", ".txt")
 
-def deny(fname: str, line_num: int, word: str, snippet: str) -> None:
-    reason = (
-        f"【Anti-AI 門禁阻斷】文件 {Path(fname).name} 第 {line_num} 行包含套話「{word}」: 『{snippet[:60]}』。\n"
-        "[DIRECTIVE] 請以主動動詞與晨會口吻整段重寫，切勿逐字替換單詞。"
-    )
-    print(json.dumps({"decision": "deny", "reason": reason}, ensure_ascii=False))
-    sys.exit(0)
-
 def main() -> None:
     try:
         args = json.load(sys.stdin).get("toolCall", {}).get("args", {})
@@ -60,6 +52,7 @@ def main() -> None:
     deny_re = re.compile(f"({'|'.join(denies)})", re.IGNORECASE)
     context_whitelists = rules.get("contextual_whitelists_zh", {})
 
+    violations = []
     in_code, fence = False, ""
     for line_num, raw_line in enumerate(text.splitlines(), start=1):
         s = raw_line.strip()
@@ -79,11 +72,17 @@ def main() -> None:
         prose = re.sub(r"`[^`\n]+`", "", raw_line)
         match = deny_re.search(prose)
         if match:
-            deny(fname, line_num, match.group(1), s)
+            violations.append(f"第 {line_num} 行: 「{match.group(1)}」 ({s[:40]})")
+            continue
 
         for term, white_pat in context_whitelists.items():
             if term in prose and not re.search(white_pat, prose, re.IGNORECASE):
-                deny(fname, line_num, term, s)
+                violations.append(f"第 {line_num} 行: 「{term}」 ({s[:40]})")
+
+    if violations:
+        reason = f"【Anti-AI 門禁阻斷】{Path(fname).name} 發現 {len(violations)} 處套話，請整句重寫：\n" + "\n".join(violations)
+        print(json.dumps({"decision": "deny", "reason": reason}, ensure_ascii=False))
+        return
 
     print(json.dumps({"decision": "allow"}))
 

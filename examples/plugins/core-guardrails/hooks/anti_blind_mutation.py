@@ -17,10 +17,10 @@ def check_directory_hygiene(target_file: str) -> dict | None:
     if not target_file:
         return None
     # Block writing executable scripts to final delivery directory
-    if re.search(r"/downloads/.*\.(py|sh)$", target_file):
+    if re.search(r"/agy/download/.*\.(py|sh)$", target_file):
         return {
             "decision": "deny",
-            "reason": "【交付目錄防護】~/downloads/ 為最終交付目錄，嚴禁寫入 .py 或 .sh 腳本！臨時腳本請存放於 scratch/，核心邏輯請整合至既有模組。"
+            "reason": "[DIRECTORY HYGIENE DENIAL] ~/agy/download/ is the final delivery directory. Executable .py and .sh scripts are prohibited here! Store scratch scripts in scratch/ and integrate core logic into modules."
         }
     return None
 
@@ -75,7 +75,7 @@ def check_circuit_breaker(transcript_str: str) -> dict | None:
     if critique_regex.search(user_prompt):
         return {
             "decision": "deny",
-            "reason": "【防盲改熔斷】偵測到用戶發出暫停指令或質疑架構改動！嚴禁直接修改程式碼。請立即停止寫入檔案，在對話中直接向用戶詳細解釋原因與對齊方案。"
+            "reason": "[CIRCUIT BREAKER DENIAL] User issued a pause command or questioned architectural modifications! Direct file modifications are prohibited. Halt writes and explain rationale to align with user in conversation."
         }
 
     return None

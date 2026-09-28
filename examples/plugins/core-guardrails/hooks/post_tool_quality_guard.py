@@ -4,7 +4,7 @@ import sys
 import json, re
 from pathlib import Path
 
-PATH_REGEX = re.compile(r"(?:/(?:Users|home)/[a-zA-Z0-9_-]+/|/root/|[a-zA-Z]:[\\/]|\\\\[a-zA-Z0-9_.-]+\\[a-zA-Z0-9_.-]+)")
+PATH_REGEX = re.compile(r"(?:/(?:Users|home)/[a-zA-Z0-9_-]+/|/root/|(?<![a-zA-Z0-9])[a-zA-Z]:[\\/]|\\\\[a-zA-Z0-9_.-]+\\[a-zA-Z0-9_.-]+|file:///)")
 INVISIBLES_REGEX = re.compile(r"[\u200b-\u200d\u2060\u202a-\u202e\u2066-\u2069]")
 
 def check_path_leakage(content: str, filename: str) -> None:
