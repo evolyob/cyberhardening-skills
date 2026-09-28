@@ -19,13 +19,13 @@ Never claim task completion without active terminal tool execution output:
 Eliminate fragmented keyword blacklists and iterative patch-work by enforcing structural constraints at the perimeter:
 1. **Single Canonical Ingestion**: All inputs pass a single-pass normalization (`unicodedata.normalize("NFKC")` + single consolidated regex) to eliminate invisible chars, CIDs, and formatting artifacts.
 2. **Density Budgets over Word Banning**: Enforce quantitative structural limits (e.g. nominalization rate, punctuation caps) rather than endless single-word blacklists.
-3. **Full-Block Rejection**: When an anti-pattern or AI tell is flagged, reject and rewrite the entire surrounding paragraph in active standup voice; never patch individual words.
+3. **Full-Block Rejection**: When an anti-pattern or AI tell is flagged, reject and rewrite the affected sentence or statement in active standup voice; never patch individual words.
 
 ---
 
 ## 3. Deterministic REPL Probing Protocol (Large-Input Handling)
 
-For documents exceeding 50k tokens, full-context reading via `view_file` is strictly prohibited:
+For documents exceeding 3,000 lines (or ~50k tokens), full-context reading via `view_file` is strictly prohibited:
 1. **TOC & Heading Discovery**: Run `grep -n` or `ripgrep` to locate heading line numbers with minimal token expenditure (< 200 tokens).
 2. **Windowed Sampling**: Use `sed -n 'X,Yp'` or sliced tool ranges to inspect specific section content.
 3. **Chunked Pipeline Output**: Slice and output directly to disk (`chapters/ch*.md`) without ever buffering the entire document in model reasoning context.

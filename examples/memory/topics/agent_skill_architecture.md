@@ -21,7 +21,7 @@
 
 ## 3. Security, Cryptography & Compliance Standards
 - **Approved Primitives**: Use ONLY proven cryptographic primitives: `AES-GCM`, `Ed25519`, `TLS 1.3`, `SHA-256+` via platform KMS/libraries. NEVER roll custom crypto.
-- **Compliance Baselines**: Mandatory compliance with CIS Benchmarks, OWASP (Web 2025, API 2023, LLM 2025+), and ASVS v5.0.0. Never bypass input validation or security controls.
+- **Security Standards Reference**: Design aligned with CIS Benchmarks, OWASP (Web 2025, API 2023, LLM 2025+), and ASVS v5.0.0 threat models. Never bypass input validation or security controls.
 - **Zero-EOL & Dependency Hygiene**:
   - Enforce modern runtimes: Python >= 3.13, Node.js >= 24 (LTS), Go >= 1.26.
   - Prohibit PEP 594 removed modules (`cgi`, `pipes`, `crypt`, `distutils`, `chunk`, `telnetlib`, `sndhdr`, `imghdr`, `nntplib`, `xdrlib`).
