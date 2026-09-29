@@ -40,13 +40,16 @@ plugins/core-guardrails/
 ├── plugin.json                 # Manifest declaring plugin name
 ├── hooks.json                  # Lifecycle hook bindings (Pre/PostToolUse)
 ├── rules/
-│   └── AGENTS.md               # Source-level rules (Security, Portability, Anti-AI Voice)
+│   ├── AGENTS.md               # Source-level rules (Security, Portability, Anti-AI Voice)
+│   └── security_guardrails.md  # Core security & credential boundaries
 └── hooks/                      # Guardrail scripts (Python stdlib)
     ├── noai_gate.py            # PreToolUse Anti-AI & Mainland term gate
     ├── rules_gate.json         # High-frequency buzzword dictionary
     ├── secret_leak_guard.py    # PreToolUse API key & private key leak blocker
     ├── anti_blind_mutation.py  # PreToolUse circuit breaker preventing unaligned code edits
+    ├── view_file_safety.py     # PreToolUse binary blocker & large file batch reader
     └── post_tool_quality_guard.py # PostToolUse hardcoded path scan & syntax checks
+
 ```
 
 ---

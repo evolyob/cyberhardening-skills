@@ -17,10 +17,10 @@ def check_directory_hygiene(target_file: str) -> dict | None:
     if not target_file:
         return None
     # Block writing executable scripts to final delivery directory
-    if re.search(r"/agy/download/.*\.(py|sh)$", target_file):
+    if re.search(r"/Downloads/.*\.(py|sh)$", target_file):
         return {
             "decision": "deny",
-            "reason": "[DIRECTORY HYGIENE DENIAL] ~/agy/download/ is the final delivery directory. Executable .py and .sh scripts are prohibited here! Store scratch scripts in scratch/ and integrate core logic into modules."
+            "reason": "[DIRECTORY HYGIENE DENIAL] ~/Downloads/ is the final delivery directory. Executable .py and .sh scripts are prohibited here! Store scratch scripts in scratch/ and integrate core logic into modules."
         }
     return None
 

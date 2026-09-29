@@ -1,3 +1,5 @@
 {
-  "name": "core-guardrails"
+  "name": "core-guardrails",
+  "description": "Core safety guardrails, lifecycle hooks, and quality gates for AGY agent workflows.",
+  "version": "1.0.0"
 }

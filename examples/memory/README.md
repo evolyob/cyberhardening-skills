@@ -40,7 +40,8 @@ The memory system decouples lean index routing from deep governance and concrete
 | Topic | File | Core Responsibility & Boundary |
 |---|---|---|
 | **System Governance** | [`topics/system_governance.md`](topics/system_governance.md) | **Execution Verification SOP**: Pre-delivery machine verification (automated compiler/linting checks, Zero-Leakage regex scans, and 100% test pass enforcement). |
-| **Agent Architecture** | [`topics/agent_skill_architecture.md`](topics/agent_skill_architecture.md) | **Task Architecture & Division of Labor**: Python deterministic computation vs LLM cognitive orchestration, 4-step skill build flow, 5 evolution traps rejection, and delivery cheatsheet. |
+| **Agent Architecture** | [`topics/agent_skill_architecture.md`](topics/agent_skill_architecture.md) | **Task Architecture & Division of Labor**: Python deterministic computation vs LLM cognitive orchestration, 5-step skill build flow, CIS/OWASP compliance, and Zero-EOL runtimes. |
+| **Visual Layout Skeletons** | [`topics/visual_layout.md`](topics/visual_layout.md) | **High-Density Output Structures**: Strategy/Ops/Architecture visual layout rules and skeletons. |
 
 ### Reference Templates (`templates/`)
 
@@ -48,7 +49,9 @@ The memory system decouples lean index routing from deep governance and concrete
 |---|---|---|
 | **Specification Contract** | [`spec_template.md`](templates/spec_template.md) | **No-Spec-No-Code Gate**: Freezes Goal, Non-Goals (what MUST NOT be done), Allowed Paths whitelist, dependencies, and deterministic verification command. |
 | **Clean Code Radar** | [`senior_coding_laws.md`](templates/senior_coding_laws.md) | **5-Step Implementation Hygiene**: Boundary isolation, pure functional core, flattened flow (max `if` depth $\le 2$), useful error context, and subtractive delivery. |
+| **Clean Code Examples** | [`senior_coding_examples.md`](templates/senior_coding_examples.md) | **Before/After Case Studies**: Practical empirical code snippets demonstrating the 5-step engineering radar. |
 | **Skill Data Standards** | [`SKILL_DATA_SPEC.md`](templates/SKILL_DATA_SPEC.md) | **Data & Indexing Rules**: Pattern A (flat list) universal default, thresholded in-memory inverted index ($N > 20$, $O(1)$ lookup), zero envelope tax. |
+| **Security Boundary Policy** | [`security_boundary.template.md`](templates/security_boundary.template.md) | **Security Boundary Scaffold**: Declares execution scope, network boundaries, and package dependency constraints. |
 
 ---
 
@@ -60,11 +63,14 @@ examples/memory/
 ├── core.md                      # Lean index & routing table (< 35 lines)
 ├── topics/                      # Authoritative execution SOPs & task architecture
 │   ├── system_governance.md     # Pre-delivery machine verification SOP
-│   └── agent_skill_architecture.md # Python/LLM division of labor & skill build guide
+│   ├── agent_skill_architecture.md # Python/LLM division of labor & skill build guide
+│   └── visual_layout.md         # Strategy/Ops/Architecture layout skeletons
 └── templates/                   # Concrete implementation scaffolds & contracts
     ├── spec_template.md         # 4+1 item specification contract boilerplate
     ├── senior_coding_laws.md    # Clean code 5-step engineering radar
-    └── SKILL_DATA_SPEC.md       # Pattern A flat list vs Pattern B grouped taxonomy
+    ├── senior_coding_examples.md # Empirical Before/After code patterns
+    ├── SKILL_DATA_SPEC.md       # Pattern A flat list vs Pattern B grouped taxonomy
+    └── security_boundary.template.md # Security policy boundary scaffold
 ```
 
 ---

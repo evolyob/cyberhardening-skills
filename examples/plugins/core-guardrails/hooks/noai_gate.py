@@ -24,7 +24,7 @@ def main() -> None:
     except Exception:
         print(json.dumps({"decision": "allow"})); return
 
-    # Context Reconstruction: 局部代換時重組完整文本，杜絕反引號上下文脫節
+    # Context Reconstruction: Reassemble full text during replacements to preserve context
     text = args.get("CodeContent") or ""
     check_line_start, check_line_end = 1, None
     target_content = args.get("TargetContent")
@@ -72,16 +72,16 @@ def main() -> None:
         prose = re.sub(r"`[^`\n]+`", "", raw_line)
         match = deny_re.search(prose)
         if match:
-            violations.append(f"第 {line_num} 行: 「{match.group(1)}」 ({s[:40]})")
+            violations.append(f"Line {line_num}: '{match.group(1)}' ({s[:40]})")
             continue
 
         for term, white_pat in context_whitelists.items():
             if term in prose and not re.search(white_pat, prose, re.IGNORECASE):
-                violations.append(f"第 {line_num} 行: 「{term}」 ({s[:40]})")
+                violations.append(f"Line {line_num}: '{term}' ({s[:40]})")
 
     if violations:
-        reason = f"【Anti-AI 門禁阻斷】{Path(fname).name} 發現 {len(violations)} 處套話，請整句重寫：\n" + "\n".join(violations)
-        print(json.dumps({"decision": "deny", "reason": reason}, ensure_ascii=False))
+        reason = f"[ANTI-AI GATE DENIAL] {Path(fname).name} detected {len(violations)} formulaic AI tell(s). Rewrite entire sentence(s) in active human voice:\n" + "\n".join(violations)
+        print(json.dumps({"decision": "deny", "reason": reason}))
         return
 
     print(json.dumps({"decision": "allow"}))
