@@ -44,3 +44,8 @@
 - **Domain**: High-Density Markdown Layouts, Bento Cards, Comparison Tables, Mermaid Topologies
 - **Topic Path**: `topics/visual_layout.md`
 - **Keywords / Triggers**: Layout Skeletons, Bento Grid, Visual Skeletons, Architecture Topology, Strategy Cards
+
+### 4. Skills & CLI Flag Routing Protocol
+- **Domain**: Semantic-to-Flag Routing, Ingest Token Gates (6,500), AST Code Audit, Anti-AI Verification, Subagent Offloading
+- **Topic Path**: `topics/skills_routing.md`
+- **Keywords / Triggers**: Skills Routing, Flag Lookup, Ingest Probe, AST Audit, Frontend Audit, Anti-AI Gate, Subagent Dispatch, Ingest Token Gate

@@ -19,8 +19,8 @@ graph TD
 
     subgraph Core Guardrails Plugin
         AgentsRule["rules/AGENTS.md (Injected into System Context)"]
-        PreHook["hooks/ (noai_gate, secret_leak, anti_blind_mutation)"]
-        PostHook["hooks/ (post_tool_quality_guard)"]
+        PreHook["scripts/ (noai_gate, secret_leak, anti_blind_mutation)"]
+        PostHook["scripts/ (post_tool_quality_guard)"]
     end
 
     TurnStart -->|Auto-load Always-On| AgentsRule
@@ -42,7 +42,7 @@ plugins/core-guardrails/
 ├── rules/
 │   ├── AGENTS.md               # Source-level rules (Security, Portability, Anti-AI Voice)
 │   └── security_guardrails.md  # Core security & credential boundaries
-└── hooks/                      # Guardrail scripts (Python stdlib)
+└── scripts/                      # Guardrail scripts (Python stdlib)
     ├── noai_gate.py            # PreToolUse Anti-AI & Mainland term gate
     ├── rules_gate.json         # High-frequency buzzword dictionary
     ├── secret_leak_guard.py    # PreToolUse API key & private key leak blocker
@@ -65,7 +65,7 @@ mkdir -p ~/.gemini/config/plugins/core-guardrails
 cp -r examples/plugins/core-guardrails/* ~/.gemini/config/plugins/core-guardrails/
 
 # 3. Grant execution permissions to hook scripts
-chmod +x ~/.gemini/config/plugins/core-guardrails/hooks/*.py
+chmod +x ~/.gemini/config/plugins/core-guardrails/scripts/*.py
 ```
 
 ### Option B: Deploy to Specific Workspace
@@ -73,7 +73,7 @@ chmod +x ~/.gemini/config/plugins/core-guardrails/hooks/*.py
 # Deploy to <workspace>/.agents/plugins/core-guardrails
 mkdir -p .agents/plugins/core-guardrails
 cp -r examples/plugins/core-guardrails/* .agents/plugins/core-guardrails/
-chmod +x .agents/plugins/core-guardrails/hooks/*.py
+chmod +x .agents/plugins/core-guardrails/scripts/*.py
 ```
 
 ---
