@@ -14,13 +14,13 @@ INSECURE_TELEMETRY = [
 FRONTEND_EXTS = {".html", ".htm", ".js", ".mjs", ".ts", ".jsx", ".tsx", ".vue"}
 
 
-def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: str = "", local_modules: set = None) -> str:
+def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: str = "", local_modules: set = None, flags: set = None, sec_txt: str = "") -> str:
     lines, blockers, warnings = len(src.splitlines()), [], []
     is_test, is_meta = "test" in filename.lower(), filename in ["audit.py", "remediation_guide.md", "developer_7_coding_laws_and_ast_audit.md"]
-    local_mods = local_modules or set()
+    local_mods, fl = local_modules or set(), flags or set()
 
     # 1. Text & Security Gate
-    if not is_meta:
+    if not is_meta and "--ast" not in fl:
         for idx, line in enumerate(src.splitlines(), start=1):
             if not line.strip().startswith("#") and not any(k in line for k in ("re.search", "re.compile", "Zero-Leakage", "r'/", 'r"/')):
                 if re.search(r"(?:/(?:Users|home)/[a-zA-Z0-9_-]+/|/root/|(?<![a-zA-Z0-9])[a-zA-Z]:[\\/]|\\\\[a-zA-Z0-9_.-]+\\[a-zA-Z0-9_.-]+|file:////?)", line):
@@ -35,7 +35,7 @@ def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: 
         if re.search(r"ignore\s+previous\s+instructions|system\s+override|DAN\s+mode", src, re.I): blockers.append("Prompt injection keyword")
 
     # 2. Markdown Specific Gate
-    if is_markdown:
+    if is_markdown and not fl:
         limit = 50 if filename == "SKILL.md" else (30 if filename == "SECURITY.md" else 200)
         if lines > limit and not is_meta: warnings.append(f"Lines {lines} > {limit} (move overflow to references/)")
         if filename == "SKILL.md":
@@ -56,7 +56,7 @@ def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: 
         if stack: blockers.append("Unclosed code fence / Broken 4-backtick nesting")
 
     # 3. Python Analysis (Single-Pass AST Visitor)
-    py_blocks = re.findall(r"```python[^\n]*\n(.*?)\n```", src, re.DOTALL) if is_markdown else [src]
+    py_blocks = (re.findall(r"```python[^\n]*\n(.*?)\n```", src, re.DOTALL) if is_markdown else [src]) if "--security" not in fl else []
     for idx, code in enumerate(py_blocks):
         tag = f"Snippet #{idx+1}" if is_markdown else "Script"
         if not is_markdown and not is_meta and any(re.search(r"\bopen\(", l) and "encoding=" not in l and "wb" not in l and "rb" not in l for l in code.splitlines()):
@@ -118,15 +118,10 @@ def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: 
                 for child in ast.walk(n):
                     if isinstance(child, ast.Import): soft_imports.update(name.name.split('.')[0] for name in child.names)
                     elif isinstance(child, ast.ImportFrom) and child.module: soft_imports.add(child.module.split('.')[0])
-            elif isinstance(n, ast.Import):
+            elif isinstance(n, (ast.Import, ast.ImportFrom)):
                 for name in n.names:
-                    mod = name.name.split('.')[0]
-                    imported_modules.add(mod)
-                    import_names.add(name.asname or mod)
-            elif isinstance(n, ast.ImportFrom) and n.module and n.level == 0:
-                mod = n.module.split('.')[0]
-                imported_modules.add(mod)
-                for name in n.names:
+                    mod = n.module.split('.')[0] if isinstance(n, ast.ImportFrom) and n.module and n.level == 0 else (name.name.split('.')[0] if isinstance(n, ast.Import) else None)
+                    if mod: imported_modules.add(mod)
                     if name.name != '*': import_names.add(name.asname or name.name)
             elif isinstance(n, ast.Name): used_names.add(n.id)
             elif isinstance(n, ast.Attribute): used_names.add(n.attr)
@@ -151,6 +146,8 @@ def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: 
             if skill_txt and (refs := sum(1 for l in skill_txt.splitlines() if filename in l and any(k in l for k in ("python", "scripts/", "|", "-")))) >= 3:
                 if not re.search(r'(?:add_argument\(\s*["\']|["\'])(--[a-zA-Z0-9_-]+)', src):
                     warnings.append(f"Consolidation Advisory: SKILL.md routes {refs} features to '{filename}'. Expose semantic flags (--<action>, --batch, --format).")
+            if sec_txt and (undoc := sorted({fl for fl in re.findall(r'add_argument\([^)]*?["\'](--[a-zA-Z0-9_-]+)', src) if fl != "--help"} - set(re.findall(r'--[a-zA-Z0-9_-]+', sec_txt)))):
+                warnings.append(f"Boundary Advisory: Script exposes candidate flag(s) {undoc} not documented in SECURITY.md. Recommend declaring core boundary flags.")
             if unused := sorted(import_names - used_names): warnings.append(f"Unused imports: {unused}")
 
     status = "[✗] FAIL" if blockers else ("[!] WARN" if warnings else "[✓] PASS")
@@ -160,7 +157,7 @@ def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: 
     return report
 
 
-def audit_path(target):
+def audit_path(target, flags: set = None):
     t = Path(target).resolve()
     if not t.exists():
         return print(f"[ERROR] Target does not exist: {target}")
@@ -201,11 +198,11 @@ def audit_path(target):
             except Exception as err: print(f"[✗] FAIL {f.name}\n  └── [BLOCKER] Data Syntax/Encoding Error: {err}")
         elif f.suffix in [".py", ".md"]:
             src = f.read_text(encoding="utf-8-sig", errors="ignore")
-            print(audit_source(src, f.name, is_markdown=f.suffix == ".md", skill_txt=spec_txt, local_modules=lmods))
+            print(audit_source(src, f.name, is_markdown=f.suffix == ".md", skill_txt=spec_txt, local_modules=lmods, flags=flags, sec_txt=sectxt))
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python3 audit.py <target_path>")
-        sys.exit(1)
-    for arg in sys.argv[1:]: audit_path(arg)
+    flags = {a for a in sys.argv[1:] if a.startswith("--")}
+    targets = [a for a in sys.argv[1:] if not a.startswith("--")]
+    if not targets: sys.exit("Usage: python3 audit.py [--security] [--ast] <target_path>")
+    for t in targets: audit_path(t, flags=flags)
