@@ -30,7 +30,7 @@
   - Save Markdown and text exports with `utf-8-sig` (UTF-8 with BOM) encoding.
   - Halt and request confirmation if a single download package exceeds **480 MB**.
 - **State & Context Limits**:
-  - Write to `~/.gemini/memory/` ONLY on explicit user instruction ("remember this", "save to memory").
+  - Write to `~/.gemini/memory/` ONLY on explicit user instruction ("remember this", "save to memory", or explicit sync/update requests).
   - Respect the **39 MB** local conversation log cap in `config.json`.
 
 ---
