@@ -26,7 +26,7 @@
 ## 3. Storage & Safety Budgets
 
 - **Deliverables & Exports**:
-  - Export deliverables (.pptx, .docx, .pdf, .md, .txt, .xlsx) to `~/agy/download/` by default.
+  - Export deliverables (.pptx, .docx, .pdf, .md, .txt, .xlsx) to `~/Downloads/` by default.
   - Save Markdown and text exports with `utf-8-sig` (UTF-8 with BOM) encoding.
   - Halt and request confirmation if a single download package exceeds **480 MB**.
 - **State & Context Limits**:
