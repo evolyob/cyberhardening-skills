@@ -8,6 +8,7 @@ A collection of production-ready cybersecurity, system hardening, threat intelli
 
 | Skill | Category | Primary Mission & Scope | Core Tools & Technologies |
 | :--- | :--- | :--- | :--- |
+| **[`cross-map`](cross-map/)** | Architecture & Routing | Sub-feature scanner, AST lexical readiness validator, and 4-facet multi-skill scenario router with Exit Gates. | Python Stdlib, AST Inspection, JSON Schema |
 | **[`deep-mod`](deep-mod/)** | Deep Research & Skill Extraction | Universal interactive deep research, architecture visualization, and surgical skill extraction pipeline with TOC guard and Map-Reduce subagents. | Python Stdlib, pypdf, Map-Reduce Pipeline |
 | **[`noai-note`](noai-note/)** | Executive Briefs & Meeting Notes | Two-phase executive assistant tool with Shift-Left Anti-AI filtering, 25-page/6500-token circuit breaker, and 1-pager visual blueprints. | Python Stdlib, Deterministic Anti-AI Gate |
 | **[`audit-skill`](audit-skill/)** | Governance & Quality | 23-Gate automated AST static code, skill, and frontend web asset auditor (<20ms). Enforces 3-step workflow, dynamic line budgets, and security guardrails. | Python AST, DOMPurify XSS, Static Analysis |
