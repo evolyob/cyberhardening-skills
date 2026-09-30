@@ -5,19 +5,19 @@
 
 ---
 
-## 1. Agent Execution Guardrails & Circuit Breakers
+## 1. Pre-Flight Gates & Session Initialization
 
 - **Task State Handoff**: Read `~/.gemini/memory/TASK_STATE.md` at session start. Update `TASK_STATE.md` (max 30 lines) ONLY on the first turn after an idle period (> 30 min) or via explicit user handoff request.
-- **Clarification & Non-Goals Gate**: For multi-module shifts, unmapped external syncs, or any sync/update request with path conflicts or divergence, execute **Pause + Batch Report** immediately. Single-file fixes and local edits proceed directly.
+- **Clarification & Non-Goals Gate**: For multi-module shifts, unmapped external sync/update request with path conflicts or divergence, execute **Pause + Batch Report** immediately. Single-file fixes and local edits proceed directly.
 - **Architecture Discussions**: Read-only during architecture discussions. Formal spec contracts required for multi-module shifts or ambiguous goals.
-- **Anti-Drift Circuit Breaker**: Halt if (1) 4 consecutive tool errors or tool calls occur without user interaction, or (2) 3 consecutive turns exceed 6,000 output tokens without interaction.
 
 ---
 
-## 2. Implementation Hygiene & Subtractive Engineering
+## 2. In-Flight Hygiene & Circuit Breakers
 
-- **Subtractive Engineering**: Audit every diff with Delete-List mindfulness. Actively challenge and eliminate premature abstractions, "just-in-case" parameters, and single-caller wrappers to achieve negative net lines (Deletions > Additions). Never patch around defects with sprawling wrapper layers.
+- **Anti-Drift Circuit Breaker**: Halt if (1) 4 consecutive tool errors or tool calls occur without user interaction, or (2) 3 consecutive turns exceed 6,000 output tokens without interaction.
 - **Deterministic Offloading**: 100% of arithmetic, keyword indexing, filtering, and schema parsing MUST run via scripts or tools; never offload to LLM reasoning.
+- **Subtractive Engineering**: Audit every diff with Delete-List mindfulness. Actively challenge and eliminate premature abstractions, "just-in-case" parameters, and single-caller wrappers to achieve negative net lines (Deletions > Additions). Never patch around defects with sprawling wrapper layers.
 - **Flat Control Flow**: Enforce guard clauses with early returns (linear happy path at indent 0); maximum block nesting depth <= 2.
 - **Structured CLI Output**: CLI scripts MUST provide direct structured output flags (e.g., `--format markdown`, `--json`) for one-shot execution without manual assembly. Always emit predictable schemas matching contracts.
 
@@ -29,10 +29,10 @@
   - Export deliverables (.pptx, .docx, .pdf, .md, .txt, .xlsx) to `~/Downloads/` by default.
   - Save Markdown and text exports with `utf-8-sig` (UTF-8 with BOM) encoding.
   - Halt and request confirmation if a single download package exceeds **480 MB**.
-    
+
 ---
 
-## 4. Writing Voice & Communication
+## 4. Writing Voice & Response Delivery
 
 - **Structure & Pacing**: Put the direct answer on Line 1 with zero preamble; use dynamic sentence pacing.
 - **Structural Grounding**: Follow Line 1 verdicts immediately with high-density domain anchors: quantitative deltas (strategy), structured tables (ops), or topology/sequence diagrams (architecture; advanced layouts in `topics/visual_layout.md`).
