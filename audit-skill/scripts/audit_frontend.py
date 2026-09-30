@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
-"""Frontend Tech Stack & Security Auditor (Lean Engine - Route B)"""
-import re, sys, urllib.parse, urllib.request
+import re, sys
 from pathlib import Path
+from urllib.parse import urljoin
+from urllib.request import Request, urlopen
 
 SECRETS = [
     r"sk-[a-zA-Z0-9]{20,}",
@@ -56,8 +56,8 @@ def print_dashboard(target, infra, framework, pkgs, blockers, warnings):
 def audit_remote(url: str):
     pkgs, blockers, warnings = set(), set(), set()
     try:
-        req = urllib.request.Request(url, headers={"User-Agent": "Antigravity/1.0"})
-        with urllib.request.urlopen(req, timeout=5) as resp:
+        req = Request(url, headers={"User-Agent": "Antigravity/1.0"})
+        with urlopen(req, timeout=5) as resp:
             headers = dict(resp.headers)
             content = resp.read().decode(resp.headers.get_content_charset() or "utf-8", errors="ignore")
     except Exception as e:
@@ -67,11 +67,11 @@ def audit_remote(url: str):
     infra = headers.get("Server", "")
     framework = "Vue (SPA #app)" if ("<div id=app>" in content or '<div id="app">' in content) else ("React (#root)" if 'id="root"' in content else ("Next.js" if "__NEXT_DATA__" in content else ""))
     scripts = re.findall(r'<script[^>]+src=[\"\x27]?([^\"\'\x27\s>]+)', content, re.I)
-    js_urls = [urllib.parse.urljoin(url, s) for s in scripts if not s.startswith("data:")]
+    js_urls = [urljoin(url, s) for s in scripts if not s.startswith("data:")]
     targets = [u for u in js_urls if any(k in u for k in ["vendor", "chunk", "app"])] or js_urls[:2]
     for u in targets:
         try:
-            with urllib.request.urlopen(urllib.request.Request(u, headers={"User-Agent": "Antigravity/1.0"}), timeout=5) as jr:
+            with urlopen(Request(u, headers={"User-Agent": "Antigravity/1.0"}), timeout=5) as jr:
                 c = jr.read().decode(jr.headers.get_content_charset() or "utf-8", errors="ignore")
                 p, b, w = audit_content(c, u.split("/")[-1], size_bytes=len(c.encode("utf-8")))
                 pkgs.update(p); blockers.update(b); warnings.update(w)

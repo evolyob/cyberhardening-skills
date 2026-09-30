@@ -146,7 +146,7 @@ def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: 
             if skill_txt and (refs := sum(1 for l in skill_txt.splitlines() if filename in l and any(k in l for k in ("python", "scripts/", "|", "-")))) >= 3:
                 if not re.search(r'(?:add_argument\(\s*["\']|["\'])(--[a-zA-Z0-9_-]+)', src):
                     warnings.append(f"Consolidation Advisory: SKILL.md routes {refs} features to '{filename}'. Expose semantic flags (--<action>, --batch, --format).")
-            if sec_txt and (undoc := sorted({fl for fl in re.findall(r'add_argument\([^)]*?["\'](--[a-zA-Z0-9_-]+)', src) if fl != "--help"} - set(re.findall(r'--[a-zA-Z0-9_-]+', sec_txt)))):
+            if sec_txt and (undoc := sorted({fl for fl in re.findall(r'(?:add_argument\([^)]*?|VALID_FLAGS\s*=\s*\{[^}]*?)["\'](--[a-zA-Z0-9_-]+)', src) if fl != "--help"} - set(re.findall(r'--[a-zA-Z0-9_-]+', sec_txt)))):
                 warnings.append(f"Boundary Advisory: Script exposes candidate flag(s) {undoc} not documented in SECURITY.md. Recommend declaring core boundary flags.")
             if unused := sorted(import_names - used_names): warnings.append(f"Unused imports: {unused}")
 
@@ -202,7 +202,9 @@ def audit_path(target, flags: set = None):
 
 
 if __name__ == "__main__":
+    VALID_FLAGS = {"--security", "--ast"}
     flags = {a for a in sys.argv[1:] if a.startswith("--")}
     targets = [a for a in sys.argv[1:] if not a.startswith("--")]
-    if not targets: sys.exit("Usage: python3 audit.py [--security] [--ast] <target_path>")
+    if not targets or (unknown := flags - VALID_FLAGS):
+        sys.exit(f"Usage: python3 audit.py [--security] [--ast] <target_path>{' (Unknown: ' + ', '.join(sorted(unknown)) + ')' if flags - VALID_FLAGS else ''}")
     for t in targets: audit_path(t, flags=flags)

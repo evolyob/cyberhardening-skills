@@ -10,3 +10,6 @@ This skill is a local-first code auditing tool. It performs read-only static ana
 
 ## Execution
 Single-shot ephemeral CLI (< 50ms). Read-only in-memory analysis with zero filesystem mutations and zero background daemons.
+- Validated execution flags:
+  - `--security`: Text security, credential leak, and payload scan only.
+  - `--ast`: Python AST syntax, shallow nesting (<= 2), and dependency boundary scan only.
