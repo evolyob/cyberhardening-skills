@@ -1,0 +1,188 @@
+{
+  "total_chapters": 20,
+  "source_file": "dynamicir.pdf",
+  "total_pages": 655,
+  "total_est_tokens": 380932,
+  "chapters": [
+    {
+      "chapter": 1,
+      "title": "Chapter 1: Case Study: Supply Chain Calamity",
+      "file": "chapters/chapter_01_supply_chain.md",
+      "pages": "23-39",
+      "page_count": 17,
+      "est_tokens": 7950,
+      "summary": "Code Claude Code was my go-to tool for much of the custom code developed in the examples used in this book. This includes the stealer code Pyrix uses in Case Study: Supply Chain Calamity , various sam"
+    },
+    {
+      "chapter": 2,
+      "title": "Chapter 2: Introduction to Modern Incident Response",
+      "file": "chapters/chapter_02_foundations.md",
+      "pages": "40-44",
+      "page_count": 5,
+      "est_tokens": 2477,
+      "summary": "Identification Sam’s first step was to examine Jordan’s workstation. He connected remotely and checked for any running processes matching the names Jordan had described. Listing 20 | Process Check on "
+    },
+    {
+      "chapter": 3,
+      "title": "Chapter 3: History of Incident Response & Major Threats",
+      "file": "chapters/chapter_03_threat_history.md",
+      "pages": "45-56",
+      "page_count": 12,
+      "est_tokens": 5482,
+      "summary": "operate under uncertainty, and resilience to maintain focus when outcomes are not fully within one’s control. An effective response requires collaboration across teams, clear communication under press"
+    },
+    {
+      "chapter": 4,
+      "title": "Chapter 4: Getting Started: Roles, Teams & Playbooks",
+      "file": "chapters/chapter_04_team_readiness.md",
+      "pages": "57-71",
+      "page_count": 15,
+      "est_tokens": 8006,
+      "summary": "That format, a checklist of numbered actions framed by the problem each one was meant to prevent, set the template for practical incident response documentation in the years that followed. The Step-by"
+    },
+    {
+      "chapter": 5,
+      "title": "Chapter 5: Incident Response Models and Limitations",
+      "file": "chapters/chapter_05_models_limitation.md",
+      "pages": "72-81",
+      "page_count": 10,
+      "est_tokens": 4976,
+      "summary": "essential for meaningful metrics, whether tracking manually or using automated tools. Start with three to five broad incident categories (e.g., malware, unauthorized access, data loss, denial-of- serv"
+    },
+    {
+      "chapter": 6,
+      "title": "Chapter 6: DAIR: A Dynamic Approach to Incident Response",
+      "file": "chapters/chapter_06_dair_core.md",
+      "pages": "82-89",
+      "page_count": 8,
+      "est_tokens": 3375,
+      "summary": "identified and addressed. The linear models do not provide sufficient guidance on this important aspect of the incident response process. Inadequate Resource Prioritization Guidance Few organizations "
+    },
+    {
+      "chapter": 7,
+      "title": "Chapter 7: Prepare Activity: Visibility & Telemetry",
+      "file": "chapters/chapter_07_prepare.md",
+      "pages": "90-161",
+      "page_count": 72,
+      "est_tokens": 45745,
+      "summary": "organizationally damaging, such as taking all systems offline simultaneously for imaging. Throughout the incident response process, we’ll communicate with and get input from decision makers to ensure "
+    },
+    {
+      "chapter": 8,
+      "title": "Chapter 8: Detect Activity: Monitoring & Detection Engineering",
+      "file": "chapters/chapter_08_detect.md",
+      "pages": "162-185",
+      "page_count": 24,
+      "est_tokens": 15646,
+      "summary": "exercises that combine tabletop discussion with technical execution). ◦ Develop realistic scenarios based on relevant threats. ◦ Include participants from all departments involved in the response. ◦ T"
+    },
+    {
+      "chapter": 9,
+      "title": "Chapter 9: Verify and Triage Activities: Severity Scoring",
+      "file": "chapters/chapter_09_verify_triage.md",
+      "pages": "186-208",
+      "page_count": 23,
+      "est_tokens": 12885,
+      "summary": "Step 1. Select and Combine Detection Methodologies Representative activities include: • Use signature-based detection for efficient, high-confidence identification of known threats. • Apply behavioral"
+    },
+    {
+      "chapter": 10,
+      "title": "Chapter 10: Response Actions Loop: Operational Synchronization",
+      "file": "chapters/chapter_10_actions_loop.md",
+      "pages": "209-219",
+      "page_count": 11,
+      "est_tokens": 7570,
+      "summary": "incident information. • Be prepared to answer questions: Decision makers may have questions about the incident, the potential impact on the organization, and the recommended response actions. The deci"
+    },
+    {
+      "chapter": 11,
+      "title": "Chapter 11: Scope Activity: Blast Radius & Pivot Analysis",
+      "file": "chapters/chapter_11_scope.md",
+      "pages": "220-239",
+      "page_count": 20,
+      "est_tokens": 11997,
+      "summary": "First, organizational resources should be managed effectively throughout the incident response process, including multiple iterations of the response actions loop.  Teams may experience fatigue across"
+    },
+    {
+      "chapter": 12,
+      "title": "Chapter 12: Contain Activity: Isolation & Network Segmentation",
+      "file": "chapters/chapter_12_contain.md",
+      "pages": "240-295",
+      "page_count": 56,
+      "est_tokens": 37300,
+      "summary": "The extended activity search revealed that the service principal had been accessed from the external IP address as early as October 8th, more than a week before the first management operations Priya h"
+    },
+    {
+      "chapter": 13,
+      "title": "Chapter 13: Eradicate Activity: Persistence Removal & Patching",
+      "file": "chapters/chapter_13_eradicate.md",
+      "pages": "296-400",
+      "page_count": 105,
+      "est_tokens": 65010,
+      "summary": "Enable termination protection on contained instances to prevent accidental deletion. ◦ Apply deletion locks on critical resources containing evidence. ◦ Create snapshots of compromised volumes and vir"
+    },
+    {
+      "chapter": 14,
+      "title": "Chapter 14: Recover Activity: Safe Restoration & Canary Validation",
+      "file": "chapters/chapter_14_recover.md",
+      "pages": "401-429",
+      "page_count": 29,
+      "est_tokens": 18837,
+      "summary": "◦ Test patches in a non-production environment before broad deployment. 2. Implement patch management during eradication, including: ◦ Track patch status with inventory management tools. ◦ Balance cha"
+    },
+    {
+      "chapter": 15,
+      "title": "Chapter 15: Debrief Activity: Root Cause & Post-Mortem",
+      "file": "chapters/chapter_15_debrief.md",
+      "pages": "430-467",
+      "page_count": 38,
+      "est_tokens": 22266,
+      "summary": "3. Establish monitoring duration and procedures, including: ◦ Define a monitoring period appropriate to incident severity (typically thirty days minimum). ◦ Document what constitutes abnormal behavior"
+    },
+    {
+      "chapter": 16,
+      "title": "Chapter 16: Accelerating Incident Response with AI & Playbook as Skill",
+      "file": "chapters/chapter_16_ai_playbooks.md",
+      "pages": "468-541",
+      "page_count": 74,
+      "est_tokens": 34691,
+      "summary": "Step 4. Capture Incident Metrics 1. Calculate detection and response metrics, including: ◦ Mean Time to Detect (MTTD): Elapsed time from incident start to detection. ◦ Mean Time to Respond (MTTR): Ela"
+    },
+    {
+      "chapter": 17,
+      "title": "Chapter 17: Specialized IR for Ransomware & Double Extortion",
+      "file": "chapters/chapter_17_ransomware.md",
+      "pages": "542-579",
+      "page_count": 38,
+      "est_tokens": 26673,
+      "summary": "Use Case Documentation Documentation should capture which AI applications have proven valuable and which have not worked well in specific organizational environments for internal distribution. Not eve"
+    },
+    {
+      "chapter": 18,
+      "title": "Chapter 18: Specialized IR for Cloud Systems (AWS/Azure/GCP)",
+      "file": "chapters/chapter_18_cloud_ir.md",
+      "pages": "580-608",
+      "page_count": 29,
+      "est_tokens": 19182,
+      "summary": "BLACKBAUD: FOUR YEARS OF REGULATORY CONSEQUENCES The 2020 Blackbaud ransomware incident illustrates how regulatory consequences can cascade for years after technical recovery concludes. Blackbaud prov"
+    },
+    {
+      "chapter": 19,
+      "title": "Chapter 19: Specialized IR for Operational Technology (OT/ICS)",
+      "file": "chapters/chapter_19_ot_ics.md",
+      "pages": "609-632",
+      "page_count": 24,
+      "est_tokens": 16020,
+      "summary": "8000, \"protocol\": \"tcp\"}, {\"containerPort\": 8001, \"protocol\": \"tcp\"}], \"mountPoints\": [{\"sourceVolume\": \"velociraptor-data\", \"containerPath\": \"/velociraptor\"}]}]' --volumes '[{\"name\": \"velociraptor-da"
+    },
+    {
+      "chapter": 20,
+      "title": "Chapter 20: Integrating DAIR with NIST CSF 2.0 Framework",
+      "file": "chapters/chapter_20_nist_csf.md",
+      "pages": "633-655",
+      "page_count": 23,
+      "est_tokens": 14844,
+      "summary": "OT-Specific Debrief Questions Beyond the standard post-incident review topics covered in the debrief activity chapter, OT incidents raise questions that only engineering and operations personnel can a"
+    }
+  ]
+}

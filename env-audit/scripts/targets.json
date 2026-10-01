@@ -33,7 +33,7 @@
         "nodejs"
       ],
       "brew_formula": "node",
-      "brew_latest": "26.9.0"
+      "brew_latest": "26.10.0"
     },
     {
       "name": "go",
@@ -127,7 +127,7 @@
         "-v"
       ],
       "brew_formula": "php",
-      "brew_latest": "8.5.10"
+      "brew_latest": "8.5.11"
     },
     {
       "name": "dotnet",
@@ -286,7 +286,7 @@
         "-v"
       ],
       "brew_formula": "rsync",
-      "brew_latest": "3.5.0"
+      "brew_latest": "3.5.1"
     },
     {
       "name": "gitlab-runner",
@@ -449,7 +449,7 @@
         "--version"
       ],
       "brew_formula": "pipx",
-      "brew_latest": "1.17.3"
+      "brew_latest": "1.17.6"
     },
     {
       "name": "npm",

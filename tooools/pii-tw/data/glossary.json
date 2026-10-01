@@ -1,0 +1,304 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-10-01",
+  "scope": "Taiwan PDPA Legal Terms vs CDPSE Privacy Engineering Terms",
+  "terms": [
+    {
+      "term_zh": "個人資料",
+      "term_en": "Personal Data / Personally Identifiable Information (PII)",
+      "category": "PDPA Statutory Term",
+      "legal_reference": "個人資料保護法 第2條第1款、施行細則 第2條至第3條",
+      "legal_definition": "指自然人之姓名、出生年月日、國民身分證統一編號、護照號碼、特徵、指紋、婚姻、家庭、教育、職業、病歷、醫療、基因、性生活、健康檢查、犯罪前科、聯絡方式、財務情況、社會活動及其他得以直接或間接方式識別該個人之資料。",
+      "engineering_definition": "任何能單獨或結合其他數據集直接關聯或間接推斷特定自然人實體身分之屬性集合（Direct & Indirect Identifiers），包含數位足跡如 IP 位址、MAC 位址、Cookie ID、廣告識別碼（IDFA/GAID）、裝置指紋及地理座標。",
+      "practical_guidance": "工程架構中須將所有間接識別碼納入個資治理範疇，在 Schema 設計時建立敏感標籤分類，避免未受保護之數位足跡散落於應用程式日誌或分析平台。"
+    },
+    {
+      "term_zh": "特種個人資料",
+      "term_en": "Sensitive Personal Data / Special Categories of Data",
+      "category": "PDPA Statutory Term",
+      "legal_reference": "個人資料保護法 第6條、施行細則 第4條",
+      "legal_definition": "指病歷、醫療、基因、性生活、健康檢查及犯罪前科等六大類敏感個人資料。原則上禁止蒐集、處理或利用，僅在法律明文、法定職務、公共利益學術研究（經去識別化）、當事人自行公開或經書面同意等嚴格法定例外情形下允許。",
+      "engineering_control": "實施欄位層級信封加密（Envelope Encryption）、獨立資料庫隔離（Data Vault）、嚴格基於屬性的存取控制（ABAC）及細緻操作審核日誌。",
+      "practical_guidance": "禁止在通用業務服務直接以明文查詢特種個資；應使用專用加密金鑰與獨立微服務管理，並限制僅有通過特定授權之角色可發起解密操作。"
+    },
+    {
+      "term_zh": "個人資料檔案",
+      "term_en": "Personal Data File / Record Sets",
+      "category": "PDPA Statutory Term",
+      "legal_reference": "個人資料保護法 第2條第2款、施行細則 第5條",
+      "legal_definition": "指依系統建立而得以自動化機器或其他非自動化方式檢索、整理之個人資料之集合。施行細則第5條明確規定包含「備份檔案」及「軌跡資料」。",
+      "engineering_definition": "任何結構化或非結構化之個資儲存實體，包括關聯式資料庫、NoSQL 資料庫、資料倉儲、資料湖、備份磁帶、冷儲存快照、以及包含個資存取記錄之日誌檔案系統。",
+      "practical_guidance": "備份檔案與操作日誌具有法定個資檔案地位，必須同步套用等同生產資料庫之加密、存取控制與保留銷毀機制。"
+    },
+    {
+      "term_zh": "去識別化",
+      "term_en": "De-identification",
+      "category": "PDPA Statutory Term & Engineering Term",
+      "legal_reference": "個人資料保護法施行細則 第14條",
+      "legal_definition": "指個人資料以編碼、匿名或其他揭露方式，無從辨識該特定個人，或需費過鉅或耗時過久始能予以辨識者。",
+      "engineering_definition": "藉由移除、替換、雜湊或泛化直接與間接識別碼之資料轉換過程，包含假名化（Pseudonymization）與匿名化（Anonymization），使資料集在特定攻擊模型下無法重新識別個體。",
+      "practical_guidance": "工程實現應區分「可逆假名化」與「不可逆匿名化」；演算法評估需考量連結攻擊（Linkage Attacks）風險，採用 K-Anonymity 與差分隱私等數學模型驗證防護強度。"
+    },
+    {
+      "term_zh": "當事人權利",
+      "term_en": "Data Subject Rights (DSR / DSAR)",
+      "category": "PDPA Statutory Term",
+      "legal_reference": "個人資料保護法 第3條、第10條、第11條、第13條",
+      "legal_definition": "當事人對其個人資料享有五大法定權利：查詢或請求閱覽、請求製給複製本、請求補充或更正、請求停止蒐集處理或利用、請求刪除。權利不得預先拋棄或以特約限制。",
+      "engineering_definition": "透過自動化 API、自服務入口網站（Self-Service Portal）與分散式協調引擎（Orchestrator），支援對分散式儲存環境中當事人資料的檢索、結構化匯出（JSON/CSV）、即時修正及分散式資料刪除。",
+      "practical_guidance": "系統應實施強身分驗證機制以防冒名發起權利請求，並針對刪除操作實施關聯系統（包括快取與備份冷儲存）之分階段清除與事件通知。"
+    },
+    {
+      "term_zh": "非公務機關",
+      "term_en": "Non-Government Agencies / Private Entities",
+      "category": "PDPA Statutory Term",
+      "legal_reference": "個人資料保護法 第2條第8款",
+      "legal_definition": "指公務機關以外之自然人、法人或其他團體。涵蓋所有民營企業、金融機構、電商平台、醫療院所、學校及非營利組織。",
+      "engineering_definition": "企業架構環境下的資料控制者（Data Controller）與資料處理者（Data Processor），負有建立內部隱私架構、安全維護措施及合規稽核機制之法定義務。",
+      "practical_guidance": "企業內部必須由架構團隊依所屬產業主管機關頒布之「特定行業個人資料檔案安全維護計畫實施辦法」訂定工程技術標準。"
+    },
+    {
+      "term_zh": "適當安全維護措施",
+      "term_en": "Appropriate Technical and Organizational Measures (TOMs)",
+      "category": "PDPA Statutory Term",
+      "legal_reference": "個人資料保護法 第27條、施行細則 第12條",
+      "legal_definition": "指防止個人資料被竊取、竄改、毀損、滅失或洩漏所採取技術上及組織上之必要措施。施行細則第12條列明管理組織、範圍界定、風險評估、事故應變、內部程序、資料與人員管理、教育訓練、設備安全、稽核機制、軌跡保存及持續改善等 11 款事項。",
+      "engineering_definition": "涵蓋身分驗證（IAM）、傳輸與靜態加密、金鑰管理（KMS）、細緻存取控制、入侵偵測（IDS/IPS）、日誌審計（WORM）、備份災難復原等端到端技術縱深防禦架構。",
+      "practical_guidance": "採取之技術控制措施須與所處理個資之數量、敏感度及潛在風險符合比例原則，並保留技術實施佐證以滿足舉證責任要求。"
+    },
+    {
+      "term_zh": "特定目的",
+      "term_en": "Specified / Lawful Purpose",
+      "category": "PDPA Statutory Term",
+      "legal_reference": "個人資料保護法 第5條、第8條、第19條、第20條及法務部特定目的代號",
+      "legal_definition": "蒐集、處理及利用個人資料所依據之明確、具體且正當之業務目的（如法務部公告之編號如 040 行銷、063 憑證業務、090 消費者保護、148 網路購物及其他電子商務服務等）。",
+      "engineering_definition": "在資料管線與存取控制中將資料欄位與處理行為綁定特定用途標籤（Purpose Tagging），透過用途導向存取控制（PBAC）進行動態授權驗證。",
+      "practical_guidance": "禁止在未經使用者再次授權或法定例外情形下，將原為訂單履約蒐集之個資直接用於 AI 演算法訓練或第三方廣告行銷。"
+    },
+    {
+      "term_zh": "軌跡資料",
+      "term_en": "Audit Trail / Access Logs / Provenance Data",
+      "category": "PDPA Statutory Term & Engineering Term",
+      "legal_reference": "個人資料保護法施行細則 第5條、第6條、第12條第10款",
+      "legal_definition": "指為事後查核、比對或證明之需要而留存之存取、查詢、修改、刪除、傳輸等操作紀錄與證據資料。",
+      "engineering_definition": "包含不可竄改之結構化日誌（Structured Logs），精確記錄時間戳記（UTC/ISO 8601）、調用者 Principal ID、客戶端 IP、操作動作（Verb）、目標資源識別符、查詢條件及回應狀態碼。",
+      "practical_guidance": "日誌自身若包含個資欄位亦屬個資檔案，應實施動態遮罩或日誌加密，並使用 WORM 儲存或防竄改雜湊鏈驗證日誌完整性。"
+    },
+    {
+      "term_zh": "委託監督",
+      "term_en": "Third-Party Vendor Management / Processor Supervision",
+      "category": "PDPA Statutory Term & CDPSE Topic",
+      "legal_reference": "個人資料保護法施行細則 第7條、第8條",
+      "legal_definition": "委託他人蒐集、處理或利用個人資料時，委託人應對受託人進行適當監督，涵蓋範圍、類別、目的、安全維護措施、複委託約定、違約通報補救、保留指示及終止後載體返還與資料刪除等事項。",
+      "engineering_definition": "在第三方整合與雲端 SaaS 串接中實施供應鏈安全管理，包含 API 存取權限最小化、合約 SLA/NDA 稽核、第三方安全態勢評估、資料隔離與自動化連線稽核。",
+      "practical_guidance": "系統對接第三方 API 時須透過獨立閘道過濾個資欄位，並定期驗證受託方在服務終止後是否切實執行資料清除作業。"
+    },
+    {
+      "term_zh": "隱私設計原則",
+      "term_en": "Privacy by Design (PbD)",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 5: Applications and Software",
+      "legal_definition": "源自 Ann Cavoukian 提出的 7 大黃金原則，強調在系統架構、軟體開發與業務流程的初期即主動內建隱私防護，而非於事後修補。",
+      "engineering_definition": "包含七大原則：1. 主動預防而非被動補救 (Proactive not Reactive)、2. 預設隱私 (Privacy as the Default)、3. 嵌入設計 (Privacy Embedded into Design)、4. 全功能性雙贏 (Full Functionality - Positive-Sum)、5. 端到端生命週期防護 (End-to-End Security)、6. 可見度與透明度 (Visibility and Transparency)、7. 尊重使用者隱私 (Respect for User Privacy)。",
+      "practical_guidance": "在軟體開發生命週期（SDLC）之需求分析與架構設計階段即導入隱私威脅評估，將隱私設定預設為最嚴格狀態（如預設不開啟第三方追蹤）。"
+    },
+    {
+      "term_zh": "LINDDUN 隱私威脅模型",
+      "term_en": "LINDDUN Privacy Threat Modeling",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 3: Risk Management",
+      "legal_definition": "專為軟體與系統架構設計之結構化隱私威脅建模方法論，對應資訊安全之 STRIDE 模型。",
+      "engineering_definition": "代表 7 種核心隱私威脅維度：Linkability（連結性）、Identifiability（可識別性）、Non-repudiation（抗抵賴/非自願留痕）、Detectability（可偵測性）、Disclosure of Information（資訊洩漏）、Unawareness（使用者未認知）、Non-compliance（合規不符）。",
+      "practical_guidance": "在資料流程圖（DFD）中分析各實體、資料流、資料庫及處理程序，逐一檢驗是否暴露於 LINDDUN 七大威脅並配置相應緩解控制措施。"
+    },
+    {
+      "term_zh": "資料保護影響評估",
+      "term_en": "Data Protection Impact Assessment (DPIA / PIA)",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 3: Risk Management & PDPA 施行細則 第12條第3款",
+      "legal_definition": "系統化評估高風險個資處理作業對當事人權益衝擊程度之正式評估流程與文件化管理工具。",
+      "engineering_definition": "包含系統架構界定、資料流圖譜分析、必要性與比例原則檢視、隱私威脅識別、風險量化評級（衝擊度與發生機率）及技術緩解控制措施追蹤驗證。",
+      "practical_guidance": "凡涉及大量特種個資處理、跨系統資料匯流、自動化決策分析或新技術架構導入時，必須於開發前完成 DPIA 簽核。"
+    },
+    {
+      "term_zh": "身分識別與存取管理",
+      "term_en": "Identity and Access Management (IAM)",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 4: Infrastructure & PDPA 施行細則 第12條第6款",
+      "legal_definition": "管理數位身分生命週期與存取授權之核心架構，確保僅經授權之實體在合法情境下存取指定資源。",
+      "engineering_definition": "整合身分識別（Authentication）、授權控制（Authorization - RBAC/ABAC）、單一登入（SSO）、多因素驗證（MFA）、特權帳號管理（PAM）與自動化帳號生命週期配置（SCIM）。",
+      "practical_guidance": "強制存取個人資料之後台帳號啟用 MFA，實施基於最小權限原則（PoLP）之動態屬性授權，禁止共用系統帳號。"
+    },
+    {
+      "term_zh": "假名化",
+      "term_en": "Pseudonymization",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 6: Technical Privacy Controls",
+      "legal_definition": "透過技術處理個人資料，使在不使用額外資訊的情況下，資料無法直接歸屬於特定當事人，且額外資訊被分開保存並受技術與組織措施保護。",
+      "engineering_definition": "使用標記替換（Tokenization）、金鑰雜湊（HMAC with Salt）或格式保留加密（FPE）將直接識別符轉換為無意義的 Pseudonym，金鑰與對照表儲存於隔離之金鑰保管庫（KMS/HSM）。",
+      "practical_guidance": "分析與測試環境應全面採用假名化資料，確保開發人員無法透過查詢結果逆推真實使用者身分。"
+    },
+    {
+      "term_zh": "資料最小化",
+      "term_en": "Data Minimization",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 7: Data Purpose & PDPA 第5條",
+      "legal_definition": "蒐集、處理與利用之個人資料應限制於達成宣告之特定目的所必需之範圍內，不得過度蒐集。",
+      "engineering_definition": "在 API 請求結構、資料庫綱要（Schema）與資料傳輸中剔除冗餘欄位，實施資料粗化（Generalization/Coarsening）與即時過濾機制。",
+      "practical_guidance": "表單設計僅保留核心必填欄位；若僅需驗證年齡是否滿 18 歲，系統應設計回傳布林值（True/False）之驗證介面，而非儲存完整出生年月日。"
+    },
+    {
+      "term_zh": "資料遮罩",
+      "term_en": "Data Masking (Static & Dynamic)",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 6: Technical Privacy Controls",
+      "legal_definition": "在資料展示、匯出或非生產環境使用時，透過混淆、替換或部分隱蔽技術隱藏敏感資料欄位。",
+      "engineering_definition": "分為靜態資料遮罩（SDM - 複製資料至非生產環境時永久替換）與動態資料遮罩（DDM - 根據查詢者權限在資料庫或 API 閘道端即時對回應內容進行字元替換，如身分證字號 A123****89）。",
+      "practical_guidance": "客服管理後台與日誌輸出應預設實施動態遮罩，僅在取得主管雙重審批之特定事件調查中暫時開放部分明文檢視。"
+    },
+    {
+      "term_zh": "資料保留與銷毀",
+      "term_en": "Data Retention, Archiving and Secure Disposal",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 8: Data Persistence & PDPA 第11條第3項",
+      "legal_definition": "個人資料保有期間屆滿或特定目的消滅後，應主動或依請求刪除、停止處理或利用，並落實安全銷毀。",
+      "engineering_definition": "建立資料生命週期自動化管理機制，包含分層儲存（Tiering）、過期自動清理（TTL）、加密抹除（Crypto-Shredding）與符合 NIST SP 800-88 標準之媒體淨化（Sanitization）。",
+      "practical_guidance": "針對雲端儲存與分散式資料庫，透過銷毀特定租戶或使用者之專屬加密金鑰（Key Destruction）達成不可逆之邏輯清除。"
+    },
+    {
+      "term_zh": "隱私增強技術",
+      "term_en": "Privacy-Enhancing Technologies (PETs)",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 6: Technical Privacy Controls",
+      "legal_definition": "運用密碼學、演算法與硬體安全特性，在保護資料隱私與機密性的前提下進行運算、共享與分析之尖端技術體系。",
+      "engineering_definition": "涵蓋同態加密（Homomorphic Encryption, FHE/PHE）、安全多方計算（SMPC）、零知識證明（Zero-Knowledge Proofs, ZKP）、差分隱私（Differential Privacy）及機密運算（Confidential Computing / TEE）。",
+      "practical_guidance": "在跨機構金融聯防或跨院醫療研究場景中，導入差分隱私或安全多方計算，在不交換原始個資的前提下完成聯合統計與模型訓練。"
+    },
+    {
+      "term_zh": "記號化 / 標記化",
+      "term_en": "Tokenization",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 6: Technical Privacy Controls",
+      "legal_definition": "將敏感資料元素替換為非敏感之隨機替代標識（Token），原始資料與 Token 之對應關係由高度受保護之金鑰與保管庫（Token Vault）維護。",
+      "engineering_definition": "透過安全亂數生成器產出無數學關聯之 Token，符合 PCI-DSS 與隱私架構標準，縮減生產系統受合規監管之範圍（Scope Reduction）。",
+      "practical_guidance": "信用卡號與身分證字號於進入內部系統閘道時立即轉換為 Token，業務系統僅使用 Token 進行訂單追蹤與資料流轉。"
+    },
+    {
+      "term_zh": "差分隱私",
+      "term_en": "Differential Privacy (DP)",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 6: Technical Privacy Controls",
+      "legal_definition": "一種具備數學證明的強隱私保護標準，確保查詢結果無法推斷資料集中是否存在特定單一個體。",
+      "engineering_definition": "在查詢統計結果或模型梯度中加入經過嚴格校準的隨機雜訊（如拉普拉斯雜訊 Laplace Noise 或高斯雜訊 Gaussian Noise），以隱私預算（Epsilon $\\epsilon$, Delta $\\delta$）量化控制隱私損失上限。",
+      "practical_guidance": "對外發布統計數據或大數據分析查詢 API 時，設定差分隱私機制限制單一分析任務的隱私預算消耗，防止差分攻擊與重構攻擊。"
+    },
+    {
+      "term_zh": "K-匿名性與 L-多樣性",
+      "term_en": "K-Anonymity & L-Diversity",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 6: Technical Privacy Controls",
+      "legal_definition": "微資料發布（Microdata Publishing）中評估資料集抵抗連結攻擊與屬性推斷攻擊之數學隱私度量模型。",
+      "engineering_definition": "K-Anonymity 要求資料集中每個準識別符（Quasi-Identifier）組合至少存在 k 筆相同記錄；L-Diversity 則進一步要求每個等價群組中敏感屬性必須具備至少 l 個相異有效值。",
+      "practical_guidance": "在發布去識別化公共衛生或商業統計微資料集時，透過欄位泛化（Generalization）與抑制（Suppression）確保數據滿足  \\ge 5$ 與  \\ge 3$ 標準。"
+    },
+    {
+      "term_zh": "用途導向存取控制",
+      "term_en": "Purpose-Based Access Control (PBAC)",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 7: Data Purpose & PDPA 第20條",
+      "legal_definition": "結合使用者身分、宣告目的及存取情境（Context）之動態授權控制架構，落實目的限制原則。",
+      "engineering_definition": "在 API 請求與資料存取層驗證調用者宣告的 Purpose 識別符是否與資料物件被允許的合法處理目的集合匹配，未獲目的授權之請求直接予以拒絕。",
+      "practical_guidance": "系統後端服務在執行 SQL 或 NoSQL 查詢時，中介層強制注入 Purpose-Token 參數並核對 Policy Enforcement Point（PEP）。"
+    },
+    {
+      "term_zh": "同意管理平台",
+      "term_en": "Consent Management Platform (CMP)",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 5 & 7: Consent Mechanisms & PDPA 第7條",
+      "legal_definition": "管理與記錄使用者同意生命週期之中央控制軟體系統，確保同意符合自主、明確告知及可撤回原則。",
+      "engineering_definition": "提供動態偏好設定介面（Preference Center）、版本化同意條款紀錄庫、即時同意狀態同步 API、以及防竄改審核日誌。",
+      "practical_guidance": "當使用者於 CMP 撤回特定行銷同意時，CMP 須透過 Webhook 或 Event Stream 即時通知下游 CRM、行銷自動化工具及廣告追蹤 Pixel 停止利用。"
+    },
+    {
+      "term_zh": "風險胃納、容忍度與容量",
+      "term_en": "Risk Appetite, Risk Tolerance & Risk Capacity",
+      "category": "ISACA CRISC Term",
+      "legal_reference": "ISACA CRISC Domain 1 & PDPA 施行細則 第12條第1款、第3款",
+      "legal_definition": "組織在追求策略目標時願意承受之整體風險水準（Appetite）、可接受之偏差幅度（Tolerance）、以及組織存續所能承受之最高損失極限（Capacity）。",
+      "engineering_definition": "在工程治理中將風險胃納量化為具體指標門檻（Thresholds），設定系統性安全控制措施與架構防線，確保各項個資處理殘餘風險不超過容忍上限。",
+      "practical_guidance": "董事會界定組織隱私風險胃納後，資安與架構團隊依此制定 KRI/KCI 門檻值，凡逾越紅線門檻立即觸發架構修正。"
+    },
+    {
+      "term_zh": "固有風險、殘餘風險與當前風險",
+      "term_en": "Inherent Risk, Residual Risk & Current Risk",
+      "category": "ISACA CRISC Term",
+      "legal_reference": "ISACA CRISC Domain 2 & PDPA 施行細則 第12條第3款",
+      "legal_definition": "固有風險指未採取任何控制前之原始風險；殘餘風險指實施控制措施後仍存在之風險；當前風險指特定時間點考量現行控制運作狀態之真實風險水準。",
+      "engineering_definition": "風險評估公式為 $Residual\\ Risk = Inherent\\ Risk - Control\\ Effectiveness$。工程設計目標為透過技術控制將殘餘風險降至風險胃納之內。",
+      "practical_guidance": "在執行 PIA/DPIA 時，必須分別評估未實施加密/IAM 前之固有風險，以及導入技術防護後之殘餘風險是否滿足合規標準。"
+    },
+    {
+      "term_zh": "三道防線模型",
+      "term_en": "Three Lines of Defence",
+      "category": "ISACA CRISC Term",
+      "legal_reference": "ISACA CRISC Domain 1 & PDPA 施行細則 第12條第1款",
+      "legal_definition": "企業風險治理之分權架構：第 1 道防線（業務與 IT 維運，直接擁有資產與落實控制）、第 2 道防線（風控、資安與法遵，訂定標準與監控）、第 3 道防線（內部稽核，獨立提供保證）。",
+      "engineering_definition": "DevOps 與維運團隊（1st Line）在 CI/CD 中嵌入安全編程；資安架構師與 DPO（2nd Line）提供安全基線與政策指引；稽核員（3rd Line）獨立驗證控制有效性。",
+      "practical_guidance": "明確劃分 RACI 矩陣，禁止第 2 道或第 3 道防線兼任第 1 道防線之日常營運工作，維護獨立性與職責區隔。"
+    },
+    {
+      "term_zh": "關鍵績效、風險與控制指標",
+      "term_en": "KPI, KRI, KCI & Thresholds",
+      "category": "ISACA CRISC Term",
+      "legal_reference": "ISACA CRISC Domain 3 & PDPA 施行細則 第12條第11款",
+      "legal_definition": "KPI 衡量營運活動績效；KRI 預警未來潛在風險趨勢；KCI 監控特定控制措施之防護有效性；Threshold 為觸發升級處置之數值邊界。",
+      "engineering_definition": "透過 SIEM 與自動化監控管線蒐集遙測數據，將日誌異常率、未修補弱點天數、釣魚點擊率量化為 KRI/KCI 數值並設定告警門檻。",
+      "practical_guidance": "培訓出席率屬 KPI，而模擬釣魚演練回報率與點擊率屬 KCI；特權帳號異常查詢次數屬 KRI，三者不可混淆。"
+    },
+    {
+      "term_zh": "四大風險處置策略",
+      "term_en": "Risk Treatment Options (Mitigate, Transfer, Avoid, Accept)",
+      "category": "ISACA CRISC Term",
+      "legal_reference": "ISACA CRISC Domain 3 & PDPA 施行細則 第12條第3款",
+      "legal_definition": "針對評估後風險所採取的四種決策路徑：緩解（Mitigate）、轉移（Transfer）、避免（Avoid）、接受（Accept）。",
+      "engineering_definition": "緩解採工程技術控制（如加密、MFA）；轉移採保險或委外合約（如第三方代收代付）；避免採終止高風險處理程序；接受須經正式管理層核准且殘餘風險低於胃納。",
+      "practical_guidance": "禁止未經評估直接默認接受風險；凡涉及大量個資外洩之高衝擊情境，嚴格禁止在未達胃納前進行非授權接受。"
+    },
+    {
+      "term_zh": "業務衝擊分析與復原目標",
+      "term_en": "Business Impact Analysis (BIA), RTO & RPO",
+      "category": "ISACA CRISC Term",
+      "legal_reference": "ISACA CRISC Domain 2 & PDPA 施行細則 第12條第4款",
+      "legal_definition": "量化業務中斷與個資滅失衝擊之分析流程；復原時間目標（RTO）為系統可容忍之中斷上限；復原點目標（RPO）為資料可容忍之遺失時段上限。",
+      "engineering_definition": "在災難復原（DR）與多區域備份架構中設定資料庫同步延遲（< RPO）與自動切換時間（< RTO），並同步維護備份端之加密與刪除一致性。",
+      "practical_guidance": "個資系統之異地備援站台必須具備與生產環境相同層級之金鑰隔離與存取控制，防止備援端成為防護缺口。"
+    },
+    {
+      "term_zh": "委外資料處理協議",
+      "term_en": "Data Processing Agreement (DPA)",
+      "category": "PDPA & CDPSE Term",
+      "legal_reference": "PDPA 施行細則 第7條、第8條 & CDPSE Domain 1",
+      "legal_definition": "資料控制者與受託處理者間具法律約束力之合約，明定處理範圍、安全維護措施、複委託限制、通報義務與終止後資料返還銷毀。",
+      "engineering_definition": "在 API 整合與 SaaS 採購中將合約條款落實為技術驗證，包含 API 金鑰權限限縮、自動化存取日誌對接及受託方定期安全態勢掃描。",
+      "practical_guidance": "未簽署明確 DPA 且未包含 24 小時事故通報與查核權條款者，禁止開放生產環境個資 API 串接。"
+    },
+    {
+      "term_zh": "零知識證明",
+      "term_en": "Zero-Knowledge Proofs (ZKP)",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 6: Technical Privacy Controls",
+      "legal_definition": "一種密碼學協議，證明者能在不向驗證者透露任何實質資訊的前提下，使驗證者確信某項陳述為真。",
+      "engineering_definition": "使用 zk-SNARKs 或 zk-STARKs 演算法，在身分認證或資格查核中驗證屬性條件（如年齡滿 18 歲、帳戶餘額達標），而無須在後端傳輸或儲存原始敏感個資。",
+      "practical_guidance": "在 KYC 身分核驗服務中導入 ZKP，使後端僅接收布林證明值，自架構根源杜絕特種個資之儲存與外洩風險。"
+    },
+    {
+      "term_zh": "同態加密",
+      "term_en": "Homomorphic Encryption (FHE / PHE)",
+      "category": "CDPSE Engineering Term",
+      "legal_reference": "CDPSE Domain 6: Technical Privacy Controls",
+      "legal_definition": "允許直接在密文上進行運算並產出加密結果之尖端密碼學技術，解密後結果與明文運算完全一致。",
+      "engineering_definition": "支援全同態（FHE）或部分同態（PHE），使雲端不可信環境或第三方 AI 運算節點能在完全不解密原始個資的前提下執行資料分析與模型推論。",
+      "practical_guidance": "在跨機構聯合醫療診斷或敏感財務評分中，將密文資料送交雲端運算，保障運算中資料（Data-in-Use）之絕對機密性。"
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "framework": "DAIR",
+  "version": "2.0.0",
+  "loop_structure": ["scope", "contain", "eradicate", "recover"],
+  "iteration_triggers": [
+    "分析過程中發現全新 IOC 指標",
+    "發現既有 IOC 擴散至其他業務主機 (Scope Expansion)",
+    "系統出現再次感染或根除不完全跡象 (Incomplete Eradication)",
+    "深度鑑識揭露早期入侵時間點或新攻擊手法",
+    "業務優先級調整或主管機關法規通報要求介入"
+  ],
+  "stages": [
+    {
+      "order": 1,
+      "id": "prepare",
+      "name": "Prepare",
+      "objective": "建立基準能見度、日誌遙測、工具整備度與升級通報矩陣。",
+      "exit_gate": "telemetry_and_playbooks_verified",
+      "key_artifacts": ["資產清冊", "日誌留存策略", "聯絡通報管道", "預簽合規處置矩陣"]
+    },
+    {
+      "order": 2,
+      "id": "detect",
+      "name": "Detect",
+      "objective": "辨識異常行為、安全告警、威脅情資比對或使用者通報事件。",
+      "exit_gate": "initial_alert_and_raw_iocs_captured",
+      "key_artifacts": ["原始告警資料", "時間戳記", "可疑特徵 IOC 清單", "EOI 案件記錄"]
+    },
+    {
+      "order": 3,
+      "id": "verify_triage",
+      "name": "Verify & Triage",
+      "objective": "區分真陽性與假警報，判定風險等級並完成決策者資源分配評估。",
+      "exit_gate": "severity_and_scope_hypotheses_locked",
+      "decision_outcomes": ["Continue", "Stop", "Defer"],
+      "key_artifacts": ["無污染案件筆記", "風險衝擊等級 (Low/Medium/High/Critical)", "CTI 關聯比對結果"]
+    },
+    {
+      "order": 4,
+      "id": "scope",
+      "name": "Scope",
+      "objective": "跨端點、身分、雲端儲存與網路環境全面釐清攻擊擴散範圍與爆炸半徑。",
+      "exit_gate": "complete_blast_radius_mapped",
+      "methodologies": ["Enterprise-Wide Hunting", "Progressive Scoping", "Timeline Reconstruction"],
+      "key_artifacts": ["受害系統名冊", "規範化 IOC 庫", "攻擊時間軸", "首名受害者 (Patient Zero)"]
+    },
+    {
+      "order": 5,
+      "id": "contain",
+      "name": "Contain",
+      "objective": "執行精準主機/網路/身分隔離與權杖撤銷，切斷攻擊者存取並保全揮發性證據。",
+      "exit_gate": "adversary_access_severed",
+      "strategies": ["Passive", "Adaptive", "Active"],
+      "key_artifacts": ["連線中斷紀錄", "OAuth/SAML 權杖廢止清冊", "記憶體/磁碟鑑識映像檔", "受隔離資產標籤"]
+    },
+    {
+      "order": 6,
+      "id": "eradicate",
+      "name": "Eradicate",
+      "objective": "清除受影響系統上的常駐機制、後門、惡意排程與攻擊者殘留元件。",
+      "exit_gate": "all_persistence_and_malware_removed",
+      "key_artifacts": ["清除記錄", "修補清冊", "黃金映像檔驗證報告"]
+    },
+    {
+      "order": 7,
+      "id": "recover",
+      "name": "Recover",
+      "objective": "自受信備份安全還原系統，配合金絲雀強化監控逐步恢復業務運作。",
+      "exit_gate": "production_restored_with_enhanced_monitoring",
+      "key_artifacts": ["備份完整性驗證", "強化監控儀表板", "分階段上線驗收報告"]
+    },
+    {
+      "order": 8,
+      "id": "debrief",
+      "name": "Debrief",
+      "objective": "執行根本原因分析 (RCA)、彙整經驗教訓、更新偵測規則與提升組織防禦韌性。",
+      "exit_gate": "post_incident_report_and_defenses_updated",
+      "key_artifacts": ["事件結案報告", "MTTD/MTTR 指標", "SIEM/EDR 新增偵測規則", "防禦改善計畫"]
+    }
+  ],
+  "playbooks": {
+    "ransomware": {
+      "id": "ransomware",
+      "name": "勒索軟體與雙重勒索專案應變 (Ransomware & Double Extortion)",
+      "domain": "企業端點與 Active Directory",
+      "scope_indicators": [
+        "大量檔案副檔名變更與勒索訊息檔 (.txt, .html) 寫入",
+        "Volume Shadow Copies 遭指令刪除 (vssadmin, wmic, bcdedit)",
+        "備份系統 API/儲存庫憑證異常存取與離線資料外洩特徵",
+        "網域控制站 (DC) 異常群組原則 (GPO) 推送排程任務"
+      ],
+      "priority_actions": [
+        "切斷核心交換器與終端之 802.1X 存取，阻斷 SMB (TCP 445/139) 與 RDP (TCP 3389)",
+        "執行 Active Directory 之 KRBTGT 帳號雙重重設，鎖定遭入侵特權網域帳號",
+        "切斷線上備份管理存取，啟用不可變儲存 (Immutable Storage) 寫入鎖定",
+        "保留記憶體揮發性證據 (RAM Dump) 嚴禁貿然重開機"
+      ],
+      "compliance_deadlines": {
+        "CIRCIA": "重大事件 72 小時內通報；支付贖金 24 小時內通報",
+        "SEC_Form_8K": "確認重大性後 4 個工作天內申報 (Item 1.05)",
+        "GDPR_Art_33": "知悉後 72 小時內通報主管機關"
+      },
+      "exit_gates": [
+        "確認勒索加密與資料外洩管道 100% 阻斷且無新增活動",
+        "已識別並清除所有常駐排程、Web Shell 與惡意服務",
+        "離線備份經乾淨隔離區 (Cleanroom) 掃描驗證無惡意植入物",
+        "關鍵業務主機於驗證網段完成還原並通過 24 小時監控"
+      ]
+    },
+    "cloud_exfiltration": {
+      "id": "cloud_exfiltration",
+      "name": "雲端系統資料外洩應變 (Cloud Systems IR & Exfiltration)",
+      "domain": "AWS S3 / Azure Blob / Cloud IAM",
+      "scope_indicators": [
+        "IAM 憑證於非預期地理位置發起異常 GetObject / AssumeRole 請求",
+        "S3 Bucket / Storage Account 存取權限由私有被變更為公開 (Public)",
+        "雲端帳單突發性暴增或異常大規模資料傳輸 (Egress Spikes)",
+        "IMDSv1 憑證遭 SSRF 提取後調用控制平面 API"
+      ],
+      "priority_actions": [
+        "立即停用遭洩漏之 Access Key，調用 RevokeOlderSessions 終止 STS Session",
+        "將受害虛擬機網卡綁定至隔離用 NSG/SG 僅導向取證主機",
+        "全面強制升級至 IMDSv2 並將 HttpPutResponseHopLimit 設為 1",
+        "對受害磁碟建立唯讀 Snapshot 轉移至獨立取證帳號分析"
+      ],
+      "compliance_deadlines": {
+        "GDPR_Art_33": "涉及歐盟居民個資時 72 小時內通報",
+        "SEC_Form_8K": "涉及核心智財或財務外洩具重大性時 4 個工作天內申報",
+        "CIRCIA": "關鍵基礎設施雲端服務中斷於 72 小時內通報"
+      },
+      "exit_gates": [
+        "所有受損 IAM Role/User 之長期與短期憑證已完成全面撤銷與輪換",
+        "資料外洩日誌鑑識完成，界定遭下載資料集清冊",
+        "儲存資源之 ACL 與儲存庫政策全面收回最小權限",
+        "CI/CD 與程式碼庫內之環境變數及 Secret 完成全面淨化與更新"
+      ]
+    },
+    "supply_chain": {
+      "id": "supply_chain",
+      "name": "軟體供應鏈與相依套件入侵應變 (Software Supply Chain IR)",
+      "domain": "CI/CD 構建伺服器、相依套件庫與軟體發布管線",
+      "scope_indicators": [
+        "內部相依套件版本雜湊 (Hash) 與官方上游倉庫發布不一致",
+        "CI/CD 構建伺服器發起非預期的對外連線或注入未知編譯指令",
+        "套件管理器安裝腳本 (postinstall / setup.py) 出現混淆執行代碼",
+        "開發者憑證或程式碼簽署金鑰異常使用"
+      ],
+      "priority_actions": [
+        "於內部私有套件庫 (Nexus/Artifactory) 下架並封鎖受污染套件版本與 Hash",
+        "中斷受影響專案之 CI/CD 自動化構建與部屬作業，凍結發布環境",
+        "廢止所有 CI/CD Runner 存取 Token、GitHub Deploy Keys 與程式碼簽署憑證",
+        "於專案設定檔中明確鎖定特定安全版本雜湊 (SHA256 Pinning)"
+      ],
+      "compliance_deadlines": {
+        "EO_14028_CSAF": "及時發布 Common Security Advisory Framework (CSAF) 公告",
+        "CIRCIA": "若波及關鍵基礎設施維運，於 72 小時內通報",
+        "下游客戶通知": "依 SLA 及資安合約要求於發現後 24 至 48 小時內發出警示"
+      },
+      "exit_gates": [
+        "受污染相依套件全數自所有內部代碼庫與容器映象中剔除",
+        "軟體構建環境自乾淨黃金基準重建，發布簽名金鑰已完成輪換",
+        "最新構建版本通過完整 SAST、DAST 與 SCA 安全掃描",
+        "已向下游客戶及外部相依方發布安全修補版本與說明"
+      ]
+    },
+    "ot_ics": {
+      "id": "ot_ics",
+      "name": "工控與營運技術系統專案應變 (Operational Technology / OT/ICS IR)",
+      "domain": "Purdue Model Level 1-3 與 SCADA 系統",
+      "scope_indicators": [
+        "工程工作站 (EWS) 出現異常 PLC 邏輯下載或韌體更新請求",
+        "OT 專用通訊協定 (Modbus, S7comm, DNP3) 流量突增或異常指令寫入",
+        "人機介面 (HMI) 數值與現場物理感測器讀數不符 (Process Anomaly)",
+        "IT/OT 邊界防火牆出現跨網段橫向存取或反向連線"
+      ],
+      "priority_actions": [
+        "切換為手動物理操作 (Cyber Safe Position)，切斷 IT 與 OT (Level 3 與 Level 2) 間連線",
+        "保護安全儀表系統 (SIS)，嚴禁透過 IT 遠端操作修改 SIS 邏輯",
+        "嚴禁貿然重開機或未受控終止，防止現場物理狀態失控或安全制動失效",
+        "所有工程工作站 (EWS) 與組態伺服器拔除網路連線，改用受控維修單機"
+      ],
+      "compliance_deadlines": {
+        "CIIP_國家通報": "關鍵基礎設施防護中心依規範於 1 至 2 小時內通報",
+        "CIRCIA": "關鍵基礎設施重大事件於 72 小時內通報 CISA",
+        "工安與環境法規": "若涉及環境洩漏或人員危害風險，依工安法規即刻通報"
+      },
+      "exit_gates": [
+        "PLC/RTU 梯形圖與控制邏輯經工程人員逐行核對與離線黃金備份 100% 一致",
+        "安全儀表系統 (SIS) 與安全聯鎖功能經實體測試驗證正常運作",
+        "OT 網段內可疑連線已全數阻斷，EWS 完成乾淨映像檔重灌",
+        "由廠務、製程工程師與資安團隊共同簽署授權切換回自動控制模式"
+      ]
+    }
+  },
+  "nist_csf_mapping": {
+    "govern": ["GV.OC", "GV.RM", "GV.RR", "GV.PO"],
+    "identify": ["ID.AM", "ID.RA", "ID.IM"],
+    "protect": ["PR.AA", "PR.AT", "PR.DS", "PR.PS"],
+    "detect": ["DE.CM", "DE.AE"],
+    "respond": ["RS.MA", "RS.AN", "RS.CO", "RS.MI"],
+    "recover": ["RC.RP", "RC.CO"]
+  }
+}

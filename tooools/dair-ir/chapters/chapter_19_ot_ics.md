@@ -1,0 +1,1619 @@
+﻿# Chapter 19: Specialized IR for Operational Technology (OT/ICS)
+
+> Source: PDF Pages 609-632 (Total Pages: 24)
+
+8000, "protocol": "tcp"}, {"containerPort": 8001, "protocol": "tcp"}], "mountPoints":
+
+[{"sourceVolume": "velociraptor-data", "containerPath": "/velociraptor"}]}]' --volumes
+
+'[{"name": "velociraptor-data", "efsVolumeConfiguration": {"fileSystemId": "fs-0a1b2c3d4"}}]' 2
+
+$ aws ecs create-service --cluster forensics-cluster --service-name velociraptor --task
+
+-definition velociraptor-server --desired-count 1 --launch-type FARGATE --network-configuration
+
+'{"awsvpcConfiguration": {"subnets": ["subnet-forensics"], "securityGroups": ["sg-
+
+velociraptor"], "assignPublicIp": "DISABLED"}}' 3
+
+1 Create a dedicated ECS cluster for forensic tooling.
+
+2 Register a task definition with the Velociraptor container image, mapping ports 8000 (GUI) and 8001 (client
+
+communication), and attaching an EFS volume for persistent artifact storage.
+
+3 Deploy the service in a private subnet with a security group restricting access to authorized forensic networks.
+
+Azure Container Instances and Google Cloud Run support similar deployments with their respective CLI
+
+tools, following the same pattern of container image, port mapping, and persistent storage configuration.
+
+FINAL CONSIDERATIONS
+
+Cloud incident response is a rapidly evolving discipline, shaped by changes in cloud architecture, attacker
+
+techniques, and available tooling. In this final section, we examine two overarching topics that apply across
+
+the entire response lifecycle: the challenges of multi-cloud environments and the direction cloud incident
+
+response is headed.
+
+Multi-Cloud Environments
+
+One of the most significant complications for cloud incident response is when a multi-cloud architecture is
+
+involved. Many organizations use different cloud providers for different use cases, so an organization may
+
+have resources and users spread across AWS, Azure, and Google Cloud. This complicates investigation and
+
+scoping in two important ways.
+
+First, log centralization becomes even more critical in multi-cloud environments. We have already
+
+recommended centralizing logs into a SIEM regardless of cloud architecture, but operating across multiple
+
+clouds makes this essential. Investigations are significantly slowed when responders need to pivot between
+
+cloud provider consoles, and cross-cloud activity correlation becomes more complex when field names and
+
+log formats differ between providers.
+
+Second, the cloud architecture itself affects scope. If each cloud environment is completely isolated, the
+
+scope of an incident is relatively clear. However, if there is connectivity between clouds, whether through a
+
+shared identity provider, federated authentication, or direct network communication between resources,
+
+the potential for lateral movement exists across cloud boundaries. In this case, understanding how the
+
+clouds connect and whether those connections are in scope is essential for accurate scoping.
+
+Treat cross-cloud identity federation as automatic scope expansion. If an organization
+
+uses a single identity provider (such as Entra ID or Okta) across multiple cloud
+
+environments, a compromised identity in one cloud should be assumed to have potential
+
+access to all federated environments until proven otherwise.
+
+Incident Response for Cloud Systems | Chapter 18 | 585
+
+Evolution of Cloud Incident Response
+
+Cloud incident response is changing rapidly, driven by shifts in how organizations use cloud services and
+
+how attackers target them. Several trends are reshaping what responders need to know and what tools they
+
+need to use effectively.
+
+Multi-cloud visibility
+
+As organizations distribute workloads across multiple cloud providers, gaining a unified view of security
+
+posture becomes increasingly difficult.  Cloud Security Posture Management (CSPM) tools address this
+
+challenge by providing centralized visibility into misconfigurations, policy violations, and security risks
+
+across AWS, Azure, Google Cloud, and SaaS platforms from a single interface. For incident responders,
+
+CSPM data can accelerate scoping by quickly identifying which resources are exposed, what permissions
+
+are overly broad, and where misconfigurations may have enabled the attack. Organizations operating in
+
+multi-cloud environments should evaluate CSPM tooling as part of their incident response preparation,
+
+rather than only for preventive security.
+
+AI-driven SOC operations
+
+The application of AI to security operations is moving beyond simple alert correlation. As discussed in
+
+Accelerating Incident Response with AI, AI-driven tools are beginning to perform investigation and response
+
+actions that previously required human analysts. In cloud environments, where API-driven infrastructure
+
+enables automated actions, AI agents can triage alerts, gather context across multiple log sources, and
+
+execute containment actions with minimal human oversight. Cloud-native detection services are also
+
+integrating AI to reduce false positives and surface higher-confidence findings. While these capabilities are
+
+still maturing, organizations should monitor developments in this space and evaluate how AI-assisted
+
+investigation can supplement their cloud response workflows.
+
+Runtime visibility for serverless and containers
+
+Traditional host-based forensics assumes that responders can access a persistent filesystem, memory, and
+
+process list on a compromised system. Serverless functions and ephemeral containers challenge this
+
+assumption. A Lambda function or Cloud Run service may execute for seconds and leave no persistent state
+
+to examine. Container workloads may be destroyed and replaced automatically before responders can
+
+collect evidence.
+
+Runtime security tools that monitor function execution, container behavior, and API calls in real time are
+
+becoming essential for cloud environments that rely on these services. Without runtime visibility,
+
+responders may have no evidence of what happened inside a compromised workload beyond the control
+
+plane logs showing that it executed. Organizations deploying significant serverless or container workloads
+
+should ensure they have monitoring in place that captures runtime behavior in addition to resource
+
+management events.
+
+For serverless and ephemeral container workloads, runtime monitoring is the only source
+
+of evidence about what happened inside the workload. Without it, responders are limited to
+
+control-plane logs that show whether a function executed or a container started, with no
+
+visibility into which code ran, what data was accessed, or which network connections were
+
+made.
+
+Token-based attacks
+
+Cloud and SaaS environments are seeing an increase in token-based attacks relative to traditional password
+
+compromise. Rather than stealing credentials and logging in, attackers are targeting session tokens, OAuth
+
+tokens, and API keys that bypass authentication controls entirely. A stolen session token can grant access
+
+without triggering MFA challenges or appearing as a new login event, making these attacks harder to detect
+
+with traditional authentication monitoring.
+
+This shift has practical implications for detection and response. Organizations should monitor for
+
+anomalous token usage patterns, such as tokens issued from unexpected IP addresses or geographic
+
+locations, tokens with unusually long lifetimes, or token refresh patterns that do not align with normal user
+
+behavior. Conditional access policies that bind tokens to specific devices or network ranges can limit the
+
+value of stolen tokens, and short token lifetimes reduce the window of exposure.
+
+Cloud-native forensics
+
+As discussed in Leveraging the Cloud for Incident Response , organizations are increasingly using cloud
+
+infrastructure itself for forensic analysis, evidence storage, and automated response. This trend is likely to
+
+accelerate as cloud-native tooling matures and as more organizations recognize that the scalability,
+
+accessibility, and auditability of cloud services make them well suited for incident response workloads. The
+
+ability to deploy forensic workstations on demand, store evidence in immutable storage with automatic
+
+chain-of-custody logging, and run automated collection scripts as serverless functions reduces the
+
+overhead of maintaining dedicated forensic infrastructure. For organizations whose production
+
+environments are already in the cloud, using cloud services for incident response is a natural extension that
+
+aligns forensic capabilities with the environment being investigated.
+
+Incident Response for Cloud Systems | Chapter 18 | 587
+
+[1] Google Cloud, "Threat Horizons Report H1 2025," services.google.com/fh/files/misc/threat_horizons_report_h1_2025.pdf
+
+[2] Google Cloud, "Threat Horizons Report H2 2025," services.google.com/fh/files/misc/cloud_threat_horizons_report_h22025.pdf
+
+[3] Mandiant, "M-Trends 2025," services.google.com/fh/files/misc/m-trends-2025-en.pdf
+
+[4] Orca Security, "2025 State of Cloud Security Report," orca.security/wp-content/uploads/2025/06/2025-State-of-Cloud-
+
+Security-Report-v2.pdf
+
+[5] Google Cloud, "Threat Horizons Report H1 2025," services.google.com/fh/files/misc/threat_horizons_report_h1_2025.pdf
+
+[6] CircleCI, "CircleCI incident report for January 4, 2023 security incident," January 2023, circleci.com/blog/jan-4-2023-incident-
+
+report/
+
+[7] Google Cloud, "Threat Horizons Report H1 2025," services.google.com/fh/files/misc/threat_horizons_report_h1_2025.pdf
+
+[8] Mandiant, "M-Trends 2025," services.google.com/fh/files/misc/m-trends-2025-en.pdf
+
+[9] AWS Prescriptive Guidance, "Automate incident response and forensics," docs.aws.amazon.com/prescriptive-guidance/latest/
+
+patterns/automate-incident-response-and-forensics.html
+
+19 Incident Response for
+
+Operational
+
+Technology
+
+IT AND OT DIFFERENCES
+
+When cybersecurity decisions can directly affect physical processes, equipment, and safety, how engineers
+
+and operators respond to incidents should be informed by the unique characteristics of industrial
+
+environments. For many years, conventional incident response processes borrowed from IT systems were
+
+adapted for Operational Technology (OT) environments, but the differences in mission, controls, skill sets,
+
+and risk tolerance between IT and OT require a more measured approach to incident response than
+
+conventional models accommodate.
+
+This chapter addresses these considerations for applying incident response in OT environments within the
+
+broader DAIR model. Organizations responding to OT incidents should reference the relevant sections in
+
+Part 2  for comprehensive guidance on each response activity, using this chapter to supplement that
+
+foundation with OT-specific considerations.
+
+IT and OT security share the same objectives: reducing cyber risk and responding to incidents that threaten
+
+their respective areas. However, they operate in fundamentally different environments, with different
+
+threats, consequences, attack types, and missions. OT systems interact directly with physical processes,
+
+meaning cybersecurity events can influence equipment behavior, facility operations, and critical
+
+infrastructure. As a result, incident response in OT needs to account for engineering workflows, long asset
+
+lifecycles, vendor dependencies, and control system architectures that differ significantly from traditional
+
+enterprise networks, IT processes, and response techniques.
+
+OT incident response cannot be treated as an extension of enterprise response practices. It should be
+
+executed with engineering context and operational awareness. This includes engineering knowledge of the
+
+assets and how they function, which can differ across critical infrastructure sectors.
+
+In this section, we’ll examine the differences that shape OT incident response: how response actions need
+
+to be informed by control system context, why safety takes priority over data confidentiality, and what
+
+Incident Response for Operational Technology | Chapter 19 | 589
+
+engineering knowledge responders need to interpret industrial activity. We’ll also work through how long
+
+asset lifecycles and vendor dependencies constrain remediation, and how industrial architectures and
+
+protocols differ from enterprise networks. Finally, we’ll consider why OT environments tolerate few false
+
+positives, and how the consequences of OT incidents extend into the physical world.
+
+The term Industrial Control Systems (ICS) has long been used to describe systems that
+
+monitor and control physical processes, including Supervisory Control and Data Acquisition
+
+(SCADA), Distributed Control Systems (DCS), and Programmable Logic Controllers (PLCs).
+
+The broader term Operational Technology (OT) has become the preferred industry
+
+designation because it encompasses ICS, along with the broader set of hardware and
+
+software that monitor or control physical devices, processes, and infrastructure. This
+
+chapter uses OT throughout, except where referencing established frameworks that retain
+
+the original terminology.
+
+Incident Response Execution in OT Environments
+
+Among the differences in controls, skill sets, and missions, one major distinction becomes most important
+
+during incident response: actions commonly accepted in enterprise environments, such as aggressive
+
+isolation, automated blocking, or immediate host rebuilds, can introduce unacceptable operational and
+
+safety risks in industrial settings. Effective OT incident response requires an engineering-informed
+
+approach that first evaluates how response actions could affect control system behavior, operator visibility,
+
+and the ability to maintain safe operations during the incident.
+
+For example, in enterprise environments, responders often contain threats quickly by isolating systems,
+
+disabling accounts, automatically blocking communications, or reimaging hosts to remove a potential or
+
+confirmed threat. While disruptive, these actions are tolerated in IT and rarely result in immediate physical
+
+consequences or pose a risk to people. In OT environments, however, acting too quickly on an unverified
+
+event can disrupt operations, compromise critical visibility, or disrupt process control, often causing more
+
+damage than the threat itself. For that reason, OT events should be verified and triaged with engineering
+
+knowledge and engineering staff involvement before taking restrictive actions that could create more risk
+
+than the suspected threat.
+
+In OT environments, acting on an unverified event can disrupt operations, compromise
+
+critical visibility, compromise safety, or disrupt process control. Always verify and triage
+
+with engineering context before taking restrictive actions.
+
+Safety as the Primary Mission in OT Security
+
+OT environments operate under a different mission than traditional IT.  OT systems monitor and control
+
+physical processes in real time, meaning cybersecurity decisions can influence machinery, infrastructure,
+
+and environmental conditions by opening valves or adjusting temperature, pressure, and flow. In these
+
+environments, the first priority is protecting people and maintaining control of the process. Integrity of
+
+control logic, reliability of safety functions, and stable operations follow closely behind. Incident response
+
+decisions should be evaluated not only for their cybersecurity value but also their impact on the physical
+
+process.
+
+Required Skillsets for OT Defenders and Responders
+
+Engineering understanding, meaning knowledge of the asset types, how they operate, and how they can be
+
+misused by attackers, is part of the OT incident response role.  That means OT responders need to
+
+understand how industrial network protocols are used to communicate with, control, and monitor machine
+
+assets during normal operations, maintenance periods, and production workflows. This understanding
+
+enables responders to distinguish legitimate activity from malicious use of trusted engineering tools, asset
+
+credentials, and industrial network communications across both traditional and non-traditional operating
+
+systems.
+
+This is especially critical for threat detection and response, as many impactful OT attacks do not depend on
+
+malware, a known vulnerability, or even a zero-day exploit. They often involve valid credentials, the abuse of
+
+approved engineering software, the use of allowed remote access pathways, and the unauthorized use of
+
+native industrial protocols. So, without that engineering context, these actions can appear operationally
+
+normal.
+
+Engineering teams have the knowledge essential for the collaborative effort required for
+
+effective and safe OT incident response.
+
+Vendor Support and Industrial System Lifecycle Constraints
+
+Industrial systems often operate unchanged for decades. Unlike enterprise hardware, which may be
+
+refreshed every few years, OT assets are frequently retained for ten years and sometimes much longer.
+
+Patching or upgrading is constrained by operational risk, vendor support, maintenance windows,
+
+certifications, and regulatory requirements. However, the risk surface in OT differs from that in IT
+
+networks, where business users have broad exposure and access to the Internet.
+
+During OT incidents, responders may not be able to patch, reboot, or replace affected systems immediately,
+
+especially if leaving a system in a monitored and contained state is safer than forcing an uncontrolled
+
+disruption. A quick engineering assessment during the triage phase is essential. This is particularly true in
+
+sectors such as oil and gas, electric power, water, and heavy manufacturing, where shutting down a process
+
+may take hours or days and restarting may require significant engineering effort. Containment and
+
+remediation actions should be carefully staged with engineering and operations personnel. Vendor support
+
+becomes particularly important during OT IR recovery.
+
+Industrial System Design and Network Architecture Differences
+
+Industrial environments also differ from enterprise environments in their architecture, device types,
+
+communication patterns, and protocols.  OT networks commonly align to Purdue-like structures and
+
+include industrial protocols such as Modbus, DNP3, EtherNet/IP, PROFINET, ICCP, and others. [1]
+
+These
+
+protocols support deterministic control and supervisory functions that directly alter the physical world
+
+when interpreted by field devices and TCP/IP-connected machinery on factory floors.  Effective incident
+
+response requires understanding how these protocols are used across critical assets such as Human-
+
+Machine Interfaces (HMIs), engineering workstations, historians, SCADA servers, PLCs, Remote Terminal
+
+Units (RTUs), and protection control relays, to name a few OT-specific assets.
+
+THE PURDUE MODEL FOR INDUSTRIAL NETWORK ARCHITECTURE
+
+The Purdue Enterprise Reference Architecture (PERA), commonly called the Purdue model, is the
+
+Incident Response for Operational Technology | Chapter 19 | 591
+
+most widely used framework for organizing and segmenting OT network environments. Originally
+
+developed at Purdue University in the 1990s, the model defines a hierarchical structure that separates
+
+enterprise functions from control system operations across distinct levels, as shown in Figure 191.
+
+Figure 191 | The Modern Purdue Model
+
+At the bottom of the model, Level 0 represents the physical process itself, including sensors,
+
+actuators, and the equipment being controlled. Level 1 contains the basic control devices, such as
+
+PLCs and RTUs, that execute deterministic logic to operate field equipment. Level 2 hosts area
+
+supervisory systems, including HMIs and local SCADA servers, that provide operators with visibility
+
+into process state and the ability to issue control commands. Level 3 encompasses site-wide
+
+operations and manufacturing management, including historians, engineering workstations, and
+
+domain services that support the broader control environment.
+
+Above the OT layers, Level 3.5 represents the industrial DMZ, a segmentation boundary between IT
+
+and OT networks. This layer is where data transfers, remote access gateways, and security controls
+
+are concentrated to prevent direct connectivity between enterprise systems and the control
+
+environment. Levels 4 and 5 cover the enterprise IT network and internet-facing services,
+
+respectively.
+
+The Purdue model is referenced throughout ISA/IEC 62443, the primary international standard for
+
+industrial automation and control system security, and ISA-95, which addresses enterprise-control
+
+system integration. Together, these standards provide the basis for defining security zones, conduits,
+
+and access policies within industrial environments. During incident response, the Purdue model helps
+
+responders understand where adversary activity occurred within the architecture, which trust
+
+boundaries may have been crossed, and which systems can directly affect the physical process.
+
+Security Control Design and Operational Risk Tolerance
+
+OT environments have very low tolerance for false positives. In enterprise environments, isolating a host
+
+after a false-positive alert may be inconvenient. In industrial environments, the same action may disrupt a
+
+control loop, degrade process visibility, affect product quality, or interfere with protective functions. For
+
+this reason, OT environments tend to prioritize passive monitoring, engineering-informed validation, and
+
+tightly coordinated response actions over automation-heavy response models.
+
+These considerations are not independent. As Figure 192 illustrates, the six areas that distinguish OT from
+
+IT (safety, skill sets, system designs, support, cybersecurity controls, and security incident response)
+
+interlock like the segments of a gear. A decision in one area, such as choosing a containment action, directly
+
+affects the others: the skill sets available to execute it, the system designs that constrain it, the safety
+
+implications it entails, the vendor support it may require, and the cybersecurity controls that inform it.
+
+Effective OT incident response depends on treating these areas as a connected whole rather than
+
+addressing them in isolation.
+
+Figure 192 | Interlocking Areas of OT Constraints and Considerations
+
+WHY STANDARD IT CONTAINMENT CAN BE DANGEROUS IN OT
+
+Rapid containment actions such as isolation, aggressive blocking, or full rebuilds can introduce
+
+operational risk in OT. Isolating systems without engineering triage and event validation can remove
+
+operator visibility, while automated blocking of industrial communications can disrupt time-sensitive
+
+control system functions.
+
+Common IT response actions applied to an OT threat can potentially cause more damage than the
+
+threat itself. Containment and eradication decisions should be validated with engineering and
+
+operations before implementation to preserve process stability during the response.
+
+WHEN IT CONTAINMENT CAUSES AN OT INCIDENT
+
+Early in my OT career, I led incident response and vulnerability assessment activities at an oil and gas
+
+refinery. One day, our OT network monitoring team detected unusual behavior from a newly
+
+deployed Windows-based HMI. The system had begun attempting outbound connections to multiple
+
+internet command-and-control (C2) servers.
+
+The root cause became clear quickly. A transient USB device had been inserted into the HMI earlier in
+
+the day. The drive had been used outside the facility and carried commodity IT malware that
+
+executed when plugged into the workstation. This was not a targeted OT attack. It was standard
+
+Windows malware that had landed on an OT asset.
+
+Incident Response for Operational Technology | Chapter 19 | 593
+
+Our OT security monitoring team immediately flagged the activity because the HMI was attempting
+
+outbound internet connections, which is abnormal for an engineering asset. We already understood
+
+the network architecture: that HMI sat on a segmented OT network with no direct internet access,
+
+and upstream controls prevented lateral movement and outbound connectivity. The malware could
+
+not reach its C2 servers, could not spread across the network, and was not interacting with any
+
+control systems.
+
+Working with the engineering team, we confirmed that the process was stable and that the HMI was
+
+operating normally from a control perspective. The malware posed no immediate operational risk.
+
+Our response plan was straightforward: increase monitoring, sinkhole the attempted C2 traffic, and
+
+remove the malware during the next scheduled engineering maintenance window. This approach
+
+preserved operational stability while addressing the issue safely.
+
+Before that plan could be fully executed, an onsite IT technician noticed the endpoint protection alert
+
+on the HMI. Without consulting engineering, the OT cybersecurity team, or facility leadership, the
+
+technician did what they were trained to do in IT environments: immediately disconnected the
+
+system from the network.
+
+From an IT perspective, this was textbook containment. In a refinery, it was something very different.
+
+The Windows HMI is an OT asset, and all of the interlocking differences between IT and OT, including
+
+incident response, safety, skill sets, system designs, support, and security controls, were in effect.
+
+The disconnected HMI was the primary operator interface for monitoring and managing part of the
+
+refinery process. Pulling the network connection instantly removed operator visibility, safety, and
+
+control functions tied to that asset. The malware had not affected operations, but the containment
+
+action immediately did.
+
+Operators lost situational awareness from the control room and had to physically relocate onto the
+
+plant floor in personal protective equipment (PPE) to regain process visibility and manual control
+
+capabilities. Engineers and operations staff worked together to stabilize the situation while we safely
+
+restored the HMI to the network.
+
+The malware itself caused no operational impact. The containment action caused more disruption
+
+than the malware ever could have. That incident reinforced a lesson I now emphasize in every OT
+
+engagement: aggressive containment without engineering context can introduce more operational
+
+risk than the threat itself. In industrial environments, response actions should be informed by process
+
+knowledge, an understanding of network architecture, and coordination with engineering teams. IT
+
+response practices do not translate directly to OT, and cybersecurity decisions cannot be separated
+
+from the physical process and physical assets that OT networks control.
+
+IT and OT Impacts Compared
+
+The consequences of incidents in IT and OT environments are fundamentally different. Enterprise incidents
+
+primarily affect data, digital services, and business operations. OT incidents can also affect physical
+
+processes and critical infrastructure. Understanding this distinction is essential for responders because the
+
+outcomes of OT incident response decisions may extend beyond information systems into operational
+
+disruption and physical consequences, as shown in Table 57.
+
+Table 57 | Incident Impact Comparison: IT and OT
+
+IT INCIDENT IMPACT POTENTIAL OT INCIDENT IMPACT POTENTIAL
+
+Business applications unavailable, local to
+
+business/organization
+
+Critical infrastructure unavailable, possible wide-
+
+region disruption or outages
+
+Digital data corruption Loss of control or manipulation of physical
+
+process
+
+Digital data loss Personnel safety, loss of life
+
+Impact potential differences shape every phase of OT incident response. In enterprise environments, rapid
+
+containment may primarily affect availability or data integrity. In industrial environments, response
+
+decisions need to account for the potential for process disruption, infrastructure outages, equipment
+
+damage, and harm to people. As a result, OT incident response should remain grounded in engineering
+
+context, controlled operations, and disciplined decision-making during investigation and containment.
+
+THE PURPOSE OF OT INCIDENT RESPONSE
+
+Given the differences in missions, controls, and the generally limited logging capabilities in OT, control
+
+system incident response is not only about identifying malware or restoring traditional operating systems
+
+on OT assets. Its primary objective is to preserve the safe and reliable operation of the physical process
+
+while enabling informed decisions during adverse conditions to reduce safety impacts. This distinction
+
+matters because industrial incidents frequently involve living-off-the-land attacks that use already-installed
+
+engineering software, valid credentials, and trusted access pathways in unauthorized ways. When
+
+adversaries operate through legitimate tools and protocols, responses cannot focus solely on removing
+
+malware or other persistence mechanisms. They should also address the unauthorized use of trusted
+
+capabilities across the control environment.
+
+The objective is not simply to stop an attack as quickly as possible, but to ensure that response actions
+
+maintain control, visibility, and stability while the incident is investigated and resolved, and that the
+
+response is appropriate to the threat without impacting safety.
+
+COMMON OT ASSETS
+
+OT environments consist of purpose-built systems designed to monitor, control, and protect physical
+
+processes. These environments contain a diverse mix of assets distributed across multiple layers of the
+
+control architecture. Field devices and controllers execute deterministic control functions, while higher-
+
+layer systems provide operator visualization, engineering management, data storage, and protection
+
+functions. Because each of these assets serves a different operational role, each introduces different
+
+considerations during incident response. They can be loosely classified as traditional and non-traditional
+
+assets.
+
+Non-Traditional Operating System OT Assets
+
+Most OT assets are embedded industrial devices designed for deterministic control rather than general-
+
+purpose computing. Programmable Logic Controllers (PLCs, like the example shown in Figure 193) control
+
+equipment in field panels, skids, and process units. Distributed Control Systems (DCS) provide centralized
+
+control across large industrial sites such as refineries and Liquefied Natural Gas (LNG) plants. Remote
+
+Terminal Units (RTUs) support telemetry and control across geographically distributed assets such as
+
+pipelines, compressor stations, and remote well sites.
+
+Incident Response for Operational Technology | Chapter 19 | 595
+
+Figure 193 | PLC with I/O Modules
+
+Electrical and protection systems include protection relays ( Figure 194) that safeguard substations ( Figure
+
+195), pumps, compressors, and feeders, while Variable Frequency Drives (VFDs) regulate motor speeds
+
+throughout industrial processes.  Safety Instrumented Systems (SIS) and emergency shutdown systems
+
+provide independent protective layers designed to move the process to a safe state when hazardous
+
+conditions occur. [2]
+
+Figure 194 | Protection Control Relay
+
+Figure 195 | Electric Power Substation Yard
+
+Traditional Operating System-Based OT Assets
+
+Some OT systems run on Windows or Linux, particularly those supporting supervisory and engineering
+
+functions. Human-Machine Interfaces (HMIs, like the example shown in Figure 196 ) provide real-time
+
+visibility into alarms, trends, and equipment status from control rooms or operations centers. Engineering
+
+workstations host vendor engineering software used to configure, troubleshoot, and program PLCs or other
+
+industrial devices. Data historians, which are often run on Windows server infrastructure, collect and store
+
+time-series operational data such as flow, pressure, temperature, and production metrics. These systems
+
+are commonly positioned between IT and OT networks to support reporting and analytics.
+
+Incident Response for Operational Technology | Chapter 19 | 597
+
+Figure 196 | Embedded Human Machine Interface Panel
+
+These Windows-based systems are often high-value pivot points because they bridge administrative,
+
+engineering, and operational functions. However, they still represent only part of the OT environment. The
+
+majority of systems controlling the physical process are embedded devices that do not operate on
+
+traditional operating systems.
+
+Table 58  summarizes OT asset types commonly encountered across industrial sectors. For each asset, it
+
+highlights its operational role and relevance during incident response activities such as verification, scoping,
+
+eradication, and recovery. Understanding how these assets function within the control environment helps
+
+responders identify where evidence may reside, how adversaries may interact with or abuse the process,
+
+and which systems should be validated to ensure safe and reliable operations.
+
+Table 58 | Common OT Asset Types and Their Incident Response Considerations
+
+ASSET PRIMARY ROLE IN OPERATIONS OT INCIDENT RESPONSE CONSIDERATION
+
+HMI (Windows) Operator visibility and control,
+
+including alarms, trends, start/stop,
+
+and setpoint adjustments
+
+Loss of view or manipulation can
+
+influence operator decisions; activity
+
+may appear legitimate without
+
+engineering context
+
+Engineering
+
+Workstation
+
+(Windows)
+
+PLC configuration, programming, logic
+
+uploads/downloads, firmware and
+
+point changes
+
+Compromise enables legitimate-looking
+
+logic changes using approved tools and
+
+trusted paths
+
+SCADA /
+
+Supervisory
+
+Servers
+
+Centralized monitoring, alarm handling,
+
+and supervisory coordination
+
+High-value pivot point; evidence may
+
+exist in application logs and command
+
+history
+
+ASSET PRIMARY ROLE IN OPERATIONS OT INCIDENT RESPONSE CONSIDERATION
+
+Historian Time-series process data storage for
+
+operations, reporting, and analytics
+
+Reveals process deviations, operator
+
+actions, and event timing; also a
+
+common IT/OT bridge
+
+PLCs Deterministic control of field
+
+equipment
+
+Logic integrity and runtime values
+
+define operational impact
+
+RTUs Telemetry and control across remote
+
+assets
+
+Often tied to remote access paths;
+
+communications and command
+
+sequences can reveal misuse
+
+Protection
+
+Relays
+
+Electrical protection and fault response Misconfiguration can affect protective
+
+functions; vendor tools may be required
+
+for analysis
+
+VFDs Motor speed regulation and control Changes can affect process stability and
+
+equipment behavior
+
+SIS Independent safety protection and
+
+shutdown functions
+
+Safety-critical; response and recovery
+
+should preserve required functions
+
+Decades of IT/OT convergence have introduced traditional operating system-based assets such as remote
+
+access services, identity systems, and engineering endpoints into industrial environments to augment
+
+existing non-traditional OT assets. Even so, most OT assets remain specialized industrial devices with
+
+limited logging, proprietary protocols, strict reliability requirements, and little or no support for
+
+conventional endpoint security software, such as Endpoint Detection and Response (EDR) agents. This
+
+changes how incident response should be performed and the scope of assets analyzed in OT.
+
+OT asset inventories should distinguish between traditional operating system assets
+
+(Windows/Linux-based HMIs, engineering workstations, historians) and non-traditional
+
+embedded devices (PLCs, RTUs, relays, VFDs) because each category requires different
+
+investigation techniques and evidence sources.
+
+Traditional enterprise methods centered on host-based telemetry provide only part of the picture. Effective
+
+OT incident response relies heavily on engineering knowledge, equipment logs, network visibility, OT
+
+protocol analysis, and controller logic validation, beyond EDR logs and endpoint event correlation.
+
+BENEFITS OF DAIR FOR OT INCIDENT RESPONSE
+
+Traditional incident response models such as PICERL have long been used effectively in IT and have been
+
+adapted to some extent for OT environments.  Newer approaches, such as the Dynamic Approach to
+
+Incident Response (DAIR) model, improve incident investigation flow in OT by emphasizing verification,
+
+scoping, and evidence analysis informed by engineering.
+
+In OT environments, DAIR aligns well with operational realities . By prioritizing verification and triage
+
+early, responders can determine whether activity represents a true operational threat before taking actions
+
+that could disrupt the process or remove critical control system visibility.
+
+Incident Response for Operational Technology | Chapter 19 | 599
+
+When applied to OT, DAIR helps structure this process. It allows responders to validate events, determine
+
+scope, and plan response actions preserving operational control while addressing the threat. In industrial
+
+environments, this disciplined approach helps ensure that cybersecurity response actions support, rather
+
+than unintentionally disrupt, safe and reliable operations.
+
+FIGHTING THROUGH THE ATTACK IN OT INCIDENT RESPONSE
+
+An important nuance of OT incident response is the concept often described as fighting through the
+
+attack. In many industrial environments, the immediate objective during an incident is not to shut
+
+systems down, but to maintain controlled operation while the event is investigated and response
+
+options are evaluated.
+
+This approach allows responders to gather evidence, validate current process conditions, and
+
+coordinate decisions with engineering and operations teams before executing containment or
+
+remediation actions. By maintaining visibility and control during the investigation phase,
+
+organizations reduce the risk that response actions themselves introduce operational instability or
+
+unintended process disruption.
+
+FIGHTING THROUGH THE ATTACK TO KEEP THE LIGHTS ON
+
+During one incident response engagement at a hydroelectric power generation facility, the
+
+engineering team and I faced a critical decision: initiate an immediate shutdown or fight through the
+
+attack while maintaining stable grid operations. Coordination with engineering, plant operations, and
+
+physical security teams began immediately.
+
+Rather than disconnecting the compromised HMI directly, we focused on isolating the attacker’s
+
+access path without affecting plant operations. Working with the engineers, we disconnected
+
+upstream connectivity at the Level 3.5 industrial demilitarized zone (IDMZ), effectively isolating the
+
+OT network from IT, where the attack originated.
+
+This containment action was deliberate and engineering-informed. The plant’s control systems did
+
+not rely on IT or internet connectivity for core operations. Once the OT perimeter was isolated, the
+
+adversary’s remote session to the HMI immediately terminated, while operators retained visibility and
+
+control of the generation process.
+
+Operations continued using embedded HMI panels running on dedicated control systems rather than
+
+traditional operating systems. This allowed the facility to fight through the attack while we
+
+investigated the compromised Windows-based HMI and planned remediation.
+
+By containing the threat at the OT perimeter instead of reacting directly at the HMI, the plant
+
+maintained stable power generation. We kept the lights on while we performed forensic analysis and
+
+recovery planning.
+
+COMMON TYPES OF OT INCIDENTS
+
+For years, critical infrastructure incidents were often treated as High-Impact, Low-Frequency (HILF) risks.
+
+[3]
+
+That assumption no longer holds. Increased connectivity, remote access, and the widespread use of
+
+trusted administrative and engineering pathways have made the conditions for high-impact events more
+
+common.
+
+Modern OT attacks depend less on technical exploitation and more on abusing legitimate access methods,
+
+engineering tools, commercial operating systems, and native industrial protocols inside control
+
+environments. In many facilities, OT networks also change less frequently than enterprise environments and
+
+exhibit more predictable communications. That predictability can help defenders spot abnormal behavior,
+
+lateral movement, or pre-positioning activity, but only if the internal OT network is being monitored and
+
+the defenders understand what normal industrial communications look like.
+
+Stable OT communication patterns make even basic network monitoring effective at
+
+revealing anomalies. Establishing a baseline of normal industrial communications is one of
+
+the highest-value detection investments an organization can make.
+
+The important question is no longer whether a high-impact OT incident is possible, but whether it will be
+
+detected and understood early enough to preserve operational control before the adversary reaches
+
+systems capable of affecting the process.
+
+VERIFY AND TRIAGE FOR OT
+
+The verify and triage activity is where DAIR provides particular value for OT incident response. Responders
+
+should first determine whether an event represents a real OT threat, whether it is active, and whether it
+
+could affect control system operations. Malware identified on a Windows-based OT asset, for example, may
+
+be unable to establish command-and-control communications, move laterally, or interact with control
+
+systems.
+
+In this section, we’ll examine why verification and triage need engineering context before responders take
+
+disruptive actions, the forensic areas where OT evidence resides beyond traditional operating systems, and
+
+the common data sources responders should consider during OT investigations.
+
+DAIR encourages responders to focus early on determining whether observed activity represents a genuine
+
+compromise of OT systems before taking response actions that could introduce unnecessary operational
+
+risk. For example, taking a system offline because malware is present may not be warranted if the malware
+
+is in a contained or non-functional state.
+
+In OT environments, verification and triage are performed in coordination with engineering personnel, or
+
+by responders who understand the control system architecture and process context well enough to
+
+interpret alerts accurately. This is especially important when alerts originate from security tools that cannot
+
+evaluate process state, controller logic, or operational dependencies, such as EDR agents.
+
+In enterprise environments, containment often occurs immediately upon detection, and rightfully so. In OT
+
+environments, however, aggressive containment without proper verification can destabilize operations. For
+
+example, isolating communications to a power substation in response to a suspected alert could remove
+
+operator visibility into breaker status and load conditions, increasing the risk of grid instability. Blocking
+
+communications to a pipeline pump station controller could disrupt pressure balancing across pipeline
+
+segments. Similarly, abruptly isolating a SCADA server or HMI in a water treatment facility could remove
+
+visibility into chemical dosing systems, pump operations, or reservoir levels.
+
+In these environments, acting on an unverified alert may introduce greater operational risk than the
+
+suspected threat itself.
+
+For this reason, effective OT incident response prioritizes collecting relevant forensic data and operational
+
+Incident Response for Operational Technology | Chapter 19 | 601
+
+context before disruptive response actions are taken. Mature facilities gather available evidence, quickly
+
+review the current process state, assess potential operational impact with engineering and operations
+
+personnel, and determine whether systems can be stabilized or transitioned into a controlled condition
+
+before containment is attempted. This can vary across sites and sectors depending on the control system’s
+
+purpose.
+
+OPERATOR VISIBILITY AS THE LAST LINE OF DEFENSE
+
+On February 5, 2021, an operator at the Oldsmar, Florida water treatment plant watched the mouse
+
+cursor on the facility’s HMI move without input, navigating to the controls for sodium hydroxide (lye)
+
+concentration in the water supply. [4]
+
+The remote session, conducted through TeamViewer, raised the
+
+sodium hydroxide setpoint from 100 parts per million to 11,100 parts per million, 111 times the normal
+
+level. Had this change gone undetected and reached the distribution system serving 15,000 residents,
+
+consumers would have faced chemical burns to the mouth, throat, and digestive tract, severe nausea
+
+and vomiting, tissue damage, and, in sufficient concentrations, potentially fatal outcomes.
+
+Figure 197 | Inside a Water Treatment Plant
+
+The operator caught the manipulation in real time because the HMI provided direct visibility into the
+
+process change. The setpoint was quickly reversed, and the remote access session was terminated.
+
+Subsequent investigation revealed systemic failures across the facility’s security posture. The SCADA
+
+systems were running an end-of-life operating system. All operator workstations shared a single
+
+password for remote access. No firewall protected the internet-connected control systems. No
+
+automated alerting or endpoint security tools were in place. Detection relied entirely on human
+
+observation of the HMI. The session used a legitimate remote access pathway with valid credentials,
+
+making it indistinguishable from authorized activity at the network level, and no malware was
+
+involved. [5]
+
+At Oldsmar, detection came from process awareness, not security tooling. The operator recognized
+
+an unauthorized process change because they understood what normal looked like on the HMI, and
+
+the triage decision had to happen in seconds, not hours.
+
+Without that operator in the loop, there was no second layer: no automated safety interlock, no
+
+alerting system, no firewall. The entire verify-and-triage phase collapsed into a single moment of
+
+human judgment. In OT environments, that phase may be the only opportunity to prevent physical
+
+harm, and it depends on operators who understand the operational processes at work.
+
+Modern OT attacks increasingly involve living-off-the-land techniques that leverage trusted tools and
+
+existing access paths rather than introducing obvious malicious binaries. [6]
+
+As a result, there may be no
+
+clear intrusion moment, no malware alerts, and no obvious indicators of compromise. Instead, adversaries
+
+may use valid credentials, approved engineering software, and standard industrial communication protocols
+
+to interact with systems in unauthorized ways. For incident responders, this creates a critical challenge:
+
+determining when legitimate engineering tools or hardware are being used against the control system with
+
+malicious intent.
+
+Traditional vs. New Forensic Areas
+
+Locard’s Exchange Principle, a foundational concept in forensic science, holds that every interaction with a
+
+system leaves traces. [7]
+
+This principle applies in industrial environments as well: attackers leave evidence in
+
+both IT and OT. In OT, those traces may not be confined to traditional operating systems, common file
+
+systems, and enterprise logs. OT forensic data is distributed across a wider set of assets than most
+
+enterprise responders are accustomed to, including controller memory, project files, relay configurations,
+
+engineering workstations, historians, and OT network traffic. These sources frequently hold the most
+
+relevant indicators of compromise or manipulation, yet enterprise responders may overlook them entirely.
+
+Relevant evidence may exist in engineering application logs, project files, controller memory, relay
+
+configurations, historian data, HMI actions, remote access systems, and packet captures of industrial
+
+communications. Packet captures, in particular, serve as a primary forensic and early-stage threat-
+
+detection data source.
+
+During verification and triage, treat OT systems as primary evidence sources, not
+
+supplements to enterprise log analysis.
+
+Common OT Incident Data Sources
+
+While enterprise investigations often rely on host-based logs and endpoint telemetry, industrial
+
+environments require responders to consider evidence across engineering systems, control devices, and
+
+network communications. Table 59 summarizes common OT evidence sources and the types of information
+
+each can provide.
+
+Table 59 | Common OT Evidence Sources
+
+EVIDENCE SOURCE EXAMPLE SYSTEMS / DATA SOURCE WHAT IT REVEALS FOR OT INCIDENT
+
+RESPONSE
+
+Engineering
+
+Workstations
+
+Engineering application logs, PLC
+
+engineering tools, configuration logs,
+
+project files
+
+Logic downloads, configuration
+
+changes, firmware updates, and
+
+engineering activity indicating
+
+controller manipulation
+
+PLCs Controller memory, ladder logic
+
+changes, firmware
+
+Unauthorized logic changes, altered
+
+setpoints, modified parameters, and
+
+direct control process manipulation
+
+Industrial
+
+Network Traffic
+
+SPAN/TAP packet captures, protocol-
+
+aware monitoring tools
+
+Lateral movement, abnormal industrial
+
+commands, write operations, and
+
+remote engineering sessions
+
+Incident Response for Operational Technology | Chapter 19 | 603
+
+EVIDENCE SOURCE EXAMPLE SYSTEMS / DATA SOURCE WHAT IT REVEALS FOR OT INCIDENT
+
+RESPONSE
+
+HMIs HMI application logs, operator
+
+commands, alarm acknowledgements,
+
+setpoint changes
+
+Operator or attacker actions affecting
+
+the physical process
+
+Historians Time-series data, trends, production
+
+metrics
+
+Process anomalies, event timing, and
+
+correlations between cyber activity and
+
+process behavior
+
+Remote Access
+
+Systems
+
+VPN logs, jump hosts, vendor access
+
+platforms
+
+External access pathways into OT and
+
+possible entry points
+
+Authentication
+
+Services
+
+OT Active Directory logs, identity
+
+providers
+
+Credential use, account compromise,
+
+and movement between IT and OT
+
+While some OT environments rely on Windows and Linux for supervisory and engineering functions,
+
+incident investigation cannot stop there. Many industrial devices have limited or no logging. By combining
+
+engineering knowledge, network analysis, and configuration validation, responders can reconstruct activity,
+
+confirm incidents with greater confidence, and assess potential operational impact before moving into
+
+scoping and response actions.
+
+In OT incidents, impact is often confirmed only after reviewing controller logic and runtime
+
+values. Unauthorized changes to logic or setpoints constitute a verified operational
+
+incident. Verifying controller integrity is a core triage activity. Until logic is trusted, true
+
+scope and impact remain uncertain.
+
+SCOPE
+
+In OT environments, scoping focuses on identifying which control zones, industrial assets, and physical
+
+processes may have been exposed to adversary interaction. The central question during OT scoping is
+
+whether observed activity reached systems capable of influencing control logic, safety functions, or
+
+engineering workflows.
+
+For example, if suspicious activity is identified on an engineering workstation used to program PLCs,
+
+responders should determine whether the activity remained confined to the workstation or extended into
+
+the control layer. Responders should review communications between the workstation and PLCs, verify
+
+whether logic downloads or configuration changes occurred, and determine whether the workstation has
+
+programming access to additional controllers, production cells, or facilities. In highly automated plants, a
+
+single engineering workstation may manage multiple lines, meaning a compromise could expose several
+
+processes.
+
+As in enterprise investigations, responders evaluate initial access paths, credential abuse, and trust
+
+relationships that may enable movement between IT, OT, and remote access environments. OT scoping
+
+places particular emphasis on whether the activity crossed architectural boundaries into engineering
+
+systems or control networks that could affect the physical process.
+
+Scoping in OT leverages many of the principles used for IT systems with a focus on
+
+determining whether threat actor activity reached systems capable of influencing OT
+
+processes.
+
+Many industrial assets, including PLCs, RTUs, protection relays, and embedded field devices, do not support
+
+endpoint agents or conventional forensic investigation tools. Even where monitoring exists, it is usually
+
+concentrated on supervisory systems such as engineering workstations, SCADA servers, or historians. These
+
+systems provide useful context, but by themselves, they do not reveal what happened inside the control
+
+layer.
+
+Because most interaction with industrial assets occurs over the network using OT protocols, network
+
+visibility becomes the primary source for incident scoping. Industrial communications reveal whether
+
+engineering workflows were executed, which systems communicated with controllers, whether write
+
+operations occurred, and whether adversaries attempted to issue commands by abusing native OT
+
+protocols.
+
+In OT environments where embedded devices cannot support endpoint agents, network
+
+traffic and industrial protocol analysis are often the only reliable sources for determining
+
+whether adversary activity reached the control layer.
+
+Effective scoping depends on monitoring at important collection points in the OT environment, particularly
+
+around PLCs, HMIs, historians, and engineering workstations. Packet capture, network flow logs, and
+
+industrial protocol analysis allow responders to reconstruct interactions between supervisory systems,
+
+engineering assets, controllers, and field devices to determine whether activity remained confined to IT-
+
+adjacent systems or progressed into control networks capable of influencing operations.
+
+From a technical scoping perspective, responders commonly combine network, security control, and
+
+engineering validation techniques:
+
+• Firewall and security control logs.  These can quickly reveal whether compromised systems initiated
+
+connections into control network zones or communicated with PLC subnets using industrial protocols
+
+such as EtherNet/IP, Modbus, or PROFINET.
+
+• Packet captures, flow logs, and protocol analysis.  Packet captures allow deeper inspection of industrial
+
+function codes and payloads to identify write commands, program downloads, or configuration changes
+
+directed at controllers. Where full packet capture is not available, network flow logs can still reveal
+
+connection patterns, session durations, and communication between systems that should not normally
+
+interact.
+
+• Engineering validation.  Engineers may rapidly validate critical PLCs by connecting through trusted
+
+engineering workstations and reviewing logic against known-good baseline project files to determine
+
+whether unauthorized changes, firmware updates, or configuration modifications occurred.
+
+Together, these techniques enable responders to confirm whether adversary activity remained limited to
+
+supervisory systems or progressed into the control layer where physical process impact becomes possible.
+
+CONTAINMENT
+
+Once verification, triage, and scoping confirm that adversary activity poses a real threat to the control
+
+Incident Response for Operational Technology | Chapter 19 | 605
+
+environment, responders shift to containment. In OT, containment decisions should be shaped by the same
+
+engineering context that informed earlier phases: the architecture of the control network, the operational
+
+role of affected assets, and the potential consequences of disrupting communications or removing systems
+
+from the process. Rather than applying aggressive IT-style isolation, OT containment focuses on restricting
+
+adversary access while preserving operator visibility, process stability, and safety-critical functions. The
+
+goal is to limit the threat’s ability to spread or interact with control systems without creating the very
+
+disruption the response is trying to prevent.
+
+Island Mode
+
+A legitimate defensive option during OT incident response is transitioning the environment to an OT cyber-
+
+safe state, often referred to as manual operations or island mode . [8]
+
+In this state, the OT network is
+
+deliberately isolated from external connectivity, including corporate IT networks, the internet, and vendor
+
+remote access pathways.
+
+Operating in island mode allows the industrial process to continue under local control while removing
+
+potential adversary access paths. This isolation gives responders and engineers the time needed to
+
+investigate the incident, validate system integrity, and determine safe remediation steps without the
+
+immediate risk of further remote manipulation.
+
+Depending on the sector and process, facilities may be able to sustain operations in this state for hours,
+
+days, or even weeks without external connectivity. Island mode also provides the option to transition the
+
+process to a controlled, safe shutdown if required.
+
+Because this operational state can be a critical defensive measure during cyber incidents, organizations
+
+should pre-plan and regularly test island-mode procedures with operations and engineering teams to
+
+ensure they can safely function while isolated from external networks.
+
+Transitioning to island mode under pressure without prior testing introduces its own
+
+operational risks. Pre-plan and regularly exercise island mode procedures with engineering
+
+and operations teams so the transition is practiced before it is needed. In many incidents,
+
+island mode becomes the operational state used to contain the threat while responders
+
+investigate, scope, and safely complete eradication activities.
+
+ERADICATE
+
+Eradication in OT focuses on the controlled removal of adversary persistence without destabilizing control
+
+systems, degrading operator visibility, or affecting critical protective functions. The objective is to remove
+
+adversary access while preserving stable plant operations.
+
+As in enterprise environments, some eradication actions focus on credential-based persistence on
+
+Windows-based systems that bridge into control environments, such as engineering workstations, jump
+
+hosts, historians, and domain infrastructure supporting OT authentication. Credential resets, privilege
+
+reductions, account restrictions, and authentication changes are all part of OT eradication. These actions
+
+should be coordinated with operational dependencies, including historian data collection, OT patching
+
+systems, engineering software access, and HMI-related functions.
+
+OT eradication should also address persistence mechanisms specific to industrial environments, including
+
+unauthorized engineering software access, modified controller logic, retained remote access pathways, and
+
+trusted relationships between IT and OT zones. These actions require close coordination with engineering
+
+teams to validate controller configurations, confirm known-good logic baselines, and ensure that
+
+remediation activities do not interrupt required control communications or safety-related functions.
+
+RECOVER
+
+Recovery in OT environments is the controlled restoration of systems and industrial processes to a known-
+
+good operational state while maintaining stable operations. While recovery in IT environments includes
+
+rebuilding servers and restoring data, OT recovery also needs to ensure that control logic, process behavior,
+
+operator visibility, and protective functions operate as intended before normal production resumes.
+
+Recovery is a coordinated effort across engineering, operations, and cybersecurity teams, often spanning
+
+multiple systems and facilities.
+
+Recovery typically begins with restoring supporting digital infrastructure, including Windows-based OT
+
+systems such as engineering workstations, historians, authentication services, patch servers, and remote
+
+access systems. These assets are commonly rebuilt from trusted installation media or known-good system
+
+images stored in dedicated OT backup repositories. HMIs and engineering workstations require careful
+
+preparation, including reinstalling vendor engineering software, restoring project files and configuration
+
+parameters, reactivating licenses, and validating hardware components such as USB licensing dongles,
+
+communication adapters, and programming cables used to interface with controllers.
+
+Because most industrial environments rely on embedded controllers and field devices, recovery also
+
+requires engineering teams to reload controller logic and configuration files from validated project
+
+repositories, verify firmware versions, and confirm configuration parameters against approved baselines.
+
+This often includes comparing running logic with offline project files, validating checksums, confirming I/O
+
+mappings, and verifying communications with HMIs, historians, and supervisory systems.
+
+Figure 198 | Reloading Controller Logic from an Engineering Workstation
+
+Recovery also extends into the physical plant environment. Engineering and operations teams conduct plant
+
+Incident Response for Operational Technology | Chapter 19 | 607
+
+walkthroughs to confirm that pumps, valves, drives, motors, sensors, and protective systems are ready for
+
+restart. Facilities then follow documented startup sequences to gradually restore automation, bringing
+
+controllers online, validating HMI visibility, and returning equipment and production processes to operation
+
+in a controlled order. Vendors or system integrators may assist in validating firmware, proprietary control
+
+logic, and authoritative system configurations.
+
+OT recovery timelines are driven by engineering validation requirements, not IT restoration
+
+speed. A controller brought online with unverified logic poses a greater risk than a delayed,
+
+but validated, restoration.
+
+Ultimately, successful OT recovery is measured by whether control integrity, operator visibility, and
+
+required protective functions can be trusted during operations, not simply by how quickly systems are
+
+restored.
+
+Consider an oil and gas processing facility recovering from a compromise affecting an engineering
+
+workstation and several control network systems supporting pipeline and processing operations. The OT
+
+team rebuilds the engineering workstation from a trusted system image, reinstalls the PLC or DCS
+
+engineering software, restores project files from a secured OT repository, and reactivates USB license
+
+dongles. Engineers then reconnect to controllers and reload validated control logic while verifying firmware
+
+versions and logic checksums.
+
+After confirming communications between controllers, HMIs, and the historian, operations personnel
+
+perform a physical walkthrough of process units to inspect pumps, compressors, valves, pressure sensors,
+
+and safety systems. Field technicians verify valve positions, pressure boundaries, and emergency shutdown
+
+systems before restart. Following the facility’s startup sequence, controllers are brought online, HMI
+
+visibility is restored, and processing units or pipeline segments are gradually returned to operation under
+
+engineering supervision. This process may take hours to days, depending on facility complexity.
+
+DEBRIEF
+
+Debriefing in OT is a structured technical review of how engineering workflows, network architecture, and
+
+trust relationships influenced the incident, the response actions taken, and the operational decisions made
+
+during the event. The goal is to determine how OT systems, engineering processes, and operational
+
+dependencies shaped both adversary access and the organization’s ability to respond effectively.
+
+Teams involved in the debrief should include engineering leadership, control system specialists, plant
+
+operations, physical safety and security personnel, and cybersecurity teams. The review should evaluate
+
+which indicators were present across engineering systems, controllers, network communications, and
+
+supervisory infrastructure, and determine which sources of evidence provided confidence during triage and
+
+scoping.
+
+Particular attention should be paid to trusted pathways and dependencies that enabled access or lateral
+
+movement, including vendor remote access systems, shared identity infrastructure, engineering
+
+workstations, jump hosts, data historians, and architectural bridges between IT and OT environments.
+
+In this section, we’ll work through the OT-specific questions that should be raised during the debrief and
+
+the engineering and architecture improvements that should result from the review.
