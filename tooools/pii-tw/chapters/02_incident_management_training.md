@@ -1,12 +1,12 @@
-# Chapter 02: Incident Response, Business Continuity (BCP/DR) & Privacy Awareness
+﻿# Chapter 02: Incident Response, Business Continuity (BCP/DR) & Privacy Awareness
 
 ## 1. Statutory Baseline & Operational Resilience
 - **PDPA Statutory Article 12**: Mandatory obligation to investigate and notify data subjects in an appropriate manner upon discovery of personal data breach.
 - **PDPA Enforcement Rules Art 12 Para 2 Item 4**: Incident prevention, reporting, and emergency response mechanisms.
 - **PDPA Enforcement Rules Art 12 Para 2 Item 7**: Structured education and awareness training programs.
-- **ISACA CRISC / CDPSE Mapping**: CRISC Incident Management, Business Continuity (BIA, RTO, RPO) & CDPSE Awareness Metrics.
+- **Privacy & Risk Engineering Framework**: Risk Governance Incident Management, Business Continuity (BIA, RTO, RPO) & Privacy Engineering Awareness Metrics.
 
-### 1.1 ISACA 6-Phase Incident Response Lifecycle
+### 1.1 Standard 6-Phase Incident Response Lifecycle
 ```
 ┌─────────────────┐     ┌─────────────────────┐     ┌────────────────────────┐
 │ 1. Preparation  │ ──> │ 2. Detection/Analysis│ ──> │ 3. Containment (FIRST) │
@@ -54,9 +54,9 @@ When designing disaster recovery and backup resilience for personal data systems
 
 ---
 
-## 3. CRISC / CDPSE Exam Question Bank & Distractor Forensics
+## 3. Scenario Practice & Decision Forensics (Q&A) & Distractor Forensics
 
-### Q1 `[CRISC/CDPSE - FIRST]`
+### Q1 `[Privacy Engineering - FIRST]`
 Monitoring systems detect that an internal database host is actively streaming unencrypted personal data to an unknown external IP address. What is the Incident Response Team's FIRST action?
 - A. Transmit a formal breach notification to the supervisory regulatory authority
 - B. Isolate the affected host from the network to contain data exfiltration
@@ -65,10 +65,10 @@ Monitoring systems detect that an internal database host is actively streaming u
 
 > **[Correct Answer] B**
 > **[Distractor Forensics]**
-> - **Why B is Correct**: In ISACA incident management standards, containment is the absolute first action (FIRST) to halt active data loss and restrict blast radius.
+> - **Why B is Correct**: In incident response engineering standards, containment is the absolute first action (FIRST) to halt active data loss and restrict blast radius.
 > - **Why A, C, D are Incorrect**: External reporting and system restoration cannot proceed before achieving verified technical containment.
 
-### Q2 `[CRISC/CDPSE - PRIMARY]`
+### Q2 `[Privacy Engineering - PRIMARY]`
 When establishing Disaster Recovery (DR) requirements for a database holding critical customer personal data, what is the PRIMARY purpose of defining a Recovery Point Objective (RPO)?
 - A. Determine the maximum allowable duration of system downtime following a disaster
 - B. Determine the maximum acceptable amount of data loss measured in time between the last backup and the disruptive event
@@ -81,7 +81,7 @@ When establishing Disaster Recovery (DR) requirements for a database holding cri
 > - **Why A is Incorrect**: Maximum allowable downtime is defined by the Recovery Time Objective (RTO).
 > - **Why C and D are Incorrect**: Budget allocation and physical distance are implementation constraints, not the definition of RPO.
 
-### Q3 `[CRISC/CDPSE - MOST]`
+### Q3 `[Privacy Engineering - MOST]`
 When evaluating the effectiveness of enterprise anti-phishing and privacy training programs, which metric serves as the MOST reliable Key Control Indicator (KCI)?
 - A. Annual training course attendance completion percentage exceeding 95%
 - B. Statistically significant reduction in simulated phishing click rates coupled with increased reporting rates
@@ -93,7 +93,7 @@ When evaluating the effectiveness of enterprise anti-phishing and privacy traini
 > - **Why B is Correct**: KCIs measure control effectiveness. Simulated phishing behavior directly demonstrates operational risk reduction.
 > - **Why A, C, D are Incorrect**: Attendance, budget tracking, and satisfaction scores measure administrative volume or sentiment, not defensive resilience.
 
-### Q4 `[CRISC/CDPSE - NEXT]`
+### Q4 `[Privacy Engineering - NEXT]`
 Following the technical containment of a confirmed ransomware infection and verification of system eradication, what is the NEXT operational phase?
 - A. Decommission and physically shred all server motherboards
 - B. Restore systems from verified clean backups and perform integrity validation before returning to service

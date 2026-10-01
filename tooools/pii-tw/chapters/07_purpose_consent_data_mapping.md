@@ -1,10 +1,10 @@
-# Chapter 07: Specific Purpose, Consent Architecture & Data Flow Mapping (DFD)
+﻿# Chapter 07: Specific Purpose, Consent Architecture & Data Flow Mapping (DFD)
 
 ## 1. Statutory Baseline & Control Architecture
 - **PDPA Statutory Articles 8 & 9**: Mandatory statutory notification obligations prior to collecting personal data directly or indirectly.
 - **PDPA Statutory Articles 19 & 20**: Specific purpose requirements and strict conditions for out-of-scope data processing and use.
 - **PDPA Statutory Articles 3 & 13**: Data Subject Rights (DSR) and mandatory response SLAs (15 days for access/copy, 30 days for correction/deletion).
-- **ISACA CRISC / CDPSE Mapping**: Data Life Cycle Management, Data Flow Mapping & Consent Architecture.
+- **Privacy & Risk Engineering Framework**: Data Life Cycle Management, Data Flow Mapping & Consent Architecture.
 
 ### 1.1 Data Life Cycle Management Pipeline
 ```
@@ -41,9 +41,9 @@
 
 ---
 
-## 3. CRISC / CDPSE Exam Question Bank & Distractor Forensics
+## 3. Scenario Practice & Decision Forensics (Q&A) & Distractor Forensics
 
-### Q1 `[CRISC/CDPSE - NEXT]`
+### Q1 `[Privacy Engineering - NEXT]`
 When a data subject revokes consent for direct marketing via the self-service preference center, what is the NEXT action the technical architecture must execute?
 - A. Permanently erase all core transaction histories and primary user accounts
 - B. Emit a revocation event across the message bus to notify downstream marketing tools and block marketing API requests
@@ -57,7 +57,7 @@ When a data subject revokes consent for direct marketing via the self-service pr
 > - **Why C is Incorrect**: Continuing marketing use after revocation violates statutory purpose limitation rules.
 > - **Why D is Incorrect**: Imposing onerous physical barriers violates statutory rules ensuring consent can be withdrawn as easily as given.
 
-### Q2 `[CRISC/CDPSE - PRIMARY]`
+### Q2 `[Privacy Engineering - PRIMARY]`
 In enterprise privacy and risk governance, what is the PRIMARY objective of maintaining Data Flow Diagrams (DFDs) and data inventories?
 - A. Reduce the total lines of source code across application repositories
 - B. Establish complete visibility of personal data flows, processing nodes, and storage repositories to serve as a risk baseline
@@ -70,7 +70,7 @@ In enterprise privacy and risk governance, what is the PRIMARY objective of main
 > - **Why A and D are Incorrect**: Code reduction and memory consumption are software optimization goals unrelated to privacy mapping.
 > - **Why C is Incorrect**: DFDs are architectural mapping documents, not network filtering controls.
 
-### Q3 `[CRISC/CDPSE - FIRST]`
+### Q3 `[Privacy Engineering - FIRST]`
 A customer submits a formal Data Subject Access Request (DSAR) under PDPA Article 10. What is the compliance team's FIRST action before fulfilling the request?
 - A. Transmit unencrypted database dumps directly to the email address provided in the request
 - B. Authenticate and verify the identity of the requesting individual
@@ -84,7 +84,7 @@ A customer submits a formal Data Subject Access Request (DSAR) under PDPA Articl
 > - **Why C is Incorrect**: Deleting data upon receiving a DSAR violates statutory rights.
 > - **Why D is Incorrect**: Charging punitive fees is prohibited under statutory access rights provisions.
 
-### Q4 `[CRISC/CDPSE - EXCEPT]`
+### Q4 `[Privacy Engineering - EXCEPT]`
 Under Purpose-Based Access Control (PBAC) standards, which criterion is INSUFFICIENT or invalid on its own to authorize access to sensitive personal data?
 - A. The caller presents a cryptographically signed token certifying a valid processing purpose
 - B. The requested data element is strictly necessary for fulfilling the specified purpose

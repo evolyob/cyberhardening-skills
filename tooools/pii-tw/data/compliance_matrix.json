@@ -1,7 +1,7 @@
-{
+﻿{
   "version": "1.0.0",
   "last_updated": "2026-10-01",
-  "standard": "Taiwan PDPA (個人資料保護法) & Enforcement Rules aligned with CDPSE (ISACA)",
+  "standard": "Taiwan PDPA (個人資料保護法) & Enforcement Rules aligned with Privacy Engineering (Industry Standards)",
   "domains": [
     "Governance",
     "Management",
@@ -17,8 +17,6 @@
       "article_id": "PDPA-Art-02",
       "legal_reference": "個人資料保護法 第2條及施行細則 第2條至第6條",
       "title": "定義與個人資料範疇",
-      "cdpse_domain": "Governance",
-      "cdpse_topic": "Data Identification & Classification",
       "legal_requirement": "明確定義個人資料（姓名、身分證字號、病歷、醫療、基因、性生活、健康檢查、犯罪前科、聯絡方式、財務資料等得以直接或間接識別個人之資料）、個人資料檔案（含備份檔案與軌跡資料）及處理利用行為。",
       "engineering_control": "建置全域資料盤點機制與資料目錄（Data Catalog），依敏感度標註識別符（Direct/Indirect Identifiers），將備份系統、快取、日誌軌跡納入個資治理清冊。",
       "audit_checks": [
@@ -26,14 +24,14 @@
         "間接識別欄位（如 IP、Device ID、Cookie ID、經緯度）是否納入個資管制範圍",
         "備份儲存區與日誌伺服器是否列入個資資產清冊"
       ],
-      "gap_remediation": "部署自動化敏感資料探勘工具（Data Discovery），建立靜態與動態 Schema 掃描機制，消弭未列管之影子資料庫（Shadow Data Stores）。"
+      "gap_remediation": "部署自動化敏感資料探勘工具（Data Discovery），建立靜態與動態 Schema 掃描機制，消弭未列管之影子資料庫（Shadow Data Stores）。",
+      "domain": "Governance",
+      "topic": "Data Identification & Classification"
     },
     {
       "article_id": "PDPA-Art-03",
       "legal_reference": "個人資料保護法 第3條及第10條、第11條",
       "title": "當事人權利行使機制",
-      "cdpse_domain": "Applications & Software",
-      "cdpse_topic": "Data Subject Rights (DSR) & Privacy APIs",
       "legal_requirement": "保障當事人查詢、閱覽、製給複製本、補充、更正、停止蒐集處理利用及刪除等法定權利，且不得預先拋棄或以特約限制。法定答覆期限為查詢閱覽 15 日、更正刪除 30 日（得延長一次）。",
       "engineering_control": "設計自動化當事人權利請求（DSR/DSAR）API 與管理入口網站，建立跨微服務與資料倉儲之串聯查詢、資料匯出（JSON/CSV 格式化）及分散式資料刪除協調器（Deletion Orchestrator）。",
       "audit_checks": [
@@ -41,14 +39,14 @@
         "刪除指令是否能同步傳遞至關聯資料庫、備份冷儲存及第三方分析平台",
         "是否有獨立驗證流程防止未經授權之冒名權利請求"
       ],
-      "gap_remediation": "建立分散式交易補償機制（Saga Pattern），於使用者發起刪除請求時發布事件至訊息佇列，依序清理關聯系統中的當事人紀錄並留下執行回執。"
+      "gap_remediation": "建立分散式交易補償機制（Saga Pattern），於使用者發起刪除請求時發布事件至訊息佇列，依序清理關聯系統中的當事人紀錄並留下執行回執。",
+      "domain": "Applications & Software",
+      "topic": "Data Subject Rights (DSR) & Privacy APIs"
     },
     {
       "article_id": "PDPA-Art-06",
       "legal_reference": "個人資料保護法 第6條及施行細則 第4條",
       "title": "特種個人資料防護",
-      "cdpse_domain": "Technical Privacy Controls",
-      "cdpse_topic": "Sensitive Data Protection & Cryptographic Controls",
       "legal_requirement": "病歷、醫療、基因、性生活、健康檢查及犯罪前科等特種個資，除法律明文、公務機關執行法定職務、公務/學術機構經去識別化之公共利益研究、當事人自行公開或經書面同意等法定要件外，原則禁止蒐集、處理或利用。",
       "engineering_control": "對特種個資實施欄位層級強加密（Field-Level Encryption / Envelope Encryption，如 AES-256-GCM）、細緻存取控制（ABAC/RBAC）與去識別化防護；禁止儲存非必要之明文特種欄位。",
       "audit_checks": [
@@ -56,14 +54,14 @@
         "金鑰管理是否符合分權原則（KMS 金鑰與資料儲存隔離）",
         "存取特種個資之應用程式與人員是否具備獨立特定權限與多因素驗證（MFA）"
       ],
-      "gap_remediation": "隔離特種個資於獨立加密資料區塊（Vault），採 Tokenization 機制提供業務系統記號化參照，杜絕通用業務服務直接讀取明文敏感欄位。"
+      "gap_remediation": "隔離特種個資於獨立加密資料區塊（Vault），採 Tokenization 機制提供業務系統記號化參照，杜絕通用業務服務直接讀取明文敏感欄位。",
+      "domain": "Technical Privacy Controls",
+      "topic": "Sensitive Data Protection & Cryptographic Controls"
     },
     {
       "article_id": "PDPA-Art-08-09",
       "legal_reference": "個人資料保護法 第8條、第9條及施行細則 第13條至第16條",
       "title": "蒐集告知義務與目的宣告",
-      "cdpse_domain": "Data Purpose",
-      "cdpse_topic": "Notice, Consent & Purpose Limitation",
       "legal_requirement": "向當事人蒐集個資時，應明確告知機關名稱、蒐集目的、個資類別、利用期間/地區/對象/方式、當事人權利及不提供之影響；間接蒐集者應於處理或利用前告知來源及相關應告知事項。",
       "engineering_control": "在前端 UI/UX 與 API 閘道端實施即時隱私告示（Just-In-Time Notice）與同意管理平台（Consent Management Platform, CMP），記錄使用者同意之版本、時間戳記、宣告範圍及 IP 雜湊雜湊證明。",
       "audit_checks": [
@@ -71,14 +69,14 @@
         "間接蒐集資料管線（ETL/Data Pipeline）在注入業務庫前是否觸發告知程序檢核",
         "同意紀錄日誌是否具備防竄改保護機制"
       ],
-      "gap_remediation": "於 API Payload 驗證中加入 Consent-Token 欄位，未附帶有效使用者同意識別碼之請求自動阻斷寫入。"
+      "gap_remediation": "於 API Payload 驗證中加入 Consent-Token 欄位，未附帶有效使用者同意識別碼之請求自動阻斷寫入。",
+      "domain": "Data Purpose",
+      "topic": "Notice, Consent & Purpose Limitation"
     },
     {
       "article_id": "PDPA-Art-11",
       "legal_reference": "個人資料保護法 第11條及施行細則 第17條",
       "title": "資料正確性、目的消滅與保存期限管理",
-      "cdpse_domain": "Data Persistence",
-      "cdpse_topic": "Data Retention, Archiving & Disposal",
       "legal_requirement": "確保個資之正確性，發現有錯誤時主動或依請求更正；特定目的消失或期限屆滿時，應主動或依請求刪除、停止處理或利用。但因執行職務所必需或經書面同意者，不在此限。",
       "engineering_control": "實施資料生命週期管理政策（Data Retention & Disposal Policy），設定資料庫自動過期分區（TTL / Partition Drop）、封存加密與安全銷毀流程（NIST SP 800-88 規範標準銷毀）。",
       "audit_checks": [
@@ -86,14 +84,14 @@
         "更正紀錄是否同步更新至關聯資料快取及下游唯讀備援庫",
         "目的消滅之個資是否切實執行不可逆清除或轉為完全去識別化狀態"
       ],
-      "gap_remediation": "部署自動化生命週期管理微服務，定期掃描過期資料並依合約/法規保存期限觸發安全抹除排程，產出不可竄改之銷毀日誌。"
+      "gap_remediation": "部署自動化生命週期管理微服務，定期掃描過期資料並依合約/法規保存期限觸發安全抹除排程，產出不可竄改之銷毀日誌。",
+      "domain": "Data Persistence",
+      "topic": "Data Retention, Archiving & Disposal"
     },
     {
       "article_id": "PDPA-Art-12",
       "legal_reference": "個人資料保護法 第12條及施行細則 第18條",
       "title": "個資侵害事故通報與應變",
-      "cdpse_domain": "Management",
-      "cdpse_topic": "Incident Response & Data Breach Notification",
       "legal_requirement": "個資被竊取、洩漏、竄改或其他侵害者，應查明後以適當方式（即時專人通知、書面、電子郵件等）通知當事人，並依各目的事業主管機關規範於規定期限（如 72 小時內）完成行政通報。",
       "engineering_control": "建立 SIEM / SOAR 隱私事件偵測規則，整合自動化外洩分析、鑑識調查工作流、當事人大量通知模組（批次 Email/SMS/推播）及事件追蹤看板。",
       "audit_checks": [
@@ -101,14 +99,14 @@
         "監控系統是否能在異常大量匯出或資料庫未授權傾印（Dump）時發出告警",
         "是否定期執行個資外洩事故模擬演練"
       ],
-      "gap_remediation": "整合 DLP（資料防外洩）與 EDR/SIEM 告警，設定自動化遏止規則（如自動隔離受駭主機、撤銷異常金鑰），並啟動外洩影響範圍評估腳本。"
+      "gap_remediation": "整合 DLP（資料防外洩）與 EDR/SIEM 告警，設定自動化遏止規則（如自動隔離受駭主機、撤銷異常金鑰），並啟動外洩影響範圍評估腳本。",
+      "domain": "Management",
+      "topic": "Incident Response & Data Breach Notification"
     },
     {
       "article_id": "PDPA-Art-15-16-19-20",
       "legal_reference": "個人資料保護法 第15條、第16條、第19條、第20條及施行細則 第10條、第14條",
       "title": "公私部門法定要件與目的外利用限制",
-      "cdpse_domain": "Data Purpose",
-      "cdpse_topic": "Purpose Specification & Secondary Use Controls",
       "legal_requirement": "非公務機關蒐集處理個資須有法律明文、契約關係、已公開資料、公共利益研究（經去識別化）、當事人同意等法定事由；利用應於特定目的範圍內。特定目的外利用須符合法律規定、公眾利益、免除生命財產危險、統計研究去識別化或書面同意。",
       "engineering_control": "在資料存取層實施用途綁定授權（Purpose-Based Access Control, PBAC），應用程式查詢時須傳入 Purpose-ID，由中介軟體核對資料庫欄位之目的授權矩陣，阻斷未授權之跨目的查詢。",
       "audit_checks": [
@@ -116,14 +114,14 @@
         "商業智慧（BI）與機器學習訓練資料集是否強制去識別化並與營運庫隔離",
         "資料跨部門共享是否存在正式簽核授權與技術存取限制"
       ],
-      "gap_remediation": "建立中繼資料導向存取網格（Data Mesh with Policy Enforcement Point），限制下游分析平台僅能存取符合宣告目的之匿名化特徵資料。"
+      "gap_remediation": "建立中繼資料導向存取網格（Data Mesh with Policy Enforcement Point），限制下游分析平台僅能存取符合宣告目的之匿名化特徵資料。",
+      "domain": "Data Purpose",
+      "topic": "Purpose Specification & Secondary Use Controls"
     },
     {
       "article_id": "PDPA-Art-21",
       "legal_reference": "個人資料保護法 第21條",
       "title": "個人資料國際傳輸限制",
-      "cdpse_domain": "Infrastructure",
-      "cdpse_topic": "Cross-Border Data Transfer & Cloud Infrastructure",
       "legal_requirement": "中央目的事業主管機關得對非公務機關之個資國際傳輸進行限制（涉國家重大利益、國際條約協定、受領國保護未周全、以迂迴方式規避法律等）。",
       "engineering_control": "建立多區域雲端架構資料在地化儲存（Data Residency）隔離原則，實施資料地理柵欄（Geo-Fencing）、跨區傳輸加密（TLS 1.3）及第三方跨境資料流向監控清冊。",
       "audit_checks": [
@@ -131,14 +129,14 @@
         "跨國傳輸與第三方 SaaS 整合管線是否具備傳輸層加密與存取授權控制",
         "是否有維護國際資料傳輸清單與受領方安全評估紀錄"
       ],
-      "gap_remediation": "在雲端架構中鎖定服務區域（Region Lock），透過 IAM Policy 禁止跨區域資料庫快照複製，並部署跨境 API 資料防護閘道。"
+      "gap_remediation": "在雲端架構中鎖定服務區域（Region Lock），透過 IAM Policy 禁止跨區域資料庫快照複製，並部署跨境 API 資料防護閘道。",
+      "domain": "Infrastructure",
+      "topic": "Cross-Border Data Transfer & Cloud Infrastructure"
     },
     {
       "article_id": "PDPA-Art-22",
       "legal_reference": "個人資料保護法 第22條至第26條",
       "title": "行政監督、檢查與資料保全",
-      "cdpse_domain": "Governance",
-      "cdpse_topic": "Regulatory Audit & Compliance Monitoring",
       "legal_requirement": "主管機關得派員檢查，要求提示相關資料或為必要之說明，並得扣留或複製得為證據之資料或物件。受檢者不得規避、妨礙或拒絕。",
       "engineering_control": "建立只讀（Read-Only）合規稽核檢視介面、自動化合規證據收集器（Evidence Collector）與即時報表匯出功能，保存不可竄改之系統設定版本與架構記錄。",
       "audit_checks": [
@@ -146,14 +144,14 @@
         "稽核員存取權限是否具備時間與操作範圍限制（Least Privilege）",
         "系統環境設定異動是否具有版本控制（IaC）與審核紀錄"
       ],
-      "gap_remediation": "建構基礎架構即程式碼（IaC）合規掃描管線，自動產出各系統元件之安全配置評估報告與不可竄改的存證日誌。"
+      "gap_remediation": "建構基礎架構即程式碼（IaC）合規掃描管線，自動產出各系統元件之安全配置評估報告與不可竄改的存證日誌。",
+      "domain": "Governance",
+      "topic": "Regulatory Audit & Compliance Monitoring"
     },
     {
       "article_id": "PDPA-Art-27-Sec-01",
       "legal_reference": "個人資料保護法施行細則 第12條第1款",
       "title": "安全維護措施1：成立管理組織，配置相當資源",
-      "cdpse_domain": "Governance",
-      "cdpse_topic": "Privacy Governance & Resource Allocation",
       "legal_requirement": "非公務機關保有個人資料檔案者，應成立個人資料保護管理組織，明確指派個資專責人員並配置相當之人力與技術資源。",
       "engineering_control": "建立隱私委員會與隱私工程專任架構（Privacy Champions Network），指派安全維護負責人，配置資安與隱私防護預算及工具鏈。",
       "audit_checks": [
@@ -161,14 +159,14 @@
         "隱私保護相關技術預算與人力資源是否明確編列",
         "組織層級是否定期召開個資安全維護檢討會議"
       ],
-      "gap_remediation": "於敏捷開發團隊中導入 Privacy Champion 角色，將隱私工程檢查點（Privacy Gates）納入產品發表審核流程。"
+      "gap_remediation": "於敏捷開發團隊中導入 Privacy Champion 角色，將隱私工程檢查點（Privacy Gates）納入產品發表審核流程。",
+      "domain": "Governance",
+      "topic": "Privacy Governance & Resource Allocation"
     },
     {
       "article_id": "PDPA-Art-27-Sec-02",
       "legal_reference": "個人資料保護法施行細則 第12條第2款",
       "title": "安全維護措施2：界定個人資料之範圍",
-      "cdpse_domain": "Data Purpose",
-      "cdpse_topic": "Data Inventory & Records of Processing Activities (RoPA)",
       "legal_requirement": "明確清查並界定所保有之各類個人資料檔案清單、儲存載體、資料流向與生命週期範圍。",
       "engineering_control": "建立自動化資料對應圖譜（Data Flow Mapping）與 RoPA 紀錄系統，持續追蹤資料在微服務、資料庫、訊息佇列及外部第三方之間的傳輸路徑。",
       "audit_checks": [
@@ -176,14 +174,14 @@
         "資料流向圖是否涵蓋內部系統與外部第三方委外單位",
         "結構化與非結構化儲存區是否皆完成個人資料識別"
       ],
-      "gap_remediation": "使用網路流量與應用程式監控探針（eBPF / APM），自動辨識未登記在案的個資傳輸 API 端點並繪製即時資料拓撲圖。"
+      "gap_remediation": "使用網路流量與應用程式監控探針（eBPF / APM），自動辨識未登記在案的個資傳輸 API 端點並繪製即時資料拓撲圖。",
+      "domain": "Data Purpose",
+      "topic": "Data Inventory & Records of Processing Activities (RoPA)"
     },
     {
       "article_id": "PDPA-Art-27-Sec-03",
       "legal_reference": "個人資料保護法施行細則 第12條第3款",
       "title": "安全維護措施3：個人資料之風險評估及管理機制",
-      "cdpse_domain": "Risk Management",
-      "cdpse_topic": "DPIA / PIA & Threat Modeling (LINDDUN)",
       "legal_requirement": "針對個人資料之蒐集、處理、利用與儲存各階段，建立定期之風險辨識、評估、分析及控制措施管理機制。",
       "engineering_control": "導入資料保護影響評估（DPIA）流程與 LINDDUN 隱私威脅塑模，量化評估個資外洩、重新識別、過度連結等風險衝擊度並實施緩解策略。",
       "audit_checks": [
@@ -191,14 +189,14 @@
         "系統威脅模型是否包含隱私威脅（連結性、可識別性、可推斷性等）",
         "高風險項目的緩解措施是否完成驗證與追蹤"
       ],
-      "gap_remediation": "將 DPIA 問卷與威脅評估整合至 JIRA / GitLab 專案管理工單中，將風險評級列為部署流水線阻斷條件。"
+      "gap_remediation": "將 DPIA 問卷與威脅評估整合至 JIRA / GitLab 專案管理工單中，將風險評級列為部署流水線阻斷條件。",
+      "domain": "Risk Management",
+      "topic": "DPIA / PIA & Threat Modeling (LINDDUN)"
     },
     {
       "article_id": "PDPA-Art-27-Sec-04",
       "legal_reference": "個人資料保護法施行細則 第12條第4款",
       "title": "安全維護措施4：事故之預防、通報及應變機制",
-      "cdpse_domain": "Management",
-      "cdpse_topic": "Incident Management & Disaster Recovery",
       "legal_requirement": "建立個資安全事故預防、內部通報、外洩調查、應變處置及主管機關/當事人對外通知標準作業流程。",
       "engineering_control": "建置資安事件應變系統（IR Automation），配置即時阻斷規則、取證鏡像保存工具與災難復原演練腳本。",
       "audit_checks": [
@@ -206,14 +204,14 @@
         "通報當事人之訊息範本與管道是否預先建立並通過法務審核",
         "應變通訊管道是否具備頻外（Out-of-Band）獨立運作能力"
       ],
-      "gap_remediation": "撰寫並排程執行自動化資安應變 Playbook，於偵測到巨量資料洩漏徵兆時自動限制資料庫帳號查詢權限並告警。"
+      "gap_remediation": "撰寫並排程執行自動化資安應變 Playbook，於偵測到巨量資料洩漏徵兆時自動限制資料庫帳號查詢權限並告警。",
+      "domain": "Management",
+      "topic": "Incident Management & Disaster Recovery"
     },
     {
       "article_id": "PDPA-Art-27-Sec-05",
       "legal_reference": "個人資料保護法施行細則 第12條第5款",
       "title": "安全維護措施5：個人資料蒐集、處理及利用之內部管理程序",
-      "cdpse_domain": "Applications & Software",
-      "cdpse_topic": "Privacy by Design & Minimum Necessary Standard",
       "legal_requirement": "制定內部個人資料存取、查詢、複製、修改、刪除之審批授權程序，落實最小化原則。",
       "engineering_control": "在軟體開發流程（SDLC）導入 Privacy by Design (PbD) 7大原則，配置資料存取工單系統與臨時特權存取控管（Just-In-Time Elevation）。",
       "audit_checks": [
@@ -221,14 +219,14 @@
         "內部人員查詢個資是否限制特定業務必要欄位與單次查詢筆數",
         "是否定期檢討並回收閒置人員帳號與權限"
       ],
-      "gap_remediation": "於內部後台管理介面全面加裝單次查詢筆數上限與動態遮罩，針對批量導出作業強制要求主管雙重驗證審批。"
+      "gap_remediation": "於內部後台管理介面全面加裝單次查詢筆數上限與動態遮罩，針對批量導出作業強制要求主管雙重驗證審批。",
+      "domain": "Applications & Software",
+      "topic": "Privacy by Design & Minimum Necessary Standard"
     },
     {
       "article_id": "PDPA-Art-27-Sec-06",
       "legal_reference": "個人資料保護法施行細則 第12條第6款",
       "title": "安全維護措施6：資料安全管理及人員管理",
-      "cdpse_domain": "Infrastructure",
-      "cdpse_topic": "IAM, Access Control & Personnel Security",
       "legal_requirement": "依業務職責劃分使用者權限，落實人員離到職異動權限管理，並簽署保密協議（NDA）。",
       "engineering_control": "導入零信任（Zero Trust）架構與企業級身分識別管理（SSO / OIDC + MFA），結合 SCIM 協定達成人員離職自動即時權限收回（Deprovisioning）。",
       "audit_checks": [
@@ -236,14 +234,14 @@
         "員工離職或職務異動時是否能於 24 小時內撤銷所有系統存取權限",
         "存取特權帳號是否納入 PAM（特權存取管理）系統管理"
       ],
-      "gap_remediation": "整合 HR 系統與 IdP（Identity Provider），觸發離職事件時自動執行 API 撤銷全域 Session Token 與 API Key。"
+      "gap_remediation": "整合 HR 系統與 IdP（Identity Provider），觸發離職事件時自動執行 API 撤銷全域 Session Token 與 API Key。",
+      "domain": "Infrastructure",
+      "topic": "IAM, Access Control & Personnel Security"
     },
     {
       "article_id": "PDPA-Art-27-Sec-07",
       "legal_reference": "個人資料保護法施行細則 第12條第7款",
       "title": "安全維護措施7：認知宣導及教育訓練",
-      "cdpse_domain": "Management",
-      "cdpse_topic": "Privacy Training & Awareness Programs",
       "legal_requirement": "定期對所屬人員辦理個人資料保護法令認知宣導及專業教育訓練。",
       "engineering_control": "針對軟體工程師、架構師及維運人員推行安全與隱私工程專題培訓（如 OWASP Top 10 Privacy Risks、密碼學應用、去識別化技術）。",
       "audit_checks": [
@@ -251,14 +249,14 @@
         "技術開發與維運人員是否有針對性之隱私工程技術培訓",
         "是否定期進行社交工程防範演練（如釣魚郵件測試）"
       ],
-      "gap_remediation": "建立線上學習追蹤平台，設定年度未受訓同仁系統存取權限降級預警機制。"
+      "gap_remediation": "建立線上學習追蹤平台，設定年度未受訓同仁系統存取權限降級預警機制。",
+      "domain": "Management",
+      "topic": "Privacy Training & Awareness Programs"
     },
     {
       "article_id": "PDPA-Art-27-Sec-08",
       "legal_reference": "個人資料保護法施行細則 第12條第8款",
       "title": "安全維護措施8：設備安全管理",
-      "cdpse_domain": "Infrastructure",
-      "cdpse_topic": "Endpoint, Server & Physical Device Security",
       "legal_requirement": "落實伺服器主機、儲存媒體、終端電腦及可攜式設備之實體與邏輯安全控管。",
       "engineering_control": "推行端點全磁碟加密（BitLocker/FileVault）、行動裝置管理（MDM）、外接儲存裝置管控（USB Block）及機房實體出入門禁監控。",
       "audit_checks": [
@@ -266,14 +264,14 @@
         "可攜式儲存媒體（隨身碟、外接硬碟）是否有阻斷或防洩漏控管機制",
         "機房與雲端主機存取是否具備實體門禁日誌與電子鎖控管"
       ],
-      "gap_remediation": "透過 MDM / EDR 代理程式強制推播加密政策，未合規端點禁止存取企業 VPN 及內部資源。"
+      "gap_remediation": "透過 MDM / EDR 代理程式強制推播加密政策，未合規端點禁止存取企業 VPN 及內部資源。",
+      "domain": "Infrastructure",
+      "topic": "Endpoint, Server & Physical Device Security"
     },
     {
       "article_id": "PDPA-Art-27-Sec-09",
       "legal_reference": "個人資料保護法施行細則 第12條第9款",
       "title": "安全維護措施9：資料安全稽核機制",
-      "cdpse_domain": "Governance",
-      "cdpse_topic": "Privacy Audits & Continuous Monitoring",
       "legal_requirement": "建立定期或不定期之個人資料安全維護稽核機制，評估各項安全控制措施之落實情形。",
       "engineering_control": "部署自動化安全狀態合規檢查工具（CSPM / Continuous Compliance），執行內部定期隱私防護稽核與外部第三方合規驗證。",
       "audit_checks": [
@@ -281,14 +279,14 @@
         "稽核發現缺失事項是否列入矯正預防措施追蹤表（CAPA）限期改善",
         "稽核軌跡資料是否交由獨立於維運團隊之合規人員查核"
       ],
-      "gap_remediation": "導入雲端架構合規引擎，每小時自動掃描各項儲存貯列（Bucket/DB）之公開暴露狀態與安全設定。"
+      "gap_remediation": "導入雲端架構合規引擎，每小時自動掃描各項儲存貯列（Bucket/DB）之公開暴露狀態與安全設定。",
+      "domain": "Governance",
+      "topic": "Privacy Audits & Continuous Monitoring"
     },
     {
       "article_id": "PDPA-Art-27-Sec-10",
       "legal_reference": "個人資料保護法施行細則 第12條第10款",
       "title": "安全維護措施10：必要之使用紀錄、軌跡資料及證據之保存",
-      "cdpse_domain": "Technical Privacy Controls",
-      "cdpse_topic": "Audit Logging, Traceability & Non-repudiation",
       "legal_requirement": "保存個人資料檔案之存取、查詢、修改、刪除、匯出等操作軌跡資料及相關證據，保存期限應符合法規要求（通常至少保存 1 至 5 年）。",
       "engineering_control": "建置集中化不可變日誌儲存（WORM / Immutable Object Storage），記錄 API 調用者身分、時間、來源 IP、操作類型與目標個資標識符，並實施日誌數位簽章與雜湊鏈（Hash Chaining）。",
       "audit_checks": [
@@ -296,14 +294,14 @@
         "日誌儲存區是否嚴格限制修改與刪除權限（維運人員不可修改日誌）",
         "日誌保存年限是否符合目的事業主管機關之最低要求"
       ],
-      "gap_remediation": "配置日誌轉送代理程式將系統日誌即時寫入 Write-Once-Read-Many 雲端儲存貯列，並以 HMAC 簽署日誌區塊確保抗抵賴性。"
+      "gap_remediation": "配置日誌轉送代理程式將系統日誌即時寫入 Write-Once-Read-Many 雲端儲存貯列，並以 HMAC 簽署日誌區塊確保抗抵賴性。",
+      "domain": "Technical Privacy Controls",
+      "topic": "Audit Logging, Traceability & Non-repudiation"
     },
     {
       "article_id": "PDPA-Art-27-Sec-11",
       "legal_reference": "個人資料保護法施行細則 第12條第11款",
       "title": "安全維護措施11：個人資料安全維護之整體持續改善",
-      "cdpse_domain": "Governance",
-      "cdpse_topic": "Continuous Improvement & PDCA Cycle",
       "legal_requirement": "參酌國內外法令修訂、技術發展及業務型態變化，定期檢討並持續改善個人資料保護安全維護架構。",
       "engineering_control": "建立 PDCA（Plan-Do-Check-Act）循環管理機制，追蹤新興隱私增強技術（PETs）如差分隱私（Differential Privacy）、同態加密（Homomorphic Encryption）之導入可行性。",
       "audit_checks": [
@@ -311,14 +309,14 @@
         "是否有量化關鍵績效指標（KPI / KRI）監控個資防護成熟度",
         "資安事故後之檢討改善措施是否切實回饋至架構設計"
       ],
-      "gap_remediation": "定期執行隱私成熟度模型評估（Privacy Maturity Model Assessment），擬定年度技術架構升級藍圖。"
+      "gap_remediation": "定期執行隱私成熟度模型評估（Privacy Maturity Model Assessment），擬定年度技術架構升級藍圖。",
+      "domain": "Governance",
+      "topic": "Continuous Improvement & PDCA Cycle"
     },
     {
       "article_id": "PDPA-Art-28-29",
       "legal_reference": "個人資料保護法 第28條、第29條",
       "title": "民事損害賠償與舉證責任反轉",
-      "cdpse_domain": "Risk Management",
-      "cdpse_topic": "Liability Risk & Compensating Controls",
       "legal_requirement": "非公務機關違法致個資受侵害者負賠償責任（每人每一事件新臺幣 500 元至 20,000 元，同一原因事實最高總額 2 億元）。非公務機關須證明自己無故意或過失始得免責（舉證責任轉換）。",
       "engineering_control": "保存完善之合規證明鏈（Compliance Evidence Chain），包含資安防護政策記錄、技術控制有效性日誌、金鑰存取審批與定期滲透測試報告，供訴訟抗辯舉證使用。",
       "audit_checks": [
@@ -326,14 +324,14 @@
         "委外合作廠商是否明訂資安責任分界與違約賠償條款",
         "是否投保個資責任險以分散潛在巨額民事賠償風險"
       ],
-      "gap_remediation": "建立自動化合規快照機制（Compliance Snapshot），每日產生加密時間戳記之安全基準線查核報告存檔。"
+      "gap_remediation": "建立自動化合規快照機制（Compliance Snapshot），每日產生加密時間戳記之安全基準線查核報告存檔。",
+      "domain": "Risk Management",
+      "topic": "Liability Risk & Compensating Controls"
     },
     {
       "article_id": "PDPA-Art-47-48-50",
       "legal_reference": "個人資料保護法 第47條、第48條（2023修法）、第50條",
       "title": "行政罰鍰階梯與負責人連帶處罰",
-      "cdpse_domain": "Governance",
-      "cdpse_topic": "Legal Compliance & Executive Accountability",
       "legal_requirement": "未採行適當安全措施或未訂定安全維護計畫者，處新臺幣 2 萬元以上 200 萬元以下罰鍰；情節重大者處 15 萬元以上 1500 萬元以下罰鍰，並令限期改正，屆期未改正者按次處罰。非公務機關代表人受同一額度連帶處罰，除非能證明已盡防止義務。",
       "engineering_control": "建置高階管理階層合規儀表板（Executive Compliance Dashboard），即時展示安全防護成熟度、未結漏洞、外洩風險及稽核改善進度，落實管理層注意義務。",
       "audit_checks": [
@@ -341,7 +339,9 @@
         "各業務系統是否已通過主管機關訂定之特定行業安全維護辦法審核",
         "重大安全弱點是否設有修復 SLA 並嚴格執行管制作業"
       ],
-      "gap_remediation": "設定自動化弱點阻斷機制，當系統存在重大已知個資外洩漏洞且逾期未修復時，自動暫停高風險資料匯出介面並通報管理層。"
+      "gap_remediation": "設定自動化弱點阻斷機制，當系統存在重大已知個資外洩漏洞且逾期未修復時，自動暫停高風險資料匯出介面並通報管理層。",
+      "domain": "Governance",
+      "topic": "Legal Compliance & Executive Accountability"
     }
   ]
 }

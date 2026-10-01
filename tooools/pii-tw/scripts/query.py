@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Taiwan Personal Data Protection Act (PDPA) and CDPSE Query Engine."""
+"""Taiwan Personal Data Protection Act (PDPA) and Privacy Engineering Query Engine."""
 
 import argparse
 import json
@@ -51,16 +51,16 @@ def query_by_measure(matrix: dict, measure_num: str) -> list:
     return results
 
 
-def query_by_cdpse(matrix: dict, index_data: dict, keyword: str) -> list:
+def query_by_domain(matrix: dict, index_data: dict, keyword: str) -> list:
     kw = keyword.strip().lower()
     results = []
     for art in matrix.get("articles", []):
-        domain = art.get("cdpse_domain", "").lower()
-        topic = art.get("cdpse_topic", "").lower()
+        domain = art.get("domain", "").lower()
+        topic = art.get("topic", "").lower()
         if kw in domain or kw in topic:
             results.append({"type": "article", "data": art})
     for ch in index_data.get("chapters", []):
-        cd_dom = ch.get("cdpse_domain", "").lower()
+        cd_dom = ch.get("domain", "").lower()
         slug = ch.get("slug", "").lower()
         if kw in cd_dom or kw in slug:
             results.append({"type": "chapter", "data": ch})
@@ -71,7 +71,7 @@ def cross_check(matrix: dict, glossary: dict, index_data: dict, keyword: str) ->
     kw = keyword.strip().lower()
     res = {"articles": [], "measures": [], "glossary": [], "chapters": []}
     for item in matrix.get("articles", []):
-        text = f"{item.get('article_id', '')} {item.get('title', '')} {item.get('legal_reference', '')} {item.get('legal_requirement', '')} {item.get('engineering_control', '')} {item.get('cdpse_domain', '')}".lower()
+        text = f"{item.get('article_id', '')} {item.get('title', '')} {item.get('legal_reference', '')} {item.get('legal_requirement', '')} {item.get('engineering_control', '')} {item.get('domain', '')}".lower()
         if kw in text:
             if "Sec-" in item.get("article_id", ""):
                 res["measures"].append(item)
@@ -82,22 +82,22 @@ def cross_check(matrix: dict, glossary: dict, index_data: dict, keyword: str) ->
         if kw in text:
             res["glossary"].append(term)
     for ch in index_data.get("chapters", []):
-        text = f"{ch.get('title', '')} {ch.get('cdpse_domain', '')} {ch.get('slug', '')}".lower()
+        text = f"{ch.get('title', '')} {ch.get('domain', '')} {ch.get('slug', '')}".lower()
         if kw in text:
             res["chapters"].append(ch)
     return res
 
 
 def format_markdown_list(index_data: dict, matrix: dict) -> str:
-    lines = ["# 台灣個資法 (PDPA) 與 CDPSE 合規架構總覽\n", "## 1. 核心章節指南 (Chapters 01~08)"]
+    lines = ["# 台灣個資法 (PDPA) 與 Privacy Engineering 合規架構總覽\n", "## 1. 核心章節指南 (Chapters 01~08)"]
     for ch in index_data.get("chapters", []):
         lines.append(f"- **Ch{ch.get('id')}**: {ch.get('title')} (`{ch.get('file')}`)")
-        lines.append(f"  - 領域: {ch.get('cdpse_domain')}")
+        lines.append(f"  - 領域: {ch.get('domain')}")
         lines.append(f"  - 法源: {', '.join(ch.get('legal_basis', []))}")
     lines.append("\n## 2. 施行細則第 12 條 11 款安全維護事項")
     for it in matrix.get("articles", []):
         if "Sec-" in it.get("article_id", ""):
-            lines.append(f"- **{it.get('article_id')}**: {it.get('title')} (領域: {it.get('cdpse_domain')})")
+            lines.append(f"- **{it.get('article_id')}**: {it.get('title')} (領域: {it.get('domain')})")
     return "\n".join(lines)
 
 
@@ -108,7 +108,7 @@ def format_markdown_items(items: list, header_title: str) -> str:
     for it in items:
         lines.append(f"## {it.get('legal_reference', it.get('title', ''))}")
         lines.append(f"- **項目名稱**: {it.get('title', '')}")
-        lines.append(f"- **CDPSE 領域**: {it.get('cdpse_domain', '')} ({it.get('cdpse_topic', '')})")
+        lines.append(f"- **Privacy Engineering 領域**: {it.get('domain', '')} ({it.get('topic', '')})")
         lines.append(f"- **法定要求**: {it.get('legal_requirement', '')}")
         lines.append(f"- **工程控制項**: {it.get('engineering_control', '')}")
         if it.get("audit_checks"):
@@ -145,10 +145,10 @@ def format_markdown_check(res: dict, keyword: str) -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Taiwan PDPA & CDPSE Compliance Query Engine")
+    parser = argparse.ArgumentParser(description="Taiwan PDPA & Privacy Engineering Compliance Query Engine")
     parser.add_argument("--article", type=str, help="依個資法條號查詢技術控制項與合規查核點")
     parser.add_argument("--measure", type=str, help="依施行細則第12條款次查詢安全維護措施指引")
-    parser.add_argument("--cdpse", type=str, help="依 CDPSE 領域或章節關鍵字查詢對應法令與技術規範")
+    parser.add_argument("--domain", type=str, help="依隱私工程領域或章節關鍵字查詢對應法令與技術規範")
     parser.add_argument("--check", type=str, help="法規、技術控制、術語與章節跨庫交叉檢索")
     parser.add_argument("--format", choices=["markdown", "json"], default="markdown", help="輸出格式")
     parser.add_argument("--list", action="store_true", help="列出完整章節與安全維護款次總覽")
@@ -182,12 +182,12 @@ def main():
         print(format_markdown_items(res, f"細則第 12 條第 {args.measure} 款"))
         return
 
-    if args.cdpse:
-        res = query_by_cdpse(matrix_data, index_data, args.cdpse)
+    if args.domain:
+        res = query_by_domain(matrix_data, index_data, args.domain)
         if args.format == "json":
             print(json.dumps(res, ensure_ascii=False, indent=2))
             return
-        lines = [f"## CDPSE 檢索: `{args.cdpse}`\n"]
+        lines = [f"## Privacy Engineering 檢索: `{args.domain}`\n"]
         for r in res:
             t, d = r["type"], r["data"]
             if t == "article":

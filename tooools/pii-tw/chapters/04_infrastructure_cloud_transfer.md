@@ -1,9 +1,9 @@
-# Chapter 04: Infrastructure Security, Multitenant Cloud & Cross-Border Data Transfers
+﻿# Chapter 04: Infrastructure Security, Multitenant Cloud & Cross-Border Data Transfers
 
 ## 1. Statutory Baseline & Infrastructure Engineering
 - **PDPA Statutory Article 21**: Authority of central competent authorities to restrict international data transfers (national interests, international treaties, inadequate legal protection, legal evasion).
 - **PDPA Enforcement Rules Art 12 Para 2 Item 8**: Security management of equipment and facilities processing personal data.
-- **ISACA CRISC / CDPSE Mapping**: Cloud Infrastructure Security, Multitenancy Isolation & Cross-Border Governance.
+- **Privacy & Risk Engineering Framework**: Cloud Infrastructure Security, Multitenancy Isolation & Cross-Border Governance.
 
 ### 1.1 Cloud Multitenancy Technical Isolation Controls
 ```
@@ -51,9 +51,9 @@
 
 ---
 
-## 3. CRISC / CDPSE Exam Question Bank & Distractor Forensics
+## 3. Scenario Practice & Decision Forensics (Q&A) & Distractor Forensics
 
-### Q1 `[CRISC/CDPSE - MOST]`
+### Q1 `[Privacy Engineering - MOST]`
 When storing sensitive personal data in a multitenant public cloud database, what is the MOST effective architectural control to prevent cross-tenant data leakage?
 - A. Deploy perimeter network firewalls and intrusion prevention systems (IPS)
 - B. Enforce database Row-Level Security (RLS) coupled with tenant-specific BYOK encryption
@@ -67,7 +67,7 @@ When storing sensitive personal data in a multitenant public cloud database, wha
 > - **Why C is Incorrect**: NDAs are legal administrative agreements that cannot technically prevent software bugs or malicious cross-tenant queries.
 > - **Why D is Incorrect**: Time-based access restrictions do not mitigate architectural cross-tenant query flaws.
 
-### Q2 `[CRISC/CDPSE - FIRST]`
+### Q2 `[Privacy Engineering - FIRST]`
 Prior to migrating customer personal data from on-premises servers to an overseas public cloud data center, what is the compliance and risk team's FIRST action?
 - A. Order high-bandwidth dedicated international private leased circuits (IPLC)
 - B. Conduct a Transfer Impact Assessment (TIA) and verify whether regulatory transfer restrictions apply under Art 21
@@ -81,7 +81,7 @@ Prior to migrating customer personal data from on-premises servers to an oversea
 > - **Why C is Incorrect**: Customer notification is appropriate only after confirming that the transfer is legally permissible.
 > - **Why D is Incorrect**: Decommissioning media occurs only after migration and verification are fully complete.
 
-### Q3 `[CRISC/CDPSE - BEST]`
+### Q3 `[Privacy Engineering - BEST]`
 Which technology provides the BEST protection for sensitive personal data against unauthorized inspection by cloud hypervisor administrators during active computation?
 - A. Transparent Data Encryption (TDE) at rest
 - B. Hardware-enforced Confidential Computing with Trusted Execution Environments (TEE)
@@ -95,7 +95,7 @@ Which technology provides the BEST protection for sensitive personal data agains
 > - **Why C is Incorrect**: TLS 1.3 protects data in transit across network wires, not data undergoing computation in host memory.
 > - **Why D is Incorrect**: SAN snapshotting is a storage backup mechanism, not an execution isolation control.
 
-### Q4 `[CRISC/CDPSE - PRIMARY]`
+### Q4 `[Privacy Engineering - PRIMARY]`
 What is the PRIMARY purpose of executing Standard Contractual Clauses (SCCs) when transferring personal data to an overseas cloud vendor?
 - A. Guarantee that the cloud provider achieves 99.999% uptime availability SLA
 - B. Establish legally binding obligations ensuring the data receives protection equivalent to statutory domestic standards

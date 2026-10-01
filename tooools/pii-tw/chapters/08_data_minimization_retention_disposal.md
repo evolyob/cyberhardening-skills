@@ -1,9 +1,9 @@
-# Chapter 08: Data Minimization, Automated Retention & Secure Disposal
+﻿# Chapter 08: Data Minimization, Automated Retention & Secure Disposal
 
 ## 1. Statutory Baseline & Sanitization Engineering
 - **PDPA Statutory Article 11 Para 3**: Mandatory erasure or cessation of collection, processing, and use upon expiration of retention periods or fulfillment of specific purpose.
 - **PDPA Enforcement Rules Art 12 Para 2 Item 2**: Mandatory definition of personal data scope and retention schedules.
-- **ISACA CRISC / CDPSE Mapping**: Data Minimization, Media Sanitization (NIST SP 800-88), Crypto-Shredding & Anonymization Engineering.
+- **Privacy & Risk Engineering Framework**: Data Minimization, Media Sanitization (NIST SP 800-88), Crypto-Shredding & Anonymization Engineering.
 
 ### 1.1 De-Identification & Mathematical Privacy Models
 | Privacy Model | Mathematical Definition & Standard | Defense Against Attack Vectors |
@@ -45,9 +45,9 @@
 
 ---
 
-## 3. CRISC / CDPSE Exam Question Bank & Distractor Forensics
+## 3. Scenario Practice & Decision Forensics (Q&A) & Distractor Forensics
 
-### Q1 `[CRISC/CDPSE - BEST]`
+### Q1 `[Privacy Engineering - BEST]`
 When publishing commercial statistical datasets, what is the BEST engineering defense against linkage attacks using external public registries?
 - A. Remove only the data subject's full name and national identification number while preserving other fields intact
 - B. Implement K-Anonymity ($k \ge 5$) combined with L-Diversity and quasi-identifier generalization
@@ -61,7 +61,7 @@ When publishing commercial statistical datasets, what is the BEST engineering de
 > - **Why C is Incorrect**: Password protection provides access control during storage, not anonymization for data sharing.
 > - **Why D is Incorrect**: Legal contracts provide administrative recourse rather than mathematical privacy protection.
 
-### Q2 `[CRISC/CDPSE - EXCEPT]`
+### Q2 `[Privacy Engineering - EXCEPT]`
 When decommissioning cloud storage volumes or end-of-life non-volatile media containing personal data, which approach is INVALID and ineffective as a secure disposal method?
 - A. Permanently deleting the dedicated data encryption keys (Crypto-shredding)
 - B. Executing multi-pass overwrites or firmware purge commands certified under NIST SP 800-88
@@ -73,7 +73,7 @@ When decommissioning cloud storage volumes or end-of-life non-volatile media con
 > - **Why C is Correct**: Standard OS deletion (C) only removes directory index pointers while leaving raw data blocks intact on physical sectors, allowing trivial forensic reconstruction (EXCEPT valid disposal).
 > - **Why A, B, D are Incorrect**: Crypto-shredding, NIST SP 800-88 purging, and physical destruction are industry-standard sanitization methods.
 
-### Q3 `[CRISC/CDPSE - PRIMARY]`
+### Q3 `[Privacy Engineering - PRIMARY]`
 What is the PRIMARY purpose of implementing automated Time-to-Live (TTL) expiration policies on databases containing customer personal data?
 - A. Maximize server network bandwidth throughput
 - B. Ensure compliance with data retention limits by automatically deleting personal data when retention periods expire
@@ -86,7 +86,7 @@ What is the PRIMARY purpose of implementing automated Time-to-Live (TTL) expirat
 > - **Why A and D are Incorrect**: Bandwidth throughput and index rebuilds are operational database maintenance considerations.
 > - **Why C is Incorrect**: TTL policies enforce retention limits; they cannot override consent requirements.
 
-### Q4 `[CRISC/CDPSE - FIRST]`
+### Q4 `[Privacy Engineering - FIRST]`
 An organization is designing a new customer analytics platform. Under the Data Minimization principle, what is the architectural team's FIRST step?
 - A. Provision the largest available cloud storage cluster to store all possible future data points
 - B. Define the specific business purpose and determine the minimum set of data elements strictly required to achieve that purpose

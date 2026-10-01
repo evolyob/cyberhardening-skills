@@ -1,7 +1,7 @@
-{
+﻿{
   "skill": "pii-tw",
   "version": "1.0.0",
-  "description": "Taiwan Personal Data Protection Act (PDPA) & CDPSE Engineering Compliance Index",
+  "description": "Taiwan Personal Data Protection Act (PDPA) & Privacy Engineering Engineering Compliance Index",
   "chapters": [
     {
       "id": "01",
@@ -11,9 +11,9 @@
         "個人資料保護法施行細則第12條第1款",
         "個人資料保護法施行細則第12條第11款"
       ],
-      "cdpse_domain": "Domain 1 - Privacy Governance",
       "file": "chapters/01_governance_organization.md",
-      "token_budget": 800
+      "token_budget": 800,
+      "domain": "Domain 1 - Privacy Governance"
     },
     {
       "id": "02",
@@ -24,9 +24,9 @@
         "個人資料保護法施行細則第12條第4款",
         "個人資料保護法施行細則第12條第7款"
       ],
-      "cdpse_domain": "Domain 2 - Privacy Management (Operations)",
       "file": "chapters/02_incident_management_training.md",
-      "token_budget": 800
+      "token_budget": 800,
+      "domain": "Domain 2 - Privacy Management (Operations)"
     },
     {
       "id": "03",
@@ -35,9 +35,9 @@
       "legal_basis": [
         "個人資料保護法施行細則第12條第3款"
       ],
-      "cdpse_domain": "Domain 2 - Privacy Management (Risk Assessment)",
       "file": "chapters/03_risk_management_pia.md",
-      "token_budget": 800
+      "token_budget": 800,
+      "domain": "Domain 2 - Privacy Management (Risk Assessment)"
     },
     {
       "id": "04",
@@ -47,9 +47,9 @@
         "個人資料保護法第21條",
         "個人資料保護法施行細則第12條第8款"
       ],
-      "cdpse_domain": "Domain 3 - Privacy Architecture (Infrastructure & Cloud)",
       "file": "chapters/04_infrastructure_cloud_transfer.md",
-      "token_budget": 800
+      "token_budget": 800,
+      "domain": "Domain 3 - Privacy Architecture (Infrastructure & Cloud)"
     },
     {
       "id": "05",
@@ -58,9 +58,9 @@
       "legal_basis": [
         "個人資料保護法施行細則第12條第5款"
       ],
-      "cdpse_domain": "Domain 3 - Privacy Architecture (Applications & Software)",
       "file": "chapters/05_pbd_sdlc_management_procedures.md",
-      "token_budget": 800
+      "token_budget": 800,
+      "domain": "Domain 3 - Privacy Architecture (Applications & Software)"
     },
     {
       "id": "06",
@@ -70,9 +70,9 @@
         "個人資料保護法施行細則第12條第6款",
         "個人資料保護法施行細則第12條第10款"
       ],
-      "cdpse_domain": "Domain 3 - Privacy Architecture (Technical Privacy Controls)",
       "file": "chapters/06_access_control_cryptography_logging.md",
-      "token_budget": 800
+      "token_budget": 800,
+      "domain": "Domain 3 - Privacy Architecture (Technical Privacy Controls)"
     },
     {
       "id": "07",
@@ -85,9 +85,9 @@
         "個人資料保護法第19條",
         "個人資料保護法第20條"
       ],
-      "cdpse_domain": "Domain 3 - Privacy Architecture (Data Purpose & Consent)",
       "file": "chapters/07_purpose_consent_data_mapping.md",
-      "token_budget": 800
+      "token_budget": 800,
+      "domain": "Domain 3 - Privacy Architecture (Data Purpose & Consent)"
     },
     {
       "id": "08",
@@ -97,9 +97,9 @@
         "個人資料保護法第11條",
         "個人資料保護法施行細則第12條第2款"
       ],
-      "cdpse_domain": "Domain 3 - Privacy Architecture (Data Persistence & Lifecycle)",
       "file": "chapters/08_data_minimization_retention_disposal.md",
-      "token_budget": 800
+      "token_budget": 800,
+      "domain": "Domain 3 - Privacy Architecture (Data Persistence & Lifecycle)"
     }
   ],
   "references": [
@@ -114,21 +114,21 @@
       "title": "個資法施行細則第12條安全維護措施工程落實指引"
     },
     {
-      "name": "cdpse_mapping",
-      "file": "references/cdpse_mapping.md",
-      "title": "CDPSE 隱私工程八大章節與台灣個資法交叉對照表"
+      "name": "domain_mapping",
+      "file": "references/domain_mapping.md",
+      "title": "Privacy Engineering 隱私工程八大章節與台灣個資法交叉對照表"
     }
   ],
   "data_files": [
     {
       "name": "compliance_matrix",
       "file": "data/compliance_matrix.json",
-      "title": "個資法與 CDPSE 交叉合規資料庫"
+      "title": "個資法與 Privacy Engineering 交叉合規資料庫"
     },
     {
       "name": "glossary",
       "file": "data/glossary.json",
-      "title": "台灣個資法與 CDPSE 雙語術語字典"
+      "title": "台灣個資法與 Privacy Engineering 雙語術語字典"
     }
   ]
 }

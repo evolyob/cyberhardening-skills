@@ -1,9 +1,9 @@
-# Chapter 06: Access Control, Cryptographic Architecture & Advanced PETs
+﻿# Chapter 06: Access Control, Cryptographic Architecture & Advanced PETs
 
 ## 1. Statutory Baseline & Security Engineering
 - **PDPA Enforcement Rules Art 12 Para 2 Item 6**: Mandatory data security management and personnel access controls.
 - **PDPA Enforcement Rules Art 12 Para 2 Item 10**: Safety audit mechanisms and retention of access trace logs.
-- **ISACA CRISC / CDPSE Mapping**: Zero Trust IAM, Envelope Encryption, Advanced PETs & Continuous Immutable Auditing.
+- **Privacy & Risk Engineering Framework**: Zero Trust IAM, Envelope Encryption, Advanced PETs & Continuous Immutable Auditing.
 
 ### 1.1 Zero Trust IAM & Segregation of Duties (SoD)
 ```
@@ -55,9 +55,9 @@
 
 ---
 
-## 3. CRISC / CDPSE Exam Question Bank & Distractor Forensics
+## 3. Scenario Practice & Decision Forensics (Q&A) & Distractor Forensics
 
-### Q1 `[CRISC/CDPSE - MOST]`
+### Q1 `[Privacy Engineering - MOST]`
 To protect highly sensitive personal data (e.g., medical diagnoses, financial records) in a relational database from unauthorized inspection by privileged DBAs, what is the MOST effective cryptographic architecture?
 - A. Operating system-level Full Disk Encryption (FDE)
 - B. Application-layer field-level envelope encryption with decryption keys secured in an external HSM
@@ -70,7 +70,7 @@ To protect highly sensitive personal data (e.g., medical diagnoses, financial re
 > - **Why A and D are Incorrect**: Full disk encryption and native TDE automatically decrypt data when the database engine is running, allowing DBAs to query plaintext.
 > - **Why C is Incorrect**: Base64 is an encoding format providing zero cryptographic security.
 
-### Q2 `[CRISC/CDPSE - BEST]`
+### Q2 `[Privacy Engineering - BEST]`
 When an organization needs to verify that a customer is over 18 years old without collecting, storing, or inspecting their actual date of birth, which Privacy-Enhancing Technology (PET) is BEST suited?
 - A. Zero-Knowledge Proofs (ZKP)
 - B. Symmetric AES-256-CBC encryption
@@ -83,7 +83,7 @@ When an organization needs to verify that a customer is over 18 years old withou
 > - **Why B is Incorrect**: AES encryption conceals data but requires full decryption of the birth date to perform age verification.
 > - **Why C and D are Incorrect**: Base64 is an unencrypted encoding scheme; RAID is a hardware storage fault-tolerance mechanism.
 
-### Q3 `[CRISC/CDPSE - PRIMARY]`
+### Q3 `[Privacy Engineering - PRIMARY]`
 Under personal data protection regulations and digital forensics readiness standards, what is the PRIMARY technical requirement for an audit logging system?
 - A. Apply high-ratio data compression to minimize storage costs
 - B. Maintain Write Once Read Many (WORM) immutability to ensure log integrity and non-repudiation
@@ -95,7 +95,7 @@ Under personal data protection regulations and digital forensics readiness stand
 > - **Why B is Correct**: WORM storage guarantees that log records cannot be altered or deleted by attackers or malicious insiders, preserving evidential weight.
 > - **Why A, C, D are Incorrect**: Compression is a cost optimization; purging violates statutory retention periods; discarding identifiers destroys accountability.
 
-### Q4 `[CRISC/CDPSE - FIRST]`
+### Q4 `[Privacy Engineering - FIRST]`
 When provisioning administrative access to an engineer for troubleshooting a production database issue, what is the FIRST step under Just-In-Time (JIT) access governance?
 - A. Provide permanent full-admin credentials to the engineer's personal workstation
 - B. Validate the documented business justification and obtain time-bound ticket approval

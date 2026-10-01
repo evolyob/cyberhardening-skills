@@ -1,10 +1,10 @@
-# Chapter 03: Risk Assessment, Threat Modeling & Privacy Impact Assessment (PIA)
+﻿# Chapter 03: Risk Assessment, Threat Modeling & Privacy Impact Assessment (PIA)
 
 ## 1. Statutory Baseline & Risk Engineering Framework
 - **PDPA Enforcement Rules Art 12 Para 2 Item 3**: Mandatory establishment of risk assessment and management mechanisms for personal data assets.
-- **ISACA CRISC / CDPSE Mapping**: CRISC Domain 2 (IT Risk Assessment) & CDPSE Domain 3 (Privacy Risk Management / PIA).
+- **Privacy & Risk Engineering Framework**: Risk Governance Domain 2 (IT Risk Assessment) & Privacy Engineering Domain 3 (Privacy Risk Management / PIA).
 
-### 1.1 ISACA 3-Stage Risk Assessment Methodology
+### 1.1 Standard 3-Stage Risk Assessment Methodology
 ```
 ┌─────────────────────────┐     ┌───────────────────────┐     ┌────────────────────────┐
 │ 1. Risk Identification  │ ──> │   2. Risk Analysis    │ ──> │   3. Risk Evaluation   │
@@ -57,9 +57,9 @@
 
 ---
 
-## 3. CRISC / CDPSE Exam Question Bank & Distractor Forensics
+## 3. Scenario Practice & Decision Forensics (Q&A) & Distractor Forensics
 
-### Q1 `[CRISC/CDPSE - PRIMARY]`
+### Q1 `[Privacy Engineering - PRIMARY]`
 Following a comprehensive Privacy Impact Assessment (PIA), what is the PRIMARY basis for determining whether additional controls must be implemented?
 - A. Whether the latest commercial security software packages have been procured
 - B. Whether residual risk exceeds the organization's approved risk appetite
@@ -68,12 +68,12 @@ Following a comprehensive Privacy Impact Assessment (PIA), what is the PRIMARY b
 
 > **[Correct Answer] B**
 > **[Distractor Forensics]**
-> - **Why B is Correct**: In ISACA risk governance, the fundamental decision criterion for risk treatment is comparing residual risk against approved risk appetite.
+> - **Why B is Correct**: In enterprise risk governance, the fundamental decision criterion for risk treatment is comparing residual risk against approved risk appetite.
 > - **Why A is Incorrect**: Control selection must be risk-driven rather than motivated by technological novelty.
 > - **Why C is Incorrect**: While cost-benefit analysis informs control selection, budget alone does not determine the necessity of risk treatment.
 > - **Why D is Incorrect**: Competitor actions provide threat intelligence context, not organizational risk thresholds.
 
-### Q2 `[CRISC/CDPSE - BEST]`
+### Q2 `[Privacy Engineering - BEST]`
 During system architecture design, which structured methodology is BEST suited for identifying privacy threats such as linkability, identifiability, and non-repudiation in Data Flow Diagrams?
 - A. STRIDE Threat Modeling
 - B. LINDDUN Privacy Threat Modeling
@@ -86,7 +86,7 @@ During system architecture design, which structured methodology is BEST suited f
 > - **Why A is Incorrect**: STRIDE targets information security threats (Spoofing, Tampering, etc.) rather than privacy properties.
 > - **Why C and D are Incorrect**: Vulnerability scanning and SAST are code-level and network-level security testing tools, not architectural threat modeling methodologies.
 
-### Q3 `[CRISC/CDPSE - FIRST]`
+### Q3 `[Privacy Engineering - FIRST]`
 What is the FIRST step a risk engineering team must perform when conducting an information asset risk assessment?
 - A. Select and deploy field-level cryptographic controls
 - B. Identify and catalogue information assets along with their respective business owners
@@ -100,7 +100,7 @@ What is the FIRST step a risk engineering team must perform when conducting an i
 > - **Why C is Incorrect**: Insurance procurement represents a risk transfer decision made after risk evaluation.
 > - **Why D is Incorrect**: Quantitative calculation requires asset valuation established during initial asset identification.
 
-### Q4 `[CRISC/CDPSE - EXCEPT]`
+### Q4 `[Privacy Engineering - EXCEPT]`
 Which condition makes the formal acceptance of an identified privacy risk INVALID under enterprise risk management standards?
 - A. The calculated residual risk exceeds the organization's maximum risk tolerance limit
 - B. The asset owner has formally signed the risk acceptance documentation

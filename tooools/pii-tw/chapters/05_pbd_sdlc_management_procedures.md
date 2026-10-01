@@ -1,8 +1,8 @@
-# Chapter 05: Internal Management Procedures, Privacy by Design (PbD) & SDLC Controls
+﻿# Chapter 05: Internal Management Procedures, Privacy by Design (PbD) & SDLC Controls
 
 ## 1. Statutory Baseline & Control Engineering
 - **PDPA Enforcement Rules Art 12 Para 2 Item 5**: Mandatory internal management procedures governing personal data collection, processing, and use.
-- **ISACA CRISC / CDPSE Mapping**: SDLC Privacy Integration, Segregation of Duties (SoD), Synthetic Data Engineering & Post Implementation Review (PIR).
+- **Privacy & Risk Engineering Framework**: SDLC Privacy Integration, Segregation of Duties (SoD), Synthetic Data Engineering & Post Implementation Review (PIR).
 
 ### 1.1 Privacy by Design (PbD) 7 Foundational Principles Matrix
 | Principle | Engineering Standard & Implementation | Technical Gate in SDLC |
@@ -45,9 +45,9 @@
 
 ---
 
-## 3. CRISC / CDPSE Exam Question Bank & Distractor Forensics
+## 3. Scenario Practice & Decision Forensics (Q&A) & Distractor Forensics
 
-### Q1 `[CRISC/CDPSE - BEST]`
+### Q1 `[Privacy Engineering - BEST]`
 During the software testing phase, what is the BEST engineering practice to prevent unauthorized disclosure of personal data?
 - A. Require all QA engineers and testers to sign non-disclosure agreements
 - B. Populate non-production test environments exclusively with synthetically generated data
@@ -61,7 +61,7 @@ During the software testing phase, what is the BEST engineering practice to prev
 > - **Why C is Incorrect**: Disabling logs destroys traceability and security monitoring.
 > - **Why D is Incorrect**: Restricting hours does not address the underlying data exposure.
 
-### Q2 `[CRISC/CDPSE - PRIMARY]`
+### Q2 `[Privacy Engineering - PRIMARY]`
 Following the release of a new customer-facing system, what is the PRIMARY objective of conducting a Post Implementation Review (PIR)?
 - A. Assign disciplinary responsibility for project timeline overruns
 - B. Verify whether implemented privacy and security controls operate effectively as designed without introducing secondary vulnerabilities
@@ -70,12 +70,12 @@ Following the release of a new customer-facing system, what is the PRIMARY objec
 
 > **[Correct Answer] B**
 > **[Distractor Forensics]**
-> - **Why B is Correct**: In ISACA CRISC control lifecycle governance, a PIR evaluates whether deployed controls achieve their intended risk reduction and checks for unintended side effects in production.
+> - **Why B is Correct**: In Industry Standards Risk Governance control lifecycle governance, a PIR evaluates whether deployed controls achieve their intended risk reduction and checks for unintended side effects in production.
 > - **Why A is Incorrect**: PIR is a control assurance activity, not a punitive personnel management tool.
 > - **Why C is Incorrect**: Documentation updates are standard operational tasks, not the primary objective of control verification.
 > - **Why D is Incorrect**: Budget justifications do not constitute the primary objective of a technical control review.
 
-### Q3 `[CRISC/CDPSE - FIRST]`
+### Q3 `[Privacy Engineering - FIRST]`
 When integrating Privacy by Design (PbD) into an agile software development lifecycle (SDLC), what is the engineering team's FIRST action during sprint planning?
 - A. Execute automated Dynamic Application Security Testing (DAST) on release candidate builds
 - B. Identify personal data elements and establish privacy requirements and lawful processing constraints
@@ -88,7 +88,7 @@ When integrating Privacy by Design (PbD) into an agile software development life
 > - **Why A is Incorrect**: DAST occurs during the testing and staging phase, late in the SDLC.
 > - **Why C and D are Incorrect**: Physical security and database clustering are infrastructure operational tasks unrelated to sprint feature requirements definition.
 
-### Q4 `[CRISC/CDPSE - EXCEPT]`
+### Q4 `[Privacy Engineering - EXCEPT]`
 Which practice represents a direct violation of the Privacy by Default principle in application design?
 - A. Setting user cookie tracking preferences to opt-in by default
 - B. Pre-checking marketing consent checkboxes during user registration

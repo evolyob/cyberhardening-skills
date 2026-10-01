@@ -1,8 +1,8 @@
-# ISACA CDPSE & CRISC 8-Domain Engineering Mapping (`references/cdpse_mapping.md`)
+﻿# 8-Domain Privacy Engineering & Risk Governance Framework (`references/domain_mapping.md`)
 
 ## 1. Governance & Engineering Domain Cross-Walk
 
-| Chapter | ISACA CDPSE / CRISC Domain | Taiwan PDPA Statutory Basis | Primary Engineering Deliverables & Controls |
+| Chapter | Engineering Domain | Taiwan PDPA Statutory Basis | Primary Engineering Deliverables & Controls |
 | :--- | :--- | :--- | :--- |
 | **Ch 01** | Privacy Governance Architecture | Enforcement Rules Art 12 Items 1 & 11 | Three Lines of Defence, RACI Matrix, Risk Appetite / Tolerance thresholds, KPI/KRI/KCI telemetry. |
 | **Ch 02** | Incident Response & Awareness | Statutory Art 12, Enforcement Rules Items 4 & 7 | CSIRT runbooks, Containment-first workflow, 72h regulatory notification, simulated phishing KCIs. |
@@ -15,7 +15,7 @@
 
 ---
 
-## 2. ISACA Question Stem Taxonomy & Decision Rules
+## 2. Decision Question Stem Taxonomy & Decision Rules
 
 - **`FIRST`**: Identify the foundational governance or technical action in a lifecycle (e.g., Executive sponsorship & Risk Appetite; Containment before notification; Asset identification before risk scoring).
 - **`PRIMARY / MOST`**: Identify the most direct control addressing root-cause exposure (e.g., Application-layer encryption for DBA segregation; RLS for multitenancy isolation; Residual risk vs appetite for treatment decisions).

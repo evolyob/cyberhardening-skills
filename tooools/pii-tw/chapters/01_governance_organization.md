@@ -1,10 +1,10 @@
-# Chapter 01: Privacy Governance, Third-Party Oversight & Risk Architecture
+﻿# Chapter 01: Privacy Governance, Third-Party Oversight & Risk Architecture
 
 ## 1. Statutory Baseline & Governance Architecture
 - **PDPA Enforcement Rules Art 12 Para 2 Item 1**: Mandatory allocation of management personnel and sufficient organizational resources.
 - **PDPA Enforcement Rules Art 12 Para 2 Item 11**: Ongoing improvement mechanisms for technical and organizational data security measures.
 - **PDPA Enforcement Rules Arts 7 & 8**: Statutory obligations for supervising third-party processors and vendors.
-- **ISACA CRISC / CDPSE Mapping**: CRISC Domain 1 (Governance), Third-Party Risk Management (TPRM) & CDPSE Domain 1 (Privacy Governance Architecture).
+- **Privacy & Risk Engineering Framework**: Risk Governance Domain 1 (Governance), Third-Party Risk Management (TPRM) & Privacy Engineering Domain 1 (Privacy Governance Architecture).
 
 ### 1.1 Three Lines of Defence (3LoD) Governance Matrix
 | Tier | Organizational Roles | Direct Operational Responsibilities | Core Deliverables & Technical Metrics |
@@ -54,9 +54,9 @@ Under PDPA Enforcement Rules Art 8, data controllers must contractually bind and
 
 ---
 
-## 3. CRISC / CDPSE Exam Question Bank & Distractor Forensics
+## 3. Scenario Practice & Decision Forensics (Q&A) & Distractor Forensics
 
-### Q1 `[CRISC/CDPSE - FIRST]`
+### Q1 `[Privacy Engineering - FIRST]`
 When establishing an enterprise-wide privacy risk governance framework across a newly formed conglomerate, what is the Risk Manager's FIRST action?
 - A. Procure and deploy automated dynamic data masking software across database clusters
 - B. Obtain Board and executive sponsorship and define the organizational risk appetite
@@ -65,10 +65,10 @@ When establishing an enterprise-wide privacy risk governance framework across a 
 
 > **[Correct Answer] B**
 > **[Distractor Forensics]**
-> - **Why B is Correct**: In ISACA governance doctrine, every risk management initiative must begin (FIRST) with executive commitment and defining acceptable risk appetite from the top down.
+> - **Why B is Correct**: In enterprise privacy governance principles, every risk management initiative must begin (FIRST) with executive commitment and defining acceptable risk appetite from the top down.
 > - **Why A, C, D are Incorrect**: Masking software, penetration testing, and SOP updates are downstream technical/tactical implementations.
 
-### Q2 `[CRISC/CDPSE - PRIMARY]`
+### Q2 `[Privacy Engineering - PRIMARY]`
 When onboarding a third-party cloud analytics processor, what is the PRIMARY purpose of executing a Data Processing Agreement (DPA)?
 - A. Guarantee that the vendor achieves 99.999% application uptime availability
 - B. Establish legally binding obligations ensuring the processor adheres to statutory data protection standards and controller instructions
@@ -82,7 +82,7 @@ When onboarding a third-party cloud analytics processor, what is the PRIMARY pur
 > - **Why C is Incorrect**: Data controllers retain statutory accountability to data subjects and cannot contractually offload all legal liability.
 > - **Why D is Incorrect**: DPAs mandate ongoing controller audit rights rather than eliminating internal audit responsibilities.
 
-### Q3 `[CRISC/CDPSE - BEST]`
+### Q3 `[Privacy Engineering - BEST]`
 Which metric represents the BEST Key Control Indicator (KCI) for evaluating the ongoing effectiveness of Privileged Access Management (PAM)?
 - A. The total number of privileged administrator accounts provisioned across the enterprise
 - B. The percentage of administrative access sessions initiated without enforcing Multi-Factor Authentication
@@ -94,7 +94,7 @@ Which metric represents the BEST Key Control Indicator (KCI) for evaluating the 
 > - **Why B is Correct**: KCIs measure how effectively a control operates against its design baseline. Zero or near-zero MFA bypasses directly indicates control health.
 > - **Why A, C, D are Incorrect**: Account count, software spend, and ticket counts are operational inventory or workload metrics (KPIs), not control effectiveness indicators.
 
-### Q4 `[CRISC/CDPSE - EXCEPT]`
+### Q4 `[Privacy Engineering - EXCEPT]`
 When reviewing a third-party data processing agreement, which clause represents an INSUFFICIENT or legally invalid processor provision?
 - A. The processor may engage arbitrary sub-processors without notifying or obtaining consent from the controller
 - B. The processor must implement encryption at rest and in transit for all controller personal data
