@@ -1,478 +1,434 @@
-﻿﻿﻿# Chapter 19-3: 工控安全開發生命週期 (CNS/IEC 62443-4-1 SDLC) 與供應鏈事件應變
+﻿# Chapter 19-3: IEC 62443-4-1 Secure Product Development Lifecycle (SDL) & Supply Chain IR
 
-> 本章依據中華民國國家標準 **CNS 62443-4-1:2021** (同等採用 **IEC 62443-4-1:2018**《工業自動化及控制系統之安全性－第 4-1 部：產品開發生命週期之安全要求事項》)，針對工業自動化及控制系統 (IACS) 產品供應商、系統整合商與安全應變團隊，建立完整的安全產品開發生命週期 (Secure Product Development Lifecycle, SDL) 規格體系，並將其與 DAIR-IR 供應鏈事件應變程序深度整合。
+> This chapter is based on **IEC 62443-4-1:2018** (*Security for industrial automation and control systems - Part 4-1: Secure product development lifecycle requirements*). It establishes a comprehensive Secure Product Development Lifecycle (SDL) framework for Industrial Automation and Control Systems (IACS) product suppliers, system integrators, and security response teams, deeply integrated into the DAIR-IR supply chain incident response methodology.
 
 ---
 
-## 1. 規範概述與工控產品生命週期安全架構
+## 1. Specification Overview & IACS Product Lifecycle Architecture
 
-CNS 62443-4-1 規範的核心目的，在於使工控產品供應商於其開發、維護及除役之全生命週期中，具備系統化、可重複且可驗證之安全管理與工程流程。工控產品涵蓋嵌入式控制器 (PLC/RTU/IED)、分散式控制系統 (DCS)、人機介面 (HMI)、工程工作站、SCADA 伺服器、專用通訊閘道器及其內部韌體、驅動程式與應用軟體。
+The core objective of IEC 62443-4-1 is to enable industrial control product suppliers to establish systematic, repeatable, and verifiable security management and engineering processes throughout the entire product lifecycle (development, maintenance, and end-of-life). IACS products encompass embedded controllers (PLC/RTU/IED), Distributed Control Systems (DCS), Human-Machine Interfaces (HMI), Engineering Workstations (EWS), SCADA servers, specialized communication gateways, and associated firmware, drivers, and application software.
 
 ```
 +---------------------------------------------------------------------------------------------------+
-|                           CNS / IEC 62443-4-1 SDL 8 大實務作法架構體系                             |
+|                           IEC 62443-4-1 SDL 8-Practice Architectural Framework                    |
 +---------------------------------------------------------------------------------------------------+
-|  [實務作法 1] 安全管理 (SM)                                                                        |
-|   ├── SM-1 開發流程          ├── SM-5 流程範疇          ├── SM-9 外部組件安全要求  ├── SM-13 持續改善     |
-|   ├── SM-2 角色與職責        ├── SM-6 檔案完整性        ├── SM-10 第三方客製組件                          |
-|   ├── SM-3 能力資格識別      ├── SM-7 開發環境安全      ├── SM-11 安全議題評估                            |
-|   └── SM-4 安全意識培訓      └── SM-8 私鑰控制措施      └── SM-12 流程查證                                |
+|  [Practice 1] Security Management (SM)                                                            |
+|   ├── SM-1 Development Process   ├── SM-5 Process Scope     ├── SM-9 External Component Req ├── SM-13 Continuous Imp |
+|   ├── SM-2 Roles & Resp          ├── SM-6 Archive Integrity ├── SM-10 Custom 3rd-Party Dev                |
+|   ├── SM-3 Competence & Qual     ├── SM-7 Dev Env Security  ├── SM-11 Assessing Security Issues           |
+|   └── SM-4 Security Training     └── SM-8 Private Key Ctrl  └── SM-12 Process Verification                |
 +------------------------------------+------------------------------------+-------------------------+
-|  [實務作法 2] 安全要求事項規格 (SR) |  [實務作法 3] 於設計即確保安全 (SD)|  [實務作法 4] 安全實作 (SI) |
-|   ├── SR-1 產品安全全景             |   ├── SD-1 安全設計原則            |   ├── SI-1 安全實作檢核   |
-|   ├── SR-2 威脅模型分析             |   ├── SD-2 縱深防禦設計            |   └── SI-2 安全編程標準   |
-|   ├── SR-3 產品安全要求定義         |   ├── SD-3 安全設計檢核            |                           |
-|   ├── SR-4 安全要求內容規範         |   └── SD-4 安全設計最佳實務        |                           |
-|   └── SR-5 安全要求事項檢核         |                                    |                           |
+|  [Practice 2] Security Req (SR)    |  [Practice 3] Secure by Design (SD)|  [Practice 4] Secure Impl (SI)  |
+|   ├── SR-1 Product Security Context|   ├── SD-1 Secure Design Principles|   ├── SI-1 Secure Impl Review   |
+|   ├── SR-2 Threat Model            |   ├── SD-2 Defense in Depth        |   └── SI-2 Coding Standards     |
+|   ├── SR-3 Product Security Req    |   ├── SD-3 Security Design Review  |                             |
+|   ├── SR-4 Content of Security Req |   └── SD-4 Design Best Practices   |                             |
+|   └── SR-5 Security Req Review     |                                    |                             |
 +------------------------------------+------------------------------------+-------------------------+
-|  [實務作法 5] 安全查證與驗核測試 (SVV)                                                            |
-|   ├── SVV-1 安全功能與邊界測試      ├── SVV-3 弱點測試 (模糊/SCA/動態分析) └── SVV-5 測試獨立性矩陣    |
-|   ├── SVV-2 威脅減緩措施有效性測試   └── SVV-4 滲透測試 (縱深防禦穿透評估)                         |
+|  [Practice 5] Security Verification & Validation Testing (SVV)                                    |
+|   ├── SVV-1 Security Req Testing   ├── SVV-3 Vulnerability Testing (Fuzz/SCA/DAST) └── SVV-5 Independence Matrix |
+|   ├── SVV-2 Threat Mitigation Test └── SVV-4 Penetration Testing (Defense Penetration)            |
 +------------------------------------+------------------------------------+-------------------------+
-|  [實務作法 6] 安全性議題管理 (DM)   |  [實務作法 7] 安全性更新管理 (SUM) |  [實務作法 8] 安全性指引 (SG)|
-|   ├── DM-1 漏洞與議題接收通知       |   ├── SUM-1 更新資格檢定 (無回歸)  |   ├── SG-1 產品縱深防禦   |
-|   ├── DM-2 議題檢核與確認           |   ├── SUM-2 更新文件化             |   ├── SG-2 環境預期防禦   |
-|   ├── DM-3 嚴重度與衝擊評估         |   ├── SUM-3 相依組件/OS 更新文件化 |   ├── SG-3 系統強化指引   |
-|   ├── DM-4 應變處置與因應措施       |   ├── SUM-4 安全交付 (防偽/簽章)   |   ├── SG-4 安全除役指引   |
-|   ├── DM-5 漏洞協同揭露             |   └── SUM-5 及時交付時程 (SLA)     |   ├── SG-5 安全操作指引   |
-|   └── DM-6 流程定期檢核             |                                    |   ├── SG-6 帳戶管理指引   |
-|                                    |                                    |   └── SG-7 文件化檢核     |
+|  [Practice 6] Defect Mgmt (DM)     |  [Practice 7] Update Mgmt (SUM)    |  [Practice 8] Guidelines (SG)   |
+|   ├── DM-1 Receiving Notification  |   ├── SUM-1 Update Qualification   |   ├── SG-1 Defense in Depth     |
+|   ├── DM-2 Reviewing Issues        |   ├── SUM-2 Update Documentation   |   ├── SG-2 Expected Defense     |
+|   ├── DM-3 Assessing Issues        |   ├── SUM-3 Dependent OS Updates   |   ├── SG-3 Hardening Guidelines |
+|   ├── DM-4 Addressing Issues       |   ├── SUM-4 Update Delivery (Sign) |   ├── SG-4 Disposal Guidelines  |
+|   ├── DM-5 Disclosing Issues       |   └── SUM-5 Timely Delivery (SLA)  |   ├── SG-5 Operation Guidelines |
+|   └── DM-6 Periodic Process Review |                                    |   ├── SG-6 Account Guidelines   |
+|                                    |                                    |   └── SG-7 Doc Review           |
 +------------------------------------+------------------------------------+-------------------------+
 ```
 
-### 1.1 8 大實務作法控制項對照矩陣
+### 1.1 The 8 Practices Control Matrix
 
-| 實務作法代號 | 實務作法中文名稱 | 控制項總數 | 核心目標與工程產出 |
+| Practice ID | Practice Name | Controls | Core Objectives & Engineering Deliverables |
 | :--- | :--- | :--- | :--- |
-| **Practice 1 (SM)** | 安全性管理 | 13 項 (SM-1 ~ SM-13) | 建立 SDL 制度、界定責任、資格要求、私鑰安全、供應鏈與第三方組件管制、持續改進 |
-| **Practice 2 (SR)** | 安全要求事項規格 | 5 項 (SR-1 ~ SR-5) | 明確定義產品運作全景、資產威脅模型、衍生功能性與保證性安全要求事項 |
-| **Practice 3 (SD)** | 於設計即確保安全 | 4 項 (SD-1 ~ SD-4) | 套用最小特權、隔離仲介等安全原則，落實縱深防禦架構與設計檢核 |
-| **Practice 4 (SI)** | 安全實作 | 2 項 (SI-1 ~ SI-2) | 執行源碼靜態分析、禁用危險函式、輸入驗證與安全編程標準規範 |
-| **Practice 5 (SVV)** | 安全查證及驗核測試 | 5 項 (SVV-1 ~ SVV-5) | 涵蓋功能測試、威脅減緩測試、SCA/模糊測試、滲透測試及獨立測試要求 |
-| **Practice 6 (DM)** | 安全性議題管理 | 6 項 (DM-1 ~ DM-6) | 建立漏洞通報接收通道、工控衝擊評估、暫行減緩與修補因應、協同揭露機制 |
-| **Practice 7 (SUM)** | 安全性更新管理 | 5 項 (SUM-1 ~ SUM-5) | 確保修補程式不破壞控制即時性與安全性、相依組件更新文件化、數位簽章防偽交付、時效 SLA |
-| **Practice 8 (SG)** | 安全指導綱要 | 7 項 (SG-1 ~ SG-7) | 提供縱深防禦整合手冊、系統加固配置指南、帳戶權限指引、安全除役與資料抹除指引 |
+| **Practice 1 (SM)** | Security Management | 13 controls (SM-1 ~ SM-13) | Establish SDL governance, define roles, qualifications, private key controls, supply chain component governance, and continuous improvement. |
+| **Practice 2 (SR)** | Specification of Security Requirements | 5 controls (SR-1 ~ SR-5) | Formulate product operational context, asset threat modeling, functional security requirements, and assurance criteria. |
+| **Practice 3 (SD)** | Secure by Design | 4 controls (SD-1 ~ SD-4) | Apply least privilege, complete mediation, defense-in-depth architecture, and formal design verification. |
+| **Practice 4 (SI)** | Secure Implementation | 2 controls (SI-1 ~ SI-2) | Static source code analysis (SAST), prohibition of unsafe APIs, strict input validation, and secure coding standards. |
+| **Practice 5 (SVV)** | Security Verification & Validation | 5 controls (SVV-1 ~ SVV-5) | Functional testing, threat mitigation verification, SCA/fuzzing, penetration testing, and tester independence matrices. |
+| **Practice 6 (DM)** | Management of Security-Related Issues | 6 controls (DM-1 ~ DM-6) | Vulnerability disclosure intake, industrial impact assessment, workarounds, root-cause remediation, and CVD processes. |
+| **Practice 7 (SUM)** | Security Update Management | 5 controls (SUM-1 ~ SUM-5) | Update qualification without regressions, dependent component documentation, digital signature delivery, and SLA timelines. |
+| **Practice 8 (SG)** | Security Guidelines | 7 controls (SG-1 ~ SG-7) | Defense-in-depth integration manuals, hardening guides, account administration policies, and secure disposal procedures. |
 
 ---
 
-## 2. 8 大實務作法詳細規範與技術要求
+## 2. Detailed Technical Requirements for the 8 Practices
 
-### 2.1 實務作法 1：安全性管理 (Security Management, SM-1 ~ SM-13)
+### 2.1 Practice 1: Security Management (SM-1 ~ SM-13)
 
-安全管理要求產品供應商建立完整治理流程，確保所有涉及產品開發與維護的人員、工具、環境與外部組件均受到嚴密管制。
+Security management mandates structured governance across all personnel, tools, environments, and external components involved in product development.
 
-1. **SM-1 開發過程 (Development process)**: 供應商應建立、記錄並維護其產品安全開發生命週期流程，流程應與既有軟硬體工程生命週期緊密整合。
-2. **SM-2 角色及責任 (Roles and responsibilities)**: 明確指派各產品開發階段之安全職責，包括安全架構師、安全測試員、密鑰管理員與事故應變負責人。
-3. **SM-3 識別能力及資格 (Identifying competence and qualification)**: 鑑別各安全角色所需之技術資格，定期進行技能評定，確保執行人員具備對應能力。
-4. **SM-4 安全意識培訓 (Security awareness training)**: 針對開發、測試與維護人員實施定期安全培訓，內容涵蓋工控威脅趨勢與安全編程實務。
-5. **SM-5 過程範圍 (Process scope)**: 明確定義安全開發生命週期適用之產品線、硬體型號、韌體版本與外圍支援工具。
-6. **SM-6 檔案完整性 (Archive integrity)**: 建立並維護原始碼、構建腳本、二進位映像檔、相依套件與工具鏈之封存與完整性保護機制，確保歷史版本可完整重現與驗證。
-7. **SM-7 開發環境安全 (Development environment security)**: 實施開發網路、編譯伺服器、程式碼儲存庫與 CI/CD 管線的存取控制、網路隔離與防篡改監控。
-8. **SM-8 私鑰之控制措施 (Control of private keys)**:
-   - 產品程式碼簽署私鑰、設備身分認證根金鑰 (Root CA Keys) 與通訊密鑰必須儲存於硬體安全模組 (HSM) 或受實體與邏輯嚴密隔離的受控環境中。
-   - 嚴禁於程式碼儲存庫或建置腳本中靜態寫入任何私鑰或憑證。
-   - 限制私鑰簽署操作之授權層級，必須具備雙人控制 (Dual Control) 或多因子授權審核紀錄。
-9. **SM-9 外部所提供組件之安全要求事項 (Security requirements for externally provided components)**:
-   - 供應商應針對外部商用現成軟體 (COTS)、開放原始碼軟體 (OSS) 及第三方硬體模組，制定明確的安全要求事項。
-   - 建立外部組件清單 (SBOM) 與版本追蹤機制，定期比對已知弱點資料庫。
-10. **SM-10 第三方供應者客製開發之組件 (Custom developed components from third-party suppliers)**:
-    - 委外客製開發之韌體或軟體模組，供應商應強制要求協力廠商遵循符合 CNS 62443-4-1 等級之安全開發流程。
-    - 協力廠商交付物必須檢附安全測試報告與原始碼檢驗證明。
-11. **SM-11 評鑑及因應安全性相關議題 (Assessing and addressing security-related issues)**: 建立針對開發中與已發布產品之安全議題評估、追蹤與修復優先級管理機制。
-12. **SM-12 過程查證 (Process verification)**: 定期查驗產品開發專案是否確實執行 SDL 各項程序，留存查驗軌跡。
-13. **SM-13 持續改善 (Continuous improvement)**: 依據事故應變反饋、缺陷統計與稽核結果，定期修正與優化 SDL 開發規範與工程工具。
+1. **SM-1 Development Process**: Establish, document, and maintain an SDL process tightly integrated with existing software/hardware engineering lifecycles.
+2. **SM-2 Roles and Responsibilities**: Explicitly assign security roles across development phases, including Security Architects, Security Testers, Cryptographic Key Custodians, and Incident Responders.
+3. **SM-3 Identifying Competence and Qualification**: Identify required technical competencies and conduct periodic evaluations to ensure staff qualifications.
+4. **SM-4 Security Awareness Training**: Deliver continuous training on industrial threat landscapes and secure coding practices for developers, testers, and maintenance engineers.
+5. **SM-5 Process Scope**: Define the scope of the SDL process across product lines, hardware models, firmware releases, and peripheral engineering tools.
+6. **SM-6 Archive Integrity**: Maintain secure archiving and integrity protection for source code, build scripts, binary images, dependencies, and toolchains to guarantee historical reproducibility.
+7. **SM-7 Development Environment Security**: Enforce access control, network segmentation, and anti-tamper monitoring across development subnets, build servers, source repositories, and CI/CD pipelines.
+8. **SM-8 Control of Private Keys**:
+   - Store code-signing private keys, device root CA keys, and communication secrets in Hardware Security Modules (HSMs) or strictly segregated environments.
+   - Prohibit hardcoded private keys or certificates in code repositories and build scripts.
+   - Enforce dual control and multi-factor authorization for code-signing operations with immutable audit logs.
+9. **SM-9 Security Requirements for Externally Provided Components**:
+   - Establish explicit security requirements for Commercial Off-The-Shelf (COTS) software, Open-Source Software (OSS), and third-party hardware modules.
+   - Maintain a Software Bill of Materials (SBOM) with version tracking against known vulnerability databases.
+10. **SM-10 Custom Developed Components from Third-Party Suppliers**:
+    - Mandate that outsourced custom component suppliers comply with IEC 62443-4-1 SDL standards.
+    - Require suppliers to deliver security test reports and static analysis verification evidence.
+11. **SM-11 Assessing and Addressing Security-Related Issues**: Track, evaluate, and prioritize fixes for security issues identified during development and post-release.
+12. **SM-12 Process Verification**: Periodically audit development projects to ensure compliance with SDL procedures, retaining verifiable audit trails.
+13. **SM-13 Continuous Improvement**: Update and optimize SDL guidelines, toolchains, and training based on incident feedback, defect statistics, and audit findings.
 
 ---
 
-### 2.2 實務作法 2：安全要求事項之規格 (Specification of Security Requirements, SR-1 ~ SR-5)
+### 2.2 Practice 2: Specification of Security Requirements (SR-1 ~ SR-5)
 
-安全要求規格旨在產品規劃初期建立嚴謹的安全能力定義，防範後期架構變更成本。
+Security requirements engineering defines rigorous baseline capabilities early in product planning to eliminate costly architectural rework.
 
 ```
 +---------------------------------------------------------------------------------------------------+
-|                         Practice 2 (SR) 安全要求事項規格推導與驗證架構                             |
+|                         Practice 2 (SR) Requirement Derivation & Verification Flow                |
 +---------------------------------------------------------------------------------------------------+
-|  [SR-1 產品安全全景]          [SR-2 威脅模型分析]               [SR-3 & SR-4 安全要求定義與內容]   |
-|   - 定義預期運作環境 (Zone)    - STRIDE 威脅分類分析             - 存取控制與鑑別強度要求           |
-|   - 界定系統邊界與 Conduit     - 繪製資料流圖 (DFD)              - 通訊完整性與機密性保護           |
-|   - 識別關鍵資產與安全等級 SL  - 評估工控衝擊 (人身/可用性/破壞) - 稽核日誌與安全狀態監控           |
+|  [SR-1 Security Context]       [SR-2 Threat Model]               [SR-3 & SR-4 Security Req & Content]|
+|   - Operating Environment (Zone) - STRIDE Threat Classification     - Access Control & Auth Criteria   |
+|   - System Boundary & Conduit    - Data Flow Diagrams (DFD)         - Comm Integrity & Encryption      |
+|   - Critical Assets & Target SL  - IACS Physical/Safety Impact      - Audit Logging & Monitoring       |
 +---------------------------------------------------------------------------------------------------+
                                             │
                                             ▼
 +---------------------------------------------------------------------------------------------------+
-|  [SR-5 安全要求事項檢核 (Review)]                                                                  |
-|   - 驗證完整性 (覆蓋所有威脅模型節點)                                                             |
-|   - 驗證可行性 (符合工控實時性 < 10ms 限制)                                                       |
-|   - 建立可追溯性矩陣 (Traceability Matrix: 威脅 -> 要求 -> 設計 -> 測試案例)                       |
+|  [SR-5 Security Requirements Review]                                                              |
+|   - Verify Completeness (Full Threat Coverage across all DFD Nodes)                               |
+|   - Verify Feasibility (Compliant with Real-Time Determinism < 10ms Constraints)                  |
+|   - Establish Traceability Matrix (Threat -> Requirement -> Architecture -> Test Cases)           |
 +---------------------------------------------------------------------------------------------------+
 ```
 
-1. **SR-1 產品安全性全景 (Product security context)**:
-   - 明確描述產品預期安裝與運作之工業環境 (參照 IEC 62443-3-3 區域與管道劃分)。
-   - 界定實體邊界、邏輯網路邊界、支援之通訊協定與目標安全等級 (Security Level, SL 1~4)。
-2. **SR-2 威脅模型 (Threat model)**:
-   - 採用結構化威脅建模方法 (如 STRIDE、攻擊樹分析)，識別跨越信任邊界之資料流、處理程序與儲存單元。
-   - 評估工控特有威脅：未授權控制命令注入、韌體惡意刷寫、時間同步操縱、即時排程中斷與物理安全關聯風險。
-3. **SR-3 產品安全要求事項 (Product security requirements)**: 依據威脅模型分析結果，轉化為具體的產品功能性與非功能性安全需求。
-4. **SR-4 產品安全要求事項內容 (Product security requirements content)**: 要求事項必須包含：
-   - 身分鑑別與授權機制、密碼學保護要求、安全狀態記錄與稽核日誌。
-   - 資料完整性防護、抗阻絕服務 (DoS) 能力、防篡改機制與故障安全 (Fail-Safe) 行為定義。
-5. **SR-5 安全要求事項檢核 (Security requirements review)**: 由獨立評審小組進行檢核，確保安全需求具備完整性、一致性、可測試性與可追溯性。
+1. **SR-1 Product Security Context**: Describe the intended operational environment (IEC 62443-3-3 Zones and Conduits), physical/logical boundaries, supported protocols, and target Security Level (SL 1~4).
+2. **SR-2 Threat Model**: Use structured threat modeling (STRIDE, attack trees) to analyze boundaries, processes, and data stores. Assess IACS-specific threats: unauthorized control command injection, firmware tampering, time-sync manipulation, and physical safety interlock disruption.
+3. **SR-3 Product Security Requirements**: Translate threat modeling findings into functional and assurance security specifications.
+4. **SR-4 Product Security Requirements Content**: Specifications must define authentication, authorization, cryptography, audit logging, data integrity, DoS resilience, tamper resistance, and deterministic Fail-Safe states.
+5. **SR-5 Security Requirements Review**: Conduct formal independent reviews to verify completeness, consistency, testability, and traceability.
 
 ---
 
-### 2.3 實務作法 3：於設計即確保安全 (Secure by Design, SD-1 ~ SD-4)
+### 2.3 Practice 3: Secure by Design (SD-1 ~ SD-4)
 
-在架構設計階段引入防禦縱深與安全工程原則，避免依賴單一防護機制。
+Incorporate architectural defense-in-depth and security engineering principles to avoid single-point protection dependencies.
 
-1. **SD-1 安全設計原則 (Secure design principles)**:
-   - **最小特權 (Principle of Least Privilege)**: 限制行程、服務與通訊埠僅具備運作必需之最低權限。
-   - **完全仲介 (Complete Mediation)**: 每次存取資源均必須通過授權查驗，禁止快取過期權限。
-   - **防禦縱深 (Defense in Depth)**: 多層獨立防護機制，單一機制失效時其他層仍可阻截威脅。
-   - **預設安全 (Secure Defaults)**: 系統預設關閉非必要服務、未加密協定與除錯介面。
-   - **經濟性機制 (Economy of Mechanism)**: 保持安全設計簡潔，降低驗證複雜度。
-2. **SD-2 縱深防禦設計 (Defense in depth design)**:
-   - 設計產品內部之區域隔離 (如控制面與管理面分離、即時核心與通訊堆疊隔離)。
-   - 實施軟硬體安全隔離機制，如硬體信任根 (TPM/Secure Element)、記憶體保護單元 (MPU/MMU) 與安全開機 (Secure Boot)。
-3. **SD-3 安全設計檢核 (Security design review)**: 針對軟硬體架構圖、介面規格與信任邊界進行正式檢核，比對是否滿足 SR 所列要求事項。
-4. **SD-4 安全設計最佳實務作法 (Security design best practices)**: 遵循工控產業公認設計樣式，避免已知架構缺陷 (如明文傳輸憑證、不可撤銷的靜態金鑰)。
-
----
-
-### 2.4 實務作法 4：安全實作 (Secure Implementation, SI-1 ~ SI-2)
-
-確保程式碼與硬體實作嚴格遵循安全規範，消除常見編程弱點。
-
-1. **SI-1 安全實作檢核 (Secure implementation review)**:
-   - 建立同儕程式碼檢核 (Peer Code Review) 機制，聚焦於安全關鍵邏輯、密碼學應用與權限控管模組。
-   - 整合自動化靜態應用程式安全測試 (SAST) 工具，於 CI 管線中阻擋未符合標準之程式碼提交。
-2. **SI-2 安全程式碼撰寫標準 (Secure coding standards)**:
-   - **禁止危險函式**: 嚴格禁用具緩衝區溢位風險之函式 (如 C/C++ 之 `strcpy`, `sprintf`, `gets`)，全面改用邊界檢查安全函式。
-   - **跨越信任邊界之輸入驗證**: 對所有外部輸入 (網路封包、串列通訊、USB 暫存器、API 參數) 實施嚴格長度、格式與型別白名單驗證。
-   - **安全的錯誤與例外處置**: 異常狀況不得洩漏記憶體位址、堆疊軌跡或系統敏感組態；確保系統在異常時進入安全的確定性狀態 (Safe State)。
-   - **嚴禁寫死機密**: 程式碼與編譯配置中嚴禁靜態寫入任何通行碼、API 金鑰或對稱式加密密鑰。
+1. **SD-1 Secure Design Principles**:
+   - **Least Privilege**: Restrict processes, services, and ports to the minimum necessary access.
+   - **Complete Mediation**: Validate authorization on every access request without stale permission caching.
+   - **Defense in Depth**: Implement multi-layered protection so secondary controls catch threats if a primary mechanism fails.
+   - **Secure Defaults**: Deactivate unused services, unencrypted protocols, and debug interfaces out of the box.
+   - **Economy of Mechanism**: Keep security designs concise to minimize verification complexity.
+2. **SD-2 Defense in Depth Design**:
+   - Enforce internal zoning (e.g., control plane isolated from management plane, real-time core segregated from network stacks).
+   - Implement hardware-enforced isolation: Hardware Root of Trust (TPM/Secure Element), Memory Protection Units (MPU/MMU), and Secure Boot.
+3. **SD-3 Security Design Review**: Formally review architecture diagrams, interface specs, and trust boundaries against SR requirements.
+4. **SD-4 Security Design Best Practices**: Follow established IACS design patterns, eliminating architectural defects like plaintext credentials or non-revocable keys.
 
 ---
 
-### 2.5 實務作法 5：安全查證及驗核測試 (Security Verification & Validation Testing, SVV-1 ~ SVV-5)
+### 2.4 Practice 4: Secure Implementation (SI-1 ~ SI-2)
 
-多維度的安全測試體系，驗證安全控制項的有效性與韌性。
+Ensure code and hardware implementations strictly adhere to security standards, eradicating common programming vulnerabilities.
+
+1. **SI-1 Secure Implementation Review**:
+   - Enforce peer code reviews on security-critical logic, cryptographic routines, and authorization modules.
+   - Integrate automated Static Application Security Testing (SAST) into CI pipelines to gate unverified commits.
+2. **SI-2 Secure Coding Standards**:
+   - **Prohibit Unsafe APIs**: Strictly ban buffer-overflow prone functions in C/C++ (`strcpy`, `sprintf`, `gets`), mandating bounds-checked alternatives.
+   - **Validate Trust Boundary Inputs**: Enforce strict allowlists for length, format, and type across all external inputs (network packets, serial buses, USB registers, API parameters).
+   - **Secure Error Handling**: Exceptions must never leak memory addresses, stack traces, or configuration data; ensure deterministic Fail-Safe state transitions upon failure.
+   - **No Hardcoded Secrets**: Strictly ban static credentials, API keys, and symmetric encryption keys in source files and build configurations.
+
+---
+
+### 2.5 Practice 5: Security Verification & Validation Testing (SVV-1 ~ SVV-5)
+
+A multi-dimensional security testing regimen validates the operational resilience of implemented security controls.
 
 ```
 +---------------------------------------------------------------------------------------------------+
-|                   Practice 5 (SVV) 安全查證與驗核多維測試矩陣                                      |
+|                   Practice 5 (SVV) Multi-Dimensional Security Testing Matrix                      |
 +---------------------------------------------------------------------------------------------------+
-|  [SVV-1 功能與邊界測試]   [SVV-2 威脅減緩測試]     [SVV-3 弱點檢測 (4-Layer)]   [SVV-4 滲透測試]  |
-|   - 正向安全功能驗證       - 驗證 STRIDE 減緩措施    - 模糊測試 (Fuzzing)         - 實戰攻擊路徑模擬|
-|   - 異常與格式錯誤輸入     - 繞過防護嘗試           - 攻擊面分析 (Port/ACL)      - 跨多層防護穿透  |
-|   - 壓力與資源耗盡測試     - 多層防禦失效模擬       - 軟體合成分析 (SCA/SBOM)    - 權限提升與逃逸  |
-|                                                     - 執行階段動態資源分析(DAST)                   |
+|  [SVV-1 Functional/Boundary]  [SVV-2 Threat Mitigation]   [SVV-3 Vulnerability (4-Layer)] [SVV-4 Pen Testing]  |
+|   - Security Functional Specs  - STRIDE Mitigation Proof   - Protocol Fuzzing (Fuzz Testing)- Live Exploit Simulation  |
+|   - Boundary & Stress Loads    - Evasion & Bypass Attempts - Attack Surface (Port/ACL)      - Multi-Tier Bypass Path   |
+|   - Malformed Input Handling   - Multi-Layer Failure Sim   - SCA / Binary Dependency (SBOM) - Privilege Escalation     |
+|                                                            - Dynamic Runtime Memory (DAST)                             |
 +---------------------------------------------------------------------------------------------------+
                                             │
                                             ▼
 +---------------------------------------------------------------------------------------------------+
-|  [SVV-5 測試人員獨立性規範 (Independence Matrix)]                                                 |
-|   - Level 1: 同一開發團隊中非原始作者之獨立工程師 (適用於常規單元/整合安全測試)                    |
-|   - Level 2: 獨立於開發專案之組織內部安全品質保證團隊 (適用於威脅減緩與弱點掃描)                    |
-|   - Level 3: 完全獨立之第三方外部專業評鑑機構 (適用於高安全等級產品之滲透測試與認證評核)          |
+|  [SVV-5 Tester Independence Matrix]                                                               |
+|   - Level 1: Peer developer in same team (Unit / integration security tests)                      |
+|   - Level 2: Internal Security QA team independent of project developers (Mitigation & SCA scans) |
+|   - Level 3: Fully independent accredited 3rd-party laboratory (Penetration testing & SL audits)  |
 +---------------------------------------------------------------------------------------------------+
 ```
 
-1. **SVV-1 安全要求事項測試 (Security requirements testing)**:
-   - 驗證所有安全功能模組 (身分鑑別、授權、加密通道、防篡改、安全儲存) 均符合規格。
-   - 執行邊界條件、壓力測試與非預期輸入測試，驗證系統在極限負載下的穩定性。
-2. **SVV-2 威脅減緩測試 (Threat mitigation testing)**:
-   - 針對 SR-2 威脅模型所定義之攻擊場景，設計專用驗證案例，驗證減緩措施之實質防護效力。
-   - 主動嘗試規避或繞過防護機制 (如防重送攻擊、身分偽冒、特權提升測試)。
-3. **SVV-3 脆弱性測試 (Vulnerability testing)**:
-   - **(a) 協定與介面模糊測試 (Fuzzing)**: 對所有對外通訊協定 (Modbus TCP, DNP3, OPC UA, HTTP/REST, IEC 61850) 實施惡意格式封包模糊測試。
-   - **(b) 攻擊面分析 (Attack Surface Analysis)**: 掃描暴露之 TCP/UDP 埠口、未保護之除錯介面 (JTAG, UART)、弱存取控制清單 (ACL) 與過高權限運行之常駐程式。
-   - **(c) 黑箱已知弱點掃描**: 對硬體底層、作業系統與應用軟體實施即時弱點掃描。
-   - **(d) 軟體合成分析 (SCA & SBOM)**: 分析所有編譯產出之二進位可執行檔與韌體映像，識別相依開源函式庫已知弱點 (CVE) 與不安全編譯器旗標。
-   - **(e) 執行階段動態資源管理測試**: 檢測記憶體洩漏、未釋放之檔案控制代柄 (File Handle)、並行競爭條件與共享記憶體未鑑別存取。
-4. **SVV-4 滲透測試 (Penetration testing)**:
-   - 由專業資安測試人員模擬攻擊者視角，嘗試鏈結多個低風險弱點以達成控制權奪取或系統癱瘓。
-5. **SVV-5 測試者之獨立性 (Independence of testers)**:
-   - 依據產品安全等級與組織規模，確保執行安全驗核與滲透測試之人員獨立於直接撰寫該程式碼之開發工程師。
+1. **SVV-1 Security Requirements Testing**: Verify that authentication, authorization, cryptographic channels, tamper detection, and secure storage function as specified under extreme boundary and stress loads.
+2. **SVV-2 Threat Mitigation Testing**: Design test cases mapped to the SR-2 threat model to validate mitigation efficacy and actively test evasion techniques.
+3. **SVV-3 Vulnerability Testing**:
+   - **(a) Protocol Fuzzing**: Fuzz all external protocols (Modbus TCP, DNP3, OPC UA, HTTP/REST, IEC 61850) with malformed packet storms.
+   - **(b) Attack Surface Analysis**: Audit exposed TCP/UDP ports, unprotected debug interfaces (JTAG, UART), weak ACLs, and elevated daemons.
+   - **(c) Known Vulnerability Scanning**: Continuously scan hardware, OS, and software layers for published CVEs.
+   - **(d) Software Composition Analysis (SCA & SBOM)**: Inspect binary images and firmware for vulnerable open-source libraries and insecure compiler flags.
+   - **(e) Dynamic Runtime Analysis**: Detect memory leaks, unreleased file handles, race conditions, and unauthenticated shared memory access.
+4. **SVV-4 Penetration Testing**: Professional security testers simulate real-world attack vectors, chaining minor defects to assess full system compromise risks.
+5. **SVV-5 Independence of Testers**: Enforce organizational independence between development authors and validation/penetration testers based on target Security Levels.
 
 ---
 
-### 2.6 實務作法 6：與安全性相關議題之管理 (Management of Security-Related Issues, DM-1 ~ DM-6)
+### 2.6 Practice 6: Management of Security-Related Issues (DM-1 ~ DM-6)
 
-建立產品全生命週期之漏洞通報、分級、修復與揭露機制。
+Establish end-to-end vulnerability intake, triage, remediation, and coordinated disclosure throughout the product lifecycle.
 
 ```
 +---------------------------------------------------------------------------------------------------+
-|                     Practice 6 (DM) 安全缺陷通報與事件應變端到端處理流程                          |
+|                     Practice 6 (DM) Vulnerability Handling & Response Lifecycle                   |
 +---------------------------------------------------------------------------------------------------+
-|  [DM-1 接收通報]  -->  [DM-2 檢核確認]  -->  [DM-3 衝擊評估]  -->  [DM-4 應變因應]  -->  [DM-5 協同揭露]   |
-|   - 公開通報管道        - 72h 內鑑別真實性    - 工控環境 CVSS 評估   - 制定緊急減緩措施   - 遵循 ISO 29147/30111|
-|   - PGP 加密回報        - 重現缺陷概念驗證    - 人身/營運衝擊分級   - 開發修復修補驗證   - 發布安全通報 Advisory|
-|   - 鑑識對接通道        - 建立追蹤工單        - 判斷波及產品清單     - 提供暫行作業指引   - 提供 SBOM 修正資訊   |
+|  [DM-1 Intake]       -->  [DM-2 Triage]       -->  [DM-3 Impact Eval]  -->  [DM-4 Remediation] -->  [DM-5 CVD Disclosure]|
+|   - Public Reporting       - 72h Verification       - IACS CVSS Scoring      - Dual-Track Action     - ISO 29147/30111 CVD|
+|   - PGP Encrypted Ingestion - PoC Reproduction       - Safety/Outage Severity - Workarounds & Patches - Security Advisory  |
+|   - Forensic Channel       - Ticket Assignment      - Affected Product Fleet - Verification Testing  - Updated SBOM Ingestion|
 +---------------------------------------------------------------------------------------------------+
                                                           │
                                                           ▼
-                                            [DM-6 流程定期檢核 (每年至少 1 次)]
+                                            [DM-6 Annual Periodic Process Review]
 ```
 
-1. **DM-1 接收與安全性相關議題之通知 (Receiving notification of security-related issues)**:
-   - 產品供應商應提供公開、明確且具加密保護 (如 PGP Key、專用通報門戶) 之漏洞回報管道。
-   - 具備接收來自客戶、資安研究員、CERT 與協力廠商通報之標準化收件程序。
-2. **DM-2 檢核與安全性相關議題 (Reviewing security-related issues)**:
-   - 於明確時限內 (建議 <= 72 小時) 初步確認通報內容，在受控環境中重現該弱點，判定其真實性與可利用性。
-3. **DM-3 評估與安全性相關議題 (Assessing security-related issues)**:
-   - 結合通用弱點評分系統 (CVSS) 與工控現場實際衝擊 (人身安全 Safety、營運持續性 Availability、物理損壞風險)，進行嚴重等級評估。
-   - 盤查受影響之所有在售與歷史支援產品型號與韌體版本。
-4. **DM-4 因應與安全性相關議題 (Addressing security-related issues)**:
-   - 針對確認之安全弱點，制定雙軌因應策略：
-     * **即時暫行減緩措施 (Workaround)**: 提供防火牆過濾規則、關閉非必要功能或組態調整指引，供客戶於修補程式釋出前降低風險。
-     * **根本性修復修補 (Root-Cause Remediation)**: 修正源碼缺陷並進入 Practice 7 (SUM) 修補程式驗證流程。
-5. **DM-5 揭露與安全性相關議題 (Disclosing security-related issues)**:
-   - 遵循負責任的協同漏洞揭露 (CVD) 原則 (參照 ISO/IEC 29147 與 ISO/IEC 30111)。
-   - 發布正式安全通報 (Security Advisory)，內容包含 CVE 編號、CVSS 評分、受影響版本、利用條件、暫行減緩措施與正式修補程式下載連結。
-6. **DM-6 定期檢核安全缺陷管理實務作法 (Periodic review of security defect management practice)**:
-   - 每年至少進行 1 次缺陷管理流程的全面檢核，檢討通報處置時效、修復品質與未結工單狀態。
+1. **DM-1 Receiving Notification**: Maintain public, encrypted reporting channels (PGP key, dedicated portal) with standard intake procedures for researchers, CERTs, and customers.
+2. **DM-2 Reviewing Security-Related Issues**: Acknowledge reports within 72 hours, reproduce vulnerabilities in controlled labs, and determine exploitability.
+3. **DM-3 Assessing Security-Related Issues**: Evaluate severity by factoring CVSS scores alongside industrial process impacts (Physical Safety, Availability, Asset Damage) across all supported versions.
+4. **DM-4 Addressing Security-Related Issues**:
+   - **Workaround Track**: Release immediate mitigation guidance (firewall rules, feature disabling) to reduce risk prior to patch release.
+   - **Remediation Track**: Fix source code defects and submit candidates to Practice 7 (SUM) qualification.
+5. **DM-5 Disclosing Security-Related Issues**: Execute Coordinated Vulnerability Disclosure (ISO/IEC 29147 & 30111), publishing formal Advisories with CVE IDs, CVSS scores, affected versions, workarounds, and patch links.
+6. **DM-6 Periodic Process Review**: Conduct annual reviews of defect handling metrics, SLAs, and resolution quality.
 
 ---
 
-### 2.7 實務作法 7：安全性更新管理 (Security Update Management, SUM-1 ~ SUM-5)
+### 2.7 Practice 7: Security Update Management (SUM-1 ~ SUM-5)
 
-針對工控環境極度重視穩定性與高可用性的特質，建立嚴謹的修補程式驗證與發布程序。
+Ensure patch engineering and distribution maintain operational stability and high availability across industrial installations.
 
-1. **SUM-1 安全性更新資格 (Security update qualification)**:
-   - 安全修補程式釋出前，必須通過完整的工控回歸測試，證明修補程式在修復目標弱點的同時，**絕對不致引進系統回歸缺陷、不影響即時控制效能、不破壞現有縱深防禦機制**。
-   - 驗證修補程式與安全儀表系統 (SIS)、硬體限制及法規要求的相容性。
-2. **SUM-2 安全性更新文件化 (Security update documentation)**:
-   - 隨附完整技術文件，明確標註適用產品型號與韌體版本號。
-   - 提供詳細的人工安裝步驟與自動化更新腳本。
-   - 明確揭示安裝修補程式是否需要重啟控制器、可能造成的服務中斷時間，以及未套用修補程式之殘留風險評估。
-3. **SUM-3 相依組件或作業系統之安全性更新文件化 (Dependent component or OS update documentation)**:
-   - 明確公告產品與第三方作業系統 (Windows, Linux, RTOS) 或相依運行時環境 (Java, .NET, 驅動程式) 官方安全性修補程式的相容性測試結果。
-   - 若特定作業系統修補程式與工控產品衝突，供應商應提供經測試之補償性減緩措施。
-4. **SUM-4 安全性更新交付 (Security update delivery)**:
-   - 所有更新套件 (韌體二進位檔、修補執行檔、組態檔案) 必須採用強密碼學機制進行數位簽章 (Digital Signature)。
-   - 提供安全傳輸管道 (HTTPS/TLS) 與 SHA-256/SHA-512 雜湊校驗碼，使資產擁有者可百分之百查驗更新檔案之真偽性與完整性，杜絕偽冒更新。
-5. **SUM-5 及時交付安全性修補程式 (Timely delivery of security updates)**:
-   - 供應商應制定並遵循公開的安全性修補時效政策 (SLA)，依據漏洞嚴重度、公眾知曉程度與是否存在野外利用程式 (In-the-Wild Exploit) 進行分級交付：
-     * **緊急嚴重等級 (Critical, CVSS >= 9.0 或具實戰利用程式)**: 應於 30 天內完成驗證並交付正式修補程式，且於 7 個工作日內提供暫行減緩指引。
-     * **高嚴重等級 (High, CVSS 7.0 ~ 8.9)**: 於 60 天內交付修補程式。
-     * **中低嚴重等級 (Medium/Low, CVSS < 7.0)**: 納入常規季度或半年版本更新週期交付。
+1. **SUM-1 Security Update Qualification**:
+   - Patches must pass rigorous regression testing proving that fixes **never introduce functional regressions, degrade real-time performance, or weaken existing defense-in-depth mechanisms**.
+   - Validate compatibility with Safety Instrumented Systems (SIS), hardware constraints, and regulatory standards.
+2. **SUM-2 Security Update Documentation**: Provide technical documentation detailing affected firmware versions, manual/automated installation steps, expected reboot requirements, outage windows, and residual risks if unpatched.
+3. **SUM-3 Dependent Component or OS Update Documentation**: Document compatibility test results for third-party OS patches (Windows, Linux, RTOS) or runtimes (Java, .NET), providing tested compensatory controls if conflicts arise.
+4. **SUM-4 Security Update Delivery**: Digitally sign all update packages (firmware binaries, patches, configuration files) with strong cryptographic signatures, providing SHA-256/512 checksums over TLS channels to guarantee authenticity and prevent tampering.
+5. **SUM-5 Timely Delivery of Security Updates**: Enforce public SLA policies for patch release timelines:
+   - **Critical (CVSS >= 9.0 or in-the-wild exploit)**: Deliver formal patches within 30 days; publish workaround advisories within 7 business days.
+   - **High (CVSS 7.0 ~ 8.9)**: Deliver patches within 60 days.
+   - **Medium/Low (CVSS < 7.0)**: Deliver in scheduled quarterly or bi-annual maintenance releases.
 
 ---
 
-### 2.8 實務作法 8：安全性指導綱要 (Security Guidelines, SG-1 ~ SG-7)
+### 2.8 Practice 8: Security Guidelines (SG-1 ~ SG-7)
 
-提供資產擁有者與系統整合商將產品安全部署於現場環境之完整指導文件。
+Provide asset owners and system integrators with comprehensive documentation for secure deployment and operation.
 
-1. **SG-1 產品縱深防禦 (Product defense in depth)**: 詳細說明產品內建之安全功能、在多層防禦架構中的角色定位，以及已知殘留風險的應對指引。
-2. **SG-2 環境中所預期之縱深防禦措施 (Expected defense in depth measures in environment)**: 明確列出產品正常防護所需之外部環境補償控制措施 (如前置工控防火牆、實體門禁隔離、跳板機 Jump Host 機制)。
-3. **SG-3 安全性強化指導綱要 (Security hardening guidelines)**:
-   - 提供逐步加固操作手冊，包含關閉未使用的通訊協定與服務 (如 Telnet, FTP, HTTP)。
-   - 安全組態預設值說明、變更指引及其對系統操作的潛在影響評估。
-   - 安全監控、日誌轉發 (Syslog/SIEM) 與異常通報工具之配置指引。
-4. **SG-4 安全性汰除指導綱要 (Security disposal guidelines)**: 提供設備退役時的安全處置作業程序，確保儲存於快閃記憶體、EEPROM 或硬碟中的敏感資料 (加密金鑰、網路拓撲、操作參數) 獲得徹底清除或物理銷毀。
-5. **SG-5 安全性操作指導綱要 (Secure operational guidelines)**: 描述日常運維人員與系統管理員之安全責任、通行碼複雜度與更新週期、憑證輪替等管理規範。
-6. **SG-6 帳戶管理指導綱要 (Account management guidelines)**: 規範作業系統、控制應用程式與資料庫之帳戶權限分級，明列預設帳戶清單並提供強制更名與變更初始密碼之操作步驟。
-7. **SG-7 文件化檢核 (Documentation review)**: 定期檢驗所有使用者手冊與安全指引文件，確保內容之正確性、完整性，且嚴禁在文件範例中記錄任何不安全的實作做法 (如預設明文密碼範例)。
+1. **SG-1 Product Defense in Depth**: Document native security features, architectural roles in layered defense, and residual risk mitigations.
+2. **SG-2 Expected Defense in Depth Measures in Environment**: Detail required external compensatory controls (industrial firewalls, physical perimeters, IDMZ jump hosts).
+3. **SG-3 Security Hardening Guidelines**: Provide step-by-step guides for disabling unused protocols (Telnet, FTP, HTTP), configuring secure defaults, and forwarding security logs to SIEMs.
+4. **SG-4 Security Disposal Guidelines**: Define secure decommissioning procedures to sanitize or destroy sensitive data (cryptographic keys, network topologies, process setpoints) in flash memory, EEPROM, and storage media.
+5. **SG-5 Secure Operational Guidelines**: Detail operational responsibilities, password complexity, update cadences, and certificate rotation procedures.
+6. **SG-6 Account Management Guidelines**: Document role-based authorization tiers, default account inventories, and mandatory procedures for renaming and changing default passwords.
+7. **SG-7 Documentation Review**: Periodically review user guides and security manuals to ensure accuracy and eliminate insecure implementation examples (e.g., sample default credentials).
 
 ---
 
-## 3. 供應鏈安全與第三方協力廠商義務控制
+## 3. Supply Chain Security and Third-Party Governance
 
-工控系統之現代化架構大量整合開源軟體模組、商業現成套件與外部客製韌體，使得軟體供應鏈成為攻擊者首要滲透途徑。CNS 62443-4-1 透過 SM-8、SM-9、SM-10、SI-2 及 SVV-3 建立起多維供應鏈安全防線。
+Modern IACS heavily integrates open-source libraries, COTS software, and third-party custom firmware, making the software supply chain a primary attack vector. IEC 62443-4-1 enforces supply chain defense through SM-8, SM-9, SM-10, SI-2, and SVV-3.
 
 ```
 +---------------------------------------------------------------------------------------------------+
-|                        CNS 62443-4-1 供應鏈安全與外部協力廠商管制流程                              |
+|                        IEC 62443-4-1 Supply Chain & Third-Party Governance Flow                   |
 +---------------------------------------------------------------------------------------------------+
-|  [協力廠商選任與評鑑]             [SBOM 軟體物料清單管理]           [金鑰與機密隔離控制]            |
-|   - 要求符合 62443-4-1 SDL 流程   - SPDX / CycloneDX 標準格式       - HSM 硬體安全模組儲存          |
-|   - 簽署安全品質保證與 SLA 承諾   - 全自動 CI/CD SCA 弱點比對       - 雙人授權程式碼簽署機制          |
-|   - 交付物檢附完整測試報告       - 記錄所有直接與傳遞相依套件       - 程式庫無靜態寫入金鑰          |
+|  [Supplier Qualification]         [SBOM Lifecycle Management]        [Secret & Key Isolation]     |
+|   - Mandate 62443-4-1 SDL Process  - SPDX / CycloneDX Formats         - HSM Cryptographic Storage  |
+|   - Enforce Security SLAs & QA     - Automated CI/CD SCA Scans        - Dual-Control Code Signing  |
+|   - Require Certified Test Reports - Direct & Transitive Dependencies - No Static Secrets in Code  |
 +---------------------------------------------------------------------------------------------------+
                                             │
                                             ▼
 +---------------------------------------------------------------------------------------------------+
-|  [第三方交付物驗收與持續監控]                                                                     |
-|   - 二進位映像檔軟體合成分析 (SVV-3d: 檢測已知 CVE、編譯器弱點、不安全函式庫鏈結)                 |
-|   - 威脅情資對齊：每日自動比對 NVD / CVE / ICS-CERT，追蹤相依組件最新漏洞 (SM-11, DM-1)          |
-|   - 漏洞通報鏈整合：協力廠商若發現弱點，必須於 24 小時內啟動 DM 通報流程與緊急修補                |
+|  [Deliverable Acceptance & Continuous Ingestion Monitoring]                                       |
+|   - Binary Software Composition Analysis (SVV-3d: Known CVEs, Compiler Weaknesses, Insecure Links) |
+|   - Threat Intelligence Alignment: Daily NVD / CVE / ICS-CERT Synchronization (SM-11, DM-1)       |
+|   - Vulnerability Notification: Mandate supplier disclosure within 24 hours upon defect discovery |
 +---------------------------------------------------------------------------------------------------+
 ```
 
-### 3.1 軟體物料清單 (SBOM) 深度管理與組件溯源
+### 3.1 Software Bill of Materials (SBOM) Management
+1. **Machine-Readable Standardization**: Automatically generate SPDX or CycloneDX machine-readable SBOMs with every build.
+2. **Comprehensive Dependency Tracking**: Record all direct and transitive dependencies, including component names, exact version numbers, vendor identities, SHA-256 hashes, and open-source licenses.
+3. **Dynamic Vulnerability Correlation**: Ingest SBOMs into automated monitoring platforms, cross-referencing published NVD, ICS-CERT, and proprietary threat intelligence daily.
 
-1. **機器可讀格式標準化**: 供應商在每次產品建置時，必須自動生成符合 SPDX 或 CycloneDX 標準之機器可讀 SBOM 檔案。
-2. **全維度組件覆蓋**: SBOM 必須詳列所有直接相依 (Direct Dependencies) 與傳遞相依 (Transitive Dependencies) 項目，包括組件名稱、確切版本號、供應商名稱、數位雜湊值 (SHA-256) 與開源授權條款。
-3. **動態追蹤與弱點關聯**: 將 SBOM 自動匯入內部弱點監控系統，每日自動對齊最新公佈之 NVD、ICS-CERT 與專屬威脅情資，實現供應鏈弱點的即時預警。
+### 3.2 Third-Party Custom Component Acceptance Standards (SM-10)
+- **Source Code Verification**: Require delivered source code to pass strict SAST and coding standard compliance (SI-2).
+- **Security Testing Validation**: Require suppliers to deliver complete test artifacts, including fuzzing, vulnerability scans, and unit tests.
+- **Anti-Backdoor Verification**: Execute binary analysis and heuristic signature scans to detect unauthorized backdoor logic.
 
-### 3.2 第三方客製開發軟硬體元件驗收檢核標準 (SM-10)
-
-針對委外廠商客製開發之專屬組件，建立嚴格的進料檢驗程序：
-- **原始碼品質查核**: 交付源碼必須通過嚴格的靜態分析 (SAST) 與編程規範檢核 (SI-2)。
-- **安全性測試報告審定**: 協力廠商必須出具包含模糊測試、弱點掃描與單元測試之完整測試紀錄。
-- **無惡意後門保證**: 執行二進位比對與惡意程式碼特徵掃描，杜絕供應鏈污染植入後門。
-
-### 3.3 私鑰與憑證生命週期管理架構 (SM-8)
-
-工控設備高度依賴數位簽章維持韌體真偽性，密鑰外洩將導致整條供應鏈崩潰：
-- **生成與儲存隔離**: 根金鑰與程式碼簽署私鑰必須在 FIPS 140-2/3 Level 3 認證之硬體安全模組 (HSM) 內部生成與保存，金鑰不可匯出。
-- **簽署流程安全**: CI/CD 自動化簽署必須透過專用跳板服務與短效憑證進行，並要求多重身分驗證與簽署日誌不可抹除記錄。
-- **金鑰撤銷與輪替演練**: 建立完備的 CRL (憑證撤銷清單) 與 OCSP 機制，每年至少實施一次簽署私鑰撤銷與緊急切換演練。
+### 3.3 Private Key and Certificate Lifecycle Architecture (SM-8)
+- **Generation and Storage Isolation**: Generate and store Root CA and code-signing keys within FIPS 140-2/3 Level 3 certified HSMs; prevent key extraction.
+- **Secure Signing Pipeline**: Route CI/CD automated signing requests through dedicated gateway services with ephemeral certificates and immutable signing logs.
+- **Revocation and Rotation Drills**: Maintain operational CRL and OCSP services; execute annual private key revocation and emergency rotation drills.
 
 ---
 
-## 4. 安全缺陷通報與事件應變處理機制 (DM-1 ~ DM-6)
+## 4. Vulnerability Notification and Incident Handling (DM-1 ~ DM-6)
 
-### 4.1 漏洞接收與通報通道建置 (DM-1)
+### 4.1 Vulnerability Intake Infrastructure (DM-1)
+- **Contact Channels**: Maintain a dedicated public portal and contact email (`security@vendor.com`).
+- **Encrypted Ingestion**: Provide public PGP keys (RSA-4096 or Ed25519) for secure vulnerability submissions.
+- **Response SLAs**: Formally commit to acknowledging and ticketing submissions within 72 hours.
 
-供應商必須在官方網站設立公開的「安全通報政策 (Security Vulnerability Reporting Policy)」專頁，明列以下資訊：
-- **安全聯絡信箱**: 如 `security@vendor.com` 或專屬 Web 通報入口。
-- **公開 PGP 公鑰**: 提供至少 4096-bit RSA 或 Ed25519 之 PGP Key 指紋，供通報者加密傳輸敏感漏洞細節。
-- **安全回應承諾**: 承諾在接收通報後 72 小時內回覆通報者並提供追蹤工單編號。
+### 4.2 IACS Impact Assessment Matrix (DM-2, DM-3)
 
-### 4.2 工控場域衝擊評估矩陣 (DM-2, DM-3)
+Evaluating vulnerability severity in IACS requires adjusting generic CVSS base metrics with operational context:
 
-工控系統評估弱點嚴重度時，不得僅依賴傳統 IT CVSS Base Score，必須引入工控特有之環境修正參數：
-
-| 評估維度 | 低嚴重度 (Low) | 中嚴重度 (Medium) | 高嚴重度 (High) | 緊急嚴重度 (Critical) |
+| Dimension | Low Severity | Medium Severity | High Severity | Critical Severity |
 | :--- | :--- | :--- | :--- | :--- |
-| **人身安全衝擊 (Safety)** | 無影響 | 引起輕微告警，不影響安全保護機制 | 可能降低安全儀表系統 (SIS) 冗餘度 | 直接破壞安全連鎖保護，存在人身危害風險 |
-| **營運持續性 (Availability)** | 無影響或單純管理介面重啟 | 單一輔助控制器重啟，控制迴圈自動維持 | 造成關鍵生產線短暫停擺 (< 1 小時) | 造成全廠無預警緊急停機 (Plant Trip) |
-| **物理設備損壞 (Physical Asset)**| 無損壞風險 | 無損壞風險 | 造成設備過載運轉，需人工介入保護 | 造成昂貴重型機具 (如渦輪機、高壓泵) 實體損毀 |
-| **利用條件與現狀** | 需實體接觸且具備高階特權 | 需位於同一本機子網且無現成利用程式 | 可跨網段利用，或已出現概念驗證 (PoC) | 可自遠端未經鑑別利用，野外已出現實戰攻擊 |
+| **Physical Safety Impact** | No impact | Minor alarm, safety mechanisms unaffected | May degrade SIS redundancy | Directly disables safety interlocks, posing life-safety risks |
+| **Operational Availability** | No impact or minor UI glitch | Single auxiliary controller restart; loops remain active | Brief line outage (< 1 hour) | Triggers unscheduled total plant trip |
+| **Physical Asset Damage** | No risk | No risk | Causes equipment overload requiring manual intervention | Destroys heavy equipment (turbines, high-pressure pumps) |
+| **Exploitability State** | Requires physical access and high privileges | Local subnet access required; no public exploit | Cross-network exploitable or public PoC available | Remote unauthenticated exploitation; actively exploited in the wild |
 
-### 4.3 雙軌因應策略與協同揭露機制 (DM-4, DM-5)
+### 4.3 Dual-Track Response & Coordinated Disclosure (DM-4, DM-5)
 
 ```
-               [收到漏洞通報 (DM-1)]
-                         │
-                         ▼
-             [72h 內技術重現與衝擊評估 (DM-2, DM-3)]
-                         │
-                         ├─────────────────────────────────────────┐
-                         ▼                                         ▼
-            【軌道一：緊急暫行減緩指引 (Workaround)】     【軌道二：正式修補程式工程開發 (Remediation)】
-             - 7 個工作日內發布初步安全建議書              - 進入 SDL 修改源碼與韌體
-             - 提供防火牆封鎖規則 (ACL)                   - 通過 SUM-1 工控回歸與相容性測試
-             - 建議關閉非必要脆弱服務/協定                - 取得程式碼簽署與雜湊校驗 (SUM-4)
-                         │                                         │
-                         └───────────────────┬─────────────────────┘
-                                             │
-                                             ▼
-                             [協同揭露 (DM-5: CVD 流程)]
-                              - 與 CERT / 通報者協調公開時間
-                              - 發布正式 Security Advisory (CVE, CVSS, Fix)
-                              - 交付正式安全修補程式 (SUM-5 SLA)
+               [ Vulnerability Notification Received (DM-1) ]
+                                     │
+                                     ▼
+             [ 72h Lab Reproduction & Impact Triage (DM-2, DM-3) ]
+                                     │
+                     ┌───────────────┴───────────────┐
+                     ▼                               ▼
+       【Track 1: Emergency Workaround】 【Track 2: Formal Engineering Remediation】
+        - Issue Advisory within 7 days    - SDL source and firmware fixes
+        - Provide firewall ACL rules      - Pass SUM-1 regression tests
+        - Recommend service disabling     - Obtain digital signatures (SUM-4)
+                     │                               │
+                     └───────────────┬───────────────┘
+                                     │
+                                     ▼
+                     [ Coordinated Disclosure (DM-5: CVD) ]
+                      - Coordinate disclosure timeline with CERT / Reporter
+                      - Release Security Advisory (CVE, CVSS, Fixes)
+                      - Distribute qualified security updates (SUM-5 SLA)
 ```
 
 ---
 
-## 5. 安全性修補與版本更新管理 (SUM-1 ~ SUM-5)
+## 5. Security Patch and Update Engineering (SUM-1 ~ SUM-5)
 
-工控環境對於系統變更極度敏感，修補程式若未經嚴密驗證即行部署，極易引發非預期停機或控制失效。
+### 5.1 Patch Qualification for High-Availability Environments (SUM-1)
+Prior to release, test patches on simulated IACS testbeds to ensure:
+1. **Real-Time Control Loop Jitter**: Verify control cycle jitter remains below 100 microseconds without introducing closed-loop latency.
+2. **Extended Load Stability**: Run continuous 72-hour tests under full network loads, verifying zero memory leaks or kernel crashes.
+3. **Configuration Compatibility**: Ensure updates preserve existing logic (PLC Ladder/FBD), I/O mappings, and communication parameters without requiring re-engineering.
 
-### 5.1 工控高可用性限制下的修補程式資格檢定規範 (SUM-1)
-
-修補程式在發布前，必須於模擬工控測試平台執行以下測試：
-1. **即時性與控制迴圈測試**: 驗證修補後之控制週期抖動 (Jitter) 小於 100 微秒，通訊延遲不影響閉迴路控制。
-2. **長時間負載穩定性測試**: 在全負載與極限網路流量下持續運行至少 72 小時，無記憶體洩漏或核心異常崩潰。
-3. **組態相容性驗證**: 驗證套用更新後，既有之邏輯控制程式 (PLC Ladder/FBD)、I/O 映射與通訊組態完整保留，無須重新工程配置。
-
-### 5.2 修補程式防偽與安全交付機制 (SUM-4)
-
-為防範攻擊者偽造修補程式進行二度供應鏈攻擊，更新交付必須落實以下標準：
-- **雙重雜湊校驗**: 於官方安全門戶同時提供 SHA-256 與 SHA-512 雜湊值。
-- **二進位數位簽章**: 韌體更新檔案內嵌 RSA-4096 / ECDSA P-384 簽章，控制器開機與刷寫前由硬體 BootROM 強制校驗簽章，簽章不符即拒絕刷寫。
-- **防降級保護 (Anti-Rollback)**: 透過硬體熔絲 (eFuse) 或單向計數器，禁止將韌體刷回存在已知弱點的歷史舊版本。
+### 5.2 Anti-Tamper Patch Delivery (SUM-4)
+- **Dual Checksums**: Provide SHA-256 and SHA-512 checksums on official portals.
+- **Binary Digital Signatures**: Embed RSA-4096 / ECDSA P-384 signatures verified by hardware BootROM before flashing.
+- **Anti-Rollback Protection**: Use hardware eFuses or monotonic counters to block downgrades to vulnerable legacy releases.
 
 ---
 
-## 6. 與 DAIR-IR 供應鏈事件應變 (Chapter 01) 的實戰整合
+## 6. Integration with DAIR-IR Supply Chain IR (Chapter 01)
 
-在 DAIR-IR Chapter 01 案例中，攻擊者透過被污染的協力廠商 SDK 植入惡意背景程序，繞過本機權限並建立隱蔽通道。本節將 CNS 62443-4-1 的 SDL 防護體系全面映射至 DAIR-IR 動態事故應變框架中。
+In the DAIR-IR Chapter 01 case study, an adversary breached environments through a compromised third-party SDK. This section maps the IEC 62443-4-1 framework directly into the DAIR-IR operational incident response lifecycle.
 
-### 6.1 DAIR-IR 應變階段與 62443-4-1 控制項映射矩陣
+### 6.1 DAIR-IR Phase to 62443-4-1 Mapping Matrix
 
-| DAIR-IR 應變階段 | 應變核心任務 | 映射 CNS 62443-4-1 控制項 | 工控現場聯防作法與處置要求 |
+| DAIR-IR Phase | Incident Response Objective | IEC 62443-4-1 Controls | Operational Task Requirements |
 | :--- | :--- | :--- | :--- |
-| **Preparation<br>(準備階段)** | 供應鏈基線與防禦能力建立 | **SM-8** (私鑰管控)<br>**SM-9** (外部組件要求)<br>**SG-3** (加固指引) | 建立完整 SBOM 清單；私鑰隔離於 HSM；依據 SG-3 封閉除錯埠與未使用通訊協定 |
-| **Detection<br>(偵測階段)** | 異常行程與供應鏈污染識別 | **SVV-3d** (SCA 弱點檢測)<br>**DM-1** (通報接收)<br>**SR-4** (日誌稽核) | 監控未知行程建立、異常通訊埠連線；比對 SBOM 異常雜湊；啟用安全稽核日誌轉發 |
-| **Verify & Triage<br>(驗證分級)** | 鑑別真實性與工控衝擊評估 | **DM-2** (議題檢核)<br>**DM-3** (衝擊評估)<br>**SR-2** (威脅模型比對) | 依據人身安全與營運衝擊矩陣評定等級；在隔離沙箱中重現惡意 SDK 行為 |
-| **Containment<br>(圍堵階段)** | 阻斷擴散與維持控制安全 | **DM-4** (暫行減緩措施)<br>**SD-2** (縱深隔離)<br>**SG-2** (外部防護) | 套用 DM-4 暫行減緩指引；隔離受害區域 (Conduit 隔離)；維持控制器故障安全 (Fail-Safe) 模式 |
-| **Eradication<br>(根除階段)** | 惡意組件拔除與漏洞根治 | **SUM-1** (修補程式資格檢定)<br>**SUM-4** (防偽交付)<br>**SI-2** (程式碼標準) | 移除惡意 SDK；取得經 SUM-4 數位簽章之官方修補程式；更換所有受影響憑證與金鑰 |
-| **Recovery<br>(復原階段)** | 控制系統安全復原上線 | **SUM-2** (更新文件化)<br>**SG-5** (操作指引)<br>**SG-6** (帳戶管理) | 依據 SUM-2 步驟驗證修補生效；依 SG-6 重設所有管理帳戶密碼；分階段重啟控制迴圈 |
-| **Debrief<br>(檢討改善)** | SDL 流程修正與供應鏈追責 | **SM-10** (第三方管理檢核)<br>**SM-13** (持續改善)<br>**DM-6** (流程檢核) | 追究協力廠商違約與安全義務責任；修訂內部進料檢驗與 CI/CD SCA 流程；更新威脅模型 |
+| **Preparation** | Build baseline supply chain defenses | **SM-8** (Key Controls)<br>**SM-9** (External Components)<br>**SG-3** (Hardening) | Maintain accurate SBOMs; isolate private keys in HSMs; disable debug ports per SG-3. |
+| **Detection** | Identify unauthorized processes and tampering | **SVV-3d** (SCA Vulnerability Scan)<br>**DM-1** (Intake)<br>**SR-4** (Audit Logging) | Monitor anomalous process creation and port binding; match SBOM hashes; forward audit logs. |
+| **Verify & Triage** | Validate compromise and assess IACS impact | **DM-2** (Issue Review)<br>**DM-3** (Impact Assessment)<br>**SR-2** (Threat Model Match) | Score severity using safety/outage metrics; reproduce malicious SDK behavior in sandboxes. |
+| **Containment** | Block lateral spread and ensure safety | **DM-4** (Workaround Guidance)<br>**SD-2** (Defense in Depth)<br>**SG-2** (Compensatory Defense) | Deploy DM-4 workarounds; sever affected conduits; lock controllers in Fail-Safe mode. |
+| **Eradication** | Remove malicious artifacts and remediate defects | **SUM-1** (Update Qualification)<br>**SUM-4** (Signed Delivery)<br>**SI-2** (Coding Standards) | Remove tainted SDKs; apply SUM-4 signed patches; rotate all affected credentials and keys. |
+| **Recovery** | Safely restore control infrastructure | **SUM-2** (Update Documentation)<br>**SG-5** (Operation Guidelines)<br>**SG-6** (Account Management) | Verify patch deployment per SUM-2; reset administrative credentials per SG-6; phased restart. |
+| **Debrief** | Refine SDL governance and enforce accountability | **SM-10** (Third-Party Audit)<br>**SM-13** (Continuous Improvement)<br>**DM-6** (Periodic Review) | Enforce contractual vendor liability; update intake SCA gating; refine threat models. |
 
-### 6.2 案例回溯剖析：Chapter 01 供應鏈攻擊的 62443-4-1 防禦切入點
+### 6.2 Retrospective Analysis: Chapter 01 Defense Interception Points
 
-在 Chapter 01 的案例中，若開發團隊與資安團隊落實了 CNS 62443-4-1 標準，攻擊鏈將在多個節點被主動截斷：
+Applying IEC 62443-4-1 to the Chapter 01 attack path illustrates how controls actively disrupt the kill chain:
 
 ```
 +---------------------------------------------------------------------------------------------------+
-|                        Chapter 01 攻擊路徑 vs CNS 62443-4-1 防禦切入點                            |
+|                        Chapter 01 Attack Path vs. IEC 62443-4-1 Interception Points               |
 +---------------------------------------------------------------------------------------------------+
-| [攻擊路徑 1: 惡意 SDK 引入]                                                                        |
-|  - 現實：工程師逕自下載未經檢驗的第三方 SDK                                                        |
-|  - 62443 防禦切入：SM-9 / SM-10 強制要求外部組件白名單檢驗，CI/CD SCA (SVV-3d) 立即阻斷未知雜湊  |
+| [Attack Step 1: Malicious SDK Ingestion]                                                          |
+|  - Reality: Developer downloads unvetted third-party SDK directly                                 |
+|  - 62443 Defense: SM-9/SM-10 mandates vetted allowlists; CI/CD SCA (SVV-3d) blocks unknown hashes |
 +---------------------------------------------------------------------------------------------------+
                                             │
                                             ▼
 +---------------------------------------------------------------------------------------------------+
-| [攻擊路徑 2: 惡意常駐背景行程建立 (ms / ssupd 監聽 8080)]                                         |
-|  - 現實：惡意行程在開發者工作站私自建立監聽並維持常駐                                             |
-|  - 62443 防禦切入：SD-1 最小特權與 SG-3 系統加固，限制應用程式建立未授權之監聽通訊埠             |
+| [Attack Step 2: Persistent Daemon Creation (ms / ssupd listening on 8080)]                       |
+|  - Reality: Malicious daemon establishes local listening port with persistence                    |
+|  - 62443 Defense: SD-1 Least Privilege and SG-3 hardening restrict unauthorized port bindings     |
 +---------------------------------------------------------------------------------------------------+
                                             │
                                             ▼
 +---------------------------------------------------------------------------------------------------+
-| [攻擊路徑 3: 憑證與雲端機密外洩]                                                                   |
-|  - 現實：惡意程式竊取工作站環境變數中的靜態 API Key                                               |
-|  - 62443 防禦切入：SM-8 與 SI-2 禁止靜態寫入與明文儲存機密，強制採用硬體憑證與短效 Token          |
+| [Attack Step 3: Credential & Cloud Secret Exfiltration]                                           |
+|  - Reality: Malware steals static API keys from workstation environment variables                 |
+|  - 62443 Defense: SM-8 & SI-2 ban static credentials, mandating hardware tokens and short-lived certs |
 +---------------------------------------------------------------------------------------------------+
                                             │
                                             ▼
 +---------------------------------------------------------------------------------------------------+
-| [攻擊路徑 4: 橫向移動與持續潛伏]                                                                   |
-|  - 現實：通報被當作普通軟體問題處理，延誤 6 天                                                     |
-|  - 62443 防禦切入：DM-1 / DM-2 要求 72h 內完成安全缺陷檢核，啟動 DAIR-IR 跨團隊協同應變機制       |
+| [Attack Step 4: Lateral Movement & Latency]                                                       |
+|  - Reality: Initial ticket treated as minor bug, causing a 6-day triage delay                      |
+|  - 62443 Defense: DM-1/DM-2 mandates 72-hour triage, triggering DAIR-IR cross-functional response  |
 +---------------------------------------------------------------------------------------------------+
 ```
 
-### 6.3 工控供應鏈事件應變標準作業程序 (SOP Checklist)
+### 6.3 Industrial Supply Chain IR Standard Operating Procedure (SOP Checklist)
 
-當工控現場接獲供應鏈組件污染或緊急漏洞通報時，應變團隊應循以下檢核清單執行：
+When a supply chain defect or component compromise is reported, response teams execute the following procedure:
 
 ```
-[ ] 步驟 1: 資產與 SBOM 盤查 (0 ~ 2 小時)
-    [ ] 匯入受影響組件之名稱、版本號與 SHA-256 雜湊至資產管理系統。
-    [ ] 檢索全廠控制器、HMI 與伺服器之 SBOM 清單，產出受波及設備清冊。
+[ ] Step 1: Asset Inventory & SBOM Sweep (0 ~ 2 Hours)
+    [ ] Ingest component name, version, and SHA-256 hash into asset management systems.
+    [ ] Sweep SBOMs across all plant PLCs, HMIs, and servers to generate an affected asset inventory.
 
-[ ] 步驟 2: 威脅驗證與工控風險評定 (2 ~ 6 小時)
-    [ ] 在專用工控隔離測試台上重現漏洞利用行為 (DM-2)。
-    [ ] 依據衝擊矩陣 (DM-3) 評定人身安全、可用性與設備損壞等級。
-    [ ] 判斷受影響設備當前之安全等級 (SL-Target vs SL-Achieved)。
+[ ] Step 2: Threat Verification & IACS Risk Triage (2 ~ 6 Hours)
+    [ ] Reproduce exploit behavior on isolated testbed hardware (DM-2).
+    [ ] Score safety, availability, and asset damage impacts using the triage matrix (DM-3).
+    [ ] Assess target vs. achieved Security Levels (SL-Target vs. SL-Achieved).
 
-[ ] 步驟 3: 緊急暫行防護佈署 (6 ~ 24 小時)
-    [ ] 依據廠商 Security Advisory 或內部研擬之 DM-4 措施，下發邊界防火牆規則。
-    [ ] 透過工控深度封包檢測 (DPI) 阻斷特定脆弱功能碼或惡意協定封包。
-    [ ] 若有必要，將受波及設備之控制模式切換為「本地手動 (Manual Control)」。
+[ ] Step 3: Emergency Workaround Deployment (6 ~ 24 Hours)
+    [ ] Deploy perimeter firewall rules per vendor advisories and DM-4 workarounds.
+    [ ] Configure industrial DPI filters to block vulnerable function codes or protocols.
+    [ ] Switch critical controllers to Local Manual Run mode where warranted.
 
-[ ] 步驟 4: 修補程式驗證與安全更新 (24 ~ 72 小時 / 依 SLA 規範)
-    [ ] 自官方安全通道下載更新檔，執行 SHA-256 校驗與數位簽章查核 (SUM-4)。
-    [ ] 於測試環境執行控制迴圈即時性與功能回歸測試 (SUM-1)。
-    [ ] 依據排修時程 (Turnaround/Maintenance Window) 執行正式刷寫部署。
+[ ] Step 4: Patch Validation & Deployment (24 ~ 72 Hours / Per SLA)
+    [ ] Download updates from verified channels; validate SHA-256 checksums and digital signatures (SUM-4).
+    [ ] Execute control loop latency and functional regression tests in staging environments (SUM-1).
+    [ ] Deploy patches during scheduled plant maintenance windows (Turnaround).
 
-[ ] 步驟 5: 鑑識留存與流程改進 (72 小時後)
-    [ ] 完整留存受污染映像檔、網路封包與系統日誌供鑑識存證。
-    [ ] 追蹤協力廠商之 RCA (根本原因分析) 與修復確認報告 (SM-10)。
-    [ ] 召開檢討會議，將本次事件特徵更新至威脅模型 (SR-2) 與進料檢驗清單 (SM-9)。
+[ ] Step 5: Forensics & Continuous Improvement (Post-72 Hours)
+    [ ] Archive affected images, packet captures, and logs to preserve the chain of custody.
+    [ ] Audit vendor Root Cause Analysis (RCA) and remediation reports (SM-10).
+    [ ] Update threat models (SR-2) and intake screening allowlists (SM-9) during debriefs.
 ```
 
 ---
 
-## 7. 總結與法規遵循指引
+## 7. Conclusion & Compliance Guidance
 
-CNS 62443-4-1:2021 為工控設備製造商取得產品安全認證 (如 ISASecure SDLA / TÜV Rheinland) 的法定基準，同時作為工控資產擁有者在進行供應鏈採購、驗收與安全應變時的權威依據。
+IEC 62443-4-1:2018 serves as the benchmark for industrial product cybersecurity certifications (e.g., ISASecure SDLA, TÜV Rheinland) and provides asset owners with authoritative criteria for procurement, acceptance testing, and incident response.
 
-透過將 8 大實務作法 (SM, SR, SD, SI, SVV, DM, SUM, SG) 與 DAIR-IR 動態事故應變體系緊密結合，組織能夠在產品開發端實施主動防禦，並在營運端遭遇供應鏈突發事件時，以標準化、具備工控安全意識之作業程序迅速控制損害，確保國家關鍵基礎設施與製造產線的持續安全運作。
+Integrating the 8 Practices (SM, SR, SD, SI, SVV, DM, SUM, SG) into the DAIR-IR dynamic incident response framework enables organizations to implement proactive security during product development while executing structured, safety-conscious incident containment during supply chain emergencies, safeguarding critical infrastructure and continuous production.

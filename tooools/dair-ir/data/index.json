@@ -10,7 +10,7 @@
       "title": "Case Study: Supply Chain Calamity",
       "file": "chapters/chapter_01_supply_chain.md",
       "size_kb": 26,
-      "token_budget": 7750
+      "token_budget": 6505
     },
     {
       "id": "02",
@@ -18,31 +18,31 @@
       "title": "Introduction to Modern Incident Response",
       "file": "chapters/chapter_02_foundations.md",
       "size_kb": 10,
-      "token_budget": 2250
+      "token_budget": 2438
     },
     {
       "id": "03",
       "slug": "chapter_03_threat_history",
       "title": "History of Incident Response & Major Threats",
       "file": "chapters/chapter_03_threat_history.md",
-      "size_kb": 20,
-      "token_budget": 5250
+      "size_kb": 19,
+      "token_budget": 4933
     },
     {
       "id": "04",
       "slug": "chapter_04_team_readiness",
       "title": "Getting Started: Roles, Teams & Playbooks",
       "file": "chapters/chapter_04_team_readiness.md",
-      "size_kb": 29,
-      "token_budget": 7750
+      "size_kb": 28,
+      "token_budget": 7202
     },
     {
       "id": "05",
       "slug": "chapter_05_models_limitation",
       "title": "Incident Response Models and Limitations",
       "file": "chapters/chapter_05_models_limitation.md",
-      "size_kb": 19,
-      "token_budget": 4750
+      "size_kb": 17,
+      "token_budget": 4445
     },
     {
       "id": "06",
@@ -50,7 +50,7 @@
       "title": "DAIR: A Dynamic Approach to Incident Response",
       "file": "chapters/chapter_06_dair_core.md",
       "size_kb": 10,
-      "token_budget": 3250
+      "token_budget": 2445
     },
     {
       "id": "07-1",
@@ -58,15 +58,15 @@
       "title": "Preparation: Strategy, Policies & Vulnerability Disclosure Programs",
       "file": "chapters/chapter_07-1_prepare_strategy_policy.md",
       "size_kb": 59,
-      "token_budget": 12000
+      "token_budget": 15006
     },
     {
       "id": "07-2",
       "slug": "chapter_07-2_prepare_telemetry_logging",
       "title": "Preparation: Telemetry Logging, Audit Baselines & Monitoring Deployment",
       "file": "chapters/chapter_07-2_prepare_telemetry_logging.md",
-      "size_kb": 54,
-      "token_budget": 12000
+      "size_kb": 53,
+      "token_budget": 13637
     },
     {
       "id": "07-3",
@@ -74,15 +74,15 @@
       "title": "Preparation: Golden Backups, Disaster Recovery & Readiness Drills",
       "file": "chapters/chapter_07-3_prepare_backup_dr.md",
       "size_kb": 53,
-      "token_budget": 12000
+      "token_budget": 13375
     },
     {
       "id": "08-1",
       "slug": "chapter_08-1_detect_telemetry_sources",
       "title": "Detection: Telemetry Data Sources, ATT&CK Mapping & Architecture Baselines",
       "file": "chapters/chapter_08-1_detect_telemetry_sources.md",
-      "size_kb": 30,
-      "token_budget": 8000
+      "size_kb": 27,
+      "token_budget": 6867
     },
     {
       "id": "08-2",
@@ -90,39 +90,39 @@
       "title": "Detection: Threat Hunting, Anomaly Analysis & Detection Engineering",
       "file": "chapters/chapter_08-2_detect_hunting_analysis.md",
       "size_kb": 27,
-      "token_budget": 7250
+      "token_budget": 6880
     },
     {
       "id": "09",
       "slug": "chapter_09_verify_triage",
       "title": "Verify and Triage Activities: Severity Scoring",
       "file": "chapters/chapter_09_verify_triage.md",
-      "size_kb": 47,
-      "token_budget": 12000
+      "size_kb": 46,
+      "token_budget": 11662
     },
     {
       "id": "10",
       "slug": "chapter_10_actions_loop",
       "title": "Response Actions Loop: Operational Synchronization",
       "file": "chapters/chapter_10_actions_loop.md",
-      "size_kb": 27,
-      "token_budget": 7250
+      "size_kb": 26,
+      "token_budget": 6709
     },
     {
       "id": "11",
       "slug": "chapter_11_scope",
       "title": "Scope Activity: Blast Radius & Pivot Analysis",
       "file": "chapters/chapter_11_scope.md",
-      "size_kb": 46,
-      "token_budget": 11750
+      "size_kb": 45,
+      "token_budget": 11430
     },
     {
       "id": "12-1",
       "slug": "chapter_12-1_contain_strategy_decision",
       "title": "Containment: Response Strategy, Active/Passive Decisions & Timeline Coordination",
       "file": "chapters/chapter_12-1_contain_strategy_decision.md",
-      "size_kb": 51,
-      "token_budget": 12000
+      "size_kb": 50,
+      "token_budget": 12890
     },
     {
       "id": "12-2",
@@ -130,31 +130,31 @@
       "title": "Containment: Network Microsegmentation, Conduit Isolation & Traffic Blocking",
       "file": "chapters/chapter_12-2_contain_network_isolation.md",
       "size_kb": 48,
-      "token_budget": 12000
+      "token_budget": 12233
     },
     {
       "id": "12-3",
       "slug": "chapter_12-3_contain_host_session",
       "title": "Containment: Host Token Revocation, Session Termination & Evidence Preservation",
       "file": "chapters/chapter_12-3_contain_host_session.md",
-      "size_kb": 39,
-      "token_budget": 10250
+      "size_kb": 38,
+      "token_budget": 9741
     },
     {
       "id": "13-1",
       "slug": "chapter_13-1_eradicate_investigation_rca",
       "title": "Eradication: Root Cause Analysis (RCA), 5 Whys & Forensic Investigation",
       "file": "chapters/chapter_13-1_eradicate_investigation_rca.md",
-      "size_kb": 66,
-      "token_budget": 12000
+      "size_kb": 64,
+      "token_budget": 16226
     },
     {
       "id": "13-2",
       "slug": "chapter_13-2_eradicate_persistence_removal",
       "title": "Eradication: Persistence Mechanism Removal & Backdoor Elimination",
       "file": "chapters/chapter_13-2_eradicate_persistence_removal.md",
-      "size_kb": 62,
-      "token_budget": 12000
+      "size_kb": 61,
+      "token_budget": 15677
     },
     {
       "id": "13-3",
@@ -162,7 +162,7 @@
       "title": "Eradication: Identity Credential Reset, Key Rotation & Access Revocation",
       "file": "chapters/chapter_13-3_eradicate_credential_iam.md",
       "size_kb": 55,
-      "token_budget": 12000
+      "token_budget": 14030
     },
     {
       "id": "13-4",
@@ -170,15 +170,15 @@
       "title": "Eradication: Vulnerability Patching, System Hardening & Baseline Rebuild",
       "file": "chapters/chapter_13-4_eradicate_patch_hardening.md",
       "size_kb": 58,
-      "token_budget": 12000
+      "token_budget": 14656
     },
     {
       "id": "14-1",
       "slug": "chapter_14-1_recover_restoration_validation",
       "title": "Recovery: Secure Restoration, Integrity Validation & Phased Power-On",
       "file": "chapters/chapter_14-1_recover_restoration_validation.md",
-      "size_kb": 31,
-      "token_budget": 9000
+      "size_kb": 25,
+      "token_budget": 6271
     },
     {
       "id": "14-2",
@@ -186,15 +186,15 @@
       "title": "Recovery: Canary Monitoring, Authentication Hardening & Production Sign-Off",
       "file": "chapters/chapter_14-2_recover_canary_monitoring.md",
       "size_kb": 34,
-      "token_budget": 9250
+      "token_budget": 8558
     },
     {
       "id": "15-1",
       "slug": "chapter_15-1_debrief_timeline_postmortem",
       "title": "Debrief: Visual Timeline Reconstruction & Post-Incident Review",
       "file": "chapters/chapter_15-1_debrief_timeline_postmortem.md",
-      "size_kb": 43,
-      "token_budget": 11250
+      "size_kb": 42,
+      "token_budget": 10635
     },
     {
       "id": "15-2",
@@ -202,95 +202,95 @@
       "title": "Debrief: Resilience Upgrades, Metric Tracking & Governance Improvement",
       "file": "chapters/chapter_15-2_debrief_governance_improvement.md",
       "size_kb": 39,
-      "token_budget": 10500
+      "token_budget": 9937
     },
     {
       "id": "16-1",
       "slug": "chapter_16-1_ai_threat_hunting",
       "title": "AI-Assisted Response: Model Selection, Threat Hunting & Log Correlation",
       "file": "chapters/chapter_16-1_ai_threat_hunting.md",
-      "size_kb": 44,
-      "token_budget": 11500
+      "size_kb": 43,
+      "token_budget": 11047
     },
     {
       "id": "16-2",
       "slug": "chapter_16-2_ai_playbook_skills",
       "title": "AI-Assisted Response: Playbook as Skill Architecture & Prompt Engineering",
       "file": "chapters/chapter_16-2_ai_playbook_skills.md",
-      "size_kb": 45,
-      "token_budget": 12000
+      "size_kb": 44,
+      "token_budget": 11328
     },
     {
       "id": "16-3",
       "slug": "chapter_16-3_ai_guardrails_evaluation",
       "title": "AI-Assisted Response: Safety Guardrails & Automation Efficacy Evaluation",
       "file": "chapters/chapter_16-3_ai_guardrails_evaluation.md",
-      "size_kb": 36,
-      "token_budget": 10250
+      "size_kb": 35,
+      "token_budget": 9049
     },
     {
       "id": "17-1",
       "slug": "chapter_17-1_ransomware_triage_contain",
       "title": "Ransomware Playbook: Double Extortion Triage, Negotiation Risks & Emergency Containment",
       "file": "chapters/chapter_17-1_ransomware_triage_contain.md",
-      "size_kb": 53,
-      "token_budget": 12000
+      "size_kb": 51,
+      "token_budget": 13138
     },
     {
       "id": "17-2",
       "slug": "chapter_17-2_ransomware_recovery_hardening",
       "title": "Ransomware Playbook: Decryption Pitfalls, WORM Restoration & Resilience Hardening",
       "file": "chapters/chapter_17-2_ransomware_recovery_hardening.md",
-      "size_kb": 50,
-      "token_budget": 12000
+      "size_kb": 49,
+      "token_budget": 12551
     },
     {
       "id": "18-1",
       "slug": "chapter_18-1_cloud_iam_storage",
       "title": "Cloud Systems Playbook: IAM Credential Leakage, S3/Blob Exfiltration & Billing Alerts",
       "file": "chapters/chapter_18-1_cloud_iam_storage.md",
-      "size_kb": 27,
-      "token_budget": 9500
+      "size_kb": 26,
+      "token_budget": 6758
     },
     {
       "id": "18-2",
       "slug": "chapter_18-2_cloud_workload_iiot",
       "title": "Cloud Systems Playbook: Virtual Workload Forensics & IIoT Edge Gateway Response",
       "file": "chapters/chapter_18-2_cloud_workload_iiot.md",
-      "size_kb": 46,
-      "token_budget": 9000
+      "size_kb": 44,
+      "token_budget": 11282
     },
     {
       "id": "19-1",
       "slug": "chapter_19-1_ot_safety_baseline",
       "title": "OT/ICS Playbook: Industrial Security Baselines & Purdue Architecture Response",
       "file": "chapters/chapter_19-1_ot_safety_baseline.md",
-      "size_kb": 65,
-      "token_budget": 12000
+      "size_kb": 62,
+      "token_budget": 15779
     },
     {
       "id": "19-2",
       "slug": "chapter_19-2_ot_62443_3_1_tech",
       "title": "OT/ICS Playbook: IEC 62443-3-1 Technical Security Assessment & Incident Engineering",
       "file": "chapters/chapter_19-2_ot_62443_3_1_tech.md",
-      "size_kb": 30,
-      "token_budget": 7250
+      "size_kb": 28,
+      "token_budget": 7247
     },
     {
       "id": "19-3",
       "slug": "chapter_19-3_ot_62443_4_1_sdlc",
       "title": "OT/ICS Playbook: IEC 62443-4-1 Secure Development & Supply Chain Defect Remediation",
       "file": "chapters/chapter_19-3_ot_62443_4_1_sdlc.md",
-      "size_kb": 43,
-      "token_budget": 10500
+      "size_kb": 37,
+      "token_budget": 9479
     },
     {
       "id": "20",
       "slug": "chapter_20_nist_csf",
       "title": "Integrating DAIR with NIST CSF 2.0 Framework",
       "file": "chapters/chapter_20_nist_csf.md",
-      "size_kb": 25,
-      "token_budget": 12000
+      "size_kb": 24,
+      "token_budget": 6260
     }
   ]
 }

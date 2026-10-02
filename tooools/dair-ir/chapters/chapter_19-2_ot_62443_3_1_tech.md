@@ -1,337 +1,336 @@
-﻿﻿# 第 19-2 章：CNS/IEC 62443-3-1 工控系統資安技術評量與事件應變工程實務
+﻿# Chapter 19-2: IEC 62443-3-1 Technical Security Assessment & Incident Engineering
 
-## 1. 規範架構與工控環境技術評量準則
+## 1. Regulatory Framework and OT Technical Evaluation Criteria
 
-### 1.1 CNS 62443-3-1 標準定位與核心範疇
-CNS 62443-3-1（等同採用 IEC/TR 62443-3-1:2009）為工業自動化及控制系統（IACS）安全技術評量專用技術報告。該標準系統化評估各類安全工具、減緩對策與技術在操作技術（OT）環境下的適用性、效益、已知缺陷及未來演進趨勢。
+### 1.1 IEC 62443-3-1 Standard Positioning and Scope
+IEC/TR 62443-3-1:2009 is a dedicated technical report for evaluating security technologies in Industrial Automation and Control Systems (IACS). The standard systematically assesses the applicability, effectiveness, known limitations, and evolution trends of various security tools, mitigation controls, and technologies in Operational Technology (OT) environments.
 
-在工業自動化與關鍵基礎設施（能源、石化、水資源、先進製造、軌道交通）中，IACS 已從過去封閉、專屬協定的隔離網路，演變為廣泛採用商用現成（COTS）硬體、標準作業系統（Windows、Linux）與標準乙太網路/網際網路通訊協定（TCP/IP、HTTP、OPC）的連網架構。此架構轉型擴大了外部威脅接觸面，使工業控制系統面臨未授權存取、惡意程式入侵與遠端破壞風險。
+In industrial automation and critical infrastructure (energy, petrochemicals, water, advanced manufacturing, rail transit), IACS has evolved from isolated networks with proprietary protocols into connected architectures broadly adopting Commercial Off-The-Shelf (COTS) hardware, standard operating systems (Windows, Linux), and standard Ethernet/IP protocols (TCP/IP, HTTP, OPC). This convergence expands external threat surfaces, exposing industrial control systems to unauthorized access, malware compromise, and remote sabotage.
 
-### 1.2 OT 與 IT 核心約束差異比較
-在評量所有安全技術時，必須以工控系統的本質約束為決策基礎：
+### 1.2 OT vs. IT Core Constraint Comparison
+Evaluating all security technologies must be grounded in the inherent constraints of industrial control systems:
 
-| 評量維度 | 資訊技術環境（IT） | 工業自動化及控制系統（IACS/OT） | 62443-3-1 技術選型約束 |
+| Dimension | Information Technology (IT) | Industrial Automation & Control Systems (IACS/OT) | 62443-3-1 Selection Constraints |
 | :--- | :--- | :--- | :--- |
-| **首要目標優先序** | 機密性（C）> 完整性（I）> 可用性（A） | 可用性（A）> 完整性（I）> 機密性（C） | 嚴禁任何會導致通訊中斷或控制器無預警停機的防護手段 |
-| **時間敏感性** | 延時容忍度高（秒至分鐘級），非即時 | 延時容忍度極低（毫秒級至微秒級），高度即時（Real-time Determinism） | 加密運算、封包檢驗與身分鑑別不可增加控制迴路延時（Latency）與抖動（Jitter） |
-| **作業中斷影響** | 資料遺失或業務流程暫停，商業衝擊 | 實體設備損毀、環境污染、人身傷亡與人身安全系統（Safety）失效 | 安全機制必須支援安全失效（Fail-Safe）與持續運作模式 |
-| **系統生命週期** | 3 至 5 年，汰換與升級頻繁 | 10 至 30 年，長期穩定運作 | 須相容老舊通訊協定與運算資源受限之嵌入式韌體 |
-| **修補更新週期** | 定期自動推送修補程式與系統重開機 | 需原廠相容性驗證，僅於年度歲修（Turnaround）執行 | 無法隨意安裝作業系統修補程式，需依賴補償性控制措施 |
+| **Primary Goal Priority** | Confidentiality (C) > Integrity (I) > Availability (A) | Availability (A) > Integrity (I) > Confidentiality (C) | Strictly prohibit controls causing communication interruptions or unscheduled controller shutdowns. |
+| **Time Sensitivity** | High latency tolerance (seconds to minutes), non-real-time | Extremely low latency tolerance (milliseconds to microseconds), deterministic real-time | Cryptographic operations, packet inspection, and authentication must not introduce latency or jitter into control loops. |
+| **Outage Impact** | Data loss or business process disruption, financial impact | Equipment damage, environmental pollution, human injury, and Safety Instrumented System (SIS) failures | Security mechanisms must support Fail-Safe and continuous operational modes. |
+| **System Lifecycle** | 3 to 5 years, frequent upgrades and replacements | 10 to 30 years, long-term operational stability | Must remain compatible with legacy protocols and resource-constrained embedded firmware. |
+| **Patch Update Cycle** | Regular automated push of patches and reboots | Requires OEM compatibility testing, executed only during annual turnarounds | Cannot arbitrarily deploy OS patches; relies heavily on compensatory controls. |
 
 ```
                 +-------------------------------------------------------------+
-                |                    Purdue / 62443 架構層級                   |
+                |                   Purdue / 62443 Architecture Levels        |
                 +-------------------------------------------------------------+
-                | Level 4/5: 企業營運網路 (Enterprise Network / IT ERP)        |
-                +-------------------------------------------------------------+
-                                              |
-                              [ 導管 Conduit: 雙防火牆 IDMZ ]
-                                              |
-                +-------------------------------------------------------------+
-                | Level 3.5: 工業非軍事區 (IDMZ: Jump Host, Historian, WSUS)  |
+                | Level 4/5: Enterprise Network (IT ERP / Business Systems)   |
                 +-------------------------------------------------------------+
                                               |
-                             [ 導管 Conduit: 工業防火牆 / VPN ]
+                                [ Conduit: Dual-Firewall IDMZ ]
                                               |
                 +-------------------------------------------------------------+
-                | Level 3: 場區控制與運作管理 (Operations: SCADA Server, EWS)   |
+                | Level 3.5: Industrial DMZ (Jump Host, Historian, WSUS)      |
                 +-------------------------------------------------------------+
                                               |
-                          [ 導管 Conduit: 內部防火牆 / VLAN 隔離 ]
+                               [ Conduit: Industrial Firewall / VPN ]
                                               |
                 +-------------------------------------------------------------+
-                | Level 2: 單元監控與操作 (HMI, Supervisory Control)          |
+                | Level 3: Site Operations & Control (SCADA Server, EWS)      |
                 +-------------------------------------------------------------+
                                               |
-                           [ 導管 Conduit: 工控通訊協定過濾器 ]
+                           [ Conduit: Internal Firewall / VLAN Isolation ]
                                               |
                 +-------------------------------------------------------------+
-                | Level 1: 直接控制層 (PLC, RTU, IED, DCS Controller, Safety) |
+                | Level 2: Supervisory & Unit Control (HMI Panels)            |
                 +-------------------------------------------------------------+
                                               |
-                             [ 實體 I/O / 場域匯流排 Fieldbus ]
+                            [ Conduit: Industrial Protocol Filters ]
                                               |
                 +-------------------------------------------------------------+
-                | Level 0: 實體製程 (Sensors, Actuators, Valves, Motors)      |
+                | Level 1: Basic Control (PLC, RTU, IED, DCS Controller, SIS) |
+                +-------------------------------------------------------------+
+                                              |
+                              [ Physical I/O / Fieldbus Conduits ]
+                                              |
+                +-------------------------------------------------------------+
+                | Level 0: Physical Process (Sensors, Actuators, Valves)      |
                 +-------------------------------------------------------------+
 ```
 
 ---
 
-## 2. 鑑別與授權技術評量（Authentication & Authorization）
+## 2. Authentication and Authorization Assessment
 
-### 2.1 角色型存取控制（RBAC, 5.2 節）
-- **運作機制**：將使用者依職責分派至預定義角色（如：操作員、維護工程師、製程主管、系統管理員、安全稽核員），再由系統依據角色配置特定 IACS 資源與操作權限（讀取、寫入、設定變更、控制指令下達）。
-- **工控環境效益**：取代個別裝置獨立設定權限的傳統作法，降低管理數千台現場裝置（DCS、HMI、PLC、感測器）之維護成本，並大幅降低人員離職後未即時刪除帳號的安全風險。
-- **已知限制與弱點**：
-  1. 靜態角色定義難以應對緊急狀況下的越權操作需求。
-  2. 集中式目錄服務（如 LDAP / Active Directory）在工控網路隔離或連線中斷時，可能導致本地驗證失敗。
-- **部署指引**：
-  1. 於 Level 2/3 控制層部署具備本機快取與離線運作能力的 RBAC 方案，確保廣域網路斷線時現場操作不受影響。
-  2. 建立具備嚴格審核軌跡的緊急權限提升機制（Break-Glass Access）。
+### 2.1 Role-Based Access Control (RBAC, Section 5.2)
+- **Mechanism**: Assigns users to predefined roles (Operator, Maintenance Engineer, Process Supervisor, System Administrator, Security Auditor), granting explicit permissions for IACS resources and actions (read, write, setpoint modification, command execution).
+- **OT Value**: Replaces per-device credential management, reduces maintenance overhead across thousands of field devices, and mitigates lingering access risks following personnel turnover.
+- **Limitations**:
+  1. Static role definitions struggle with emergency override demands.
+  2. Centralized directories (LDAP / Active Directory) fail locally during network segmentation or connectivity loss.
+- **Deployment Guidelines**:
+  1. Deploy local caching and offline capabilities at Level 2/3 to sustain local operations during WAN disconnections.
+  2. Implement strict audited Break-Glass access procedures for emergency operational overrides.
 
-### 2.2 通行碼鑑別（Passcodes & Passwords, 5.3 節）
-- **技術特性**：透過知識因子（單一字串、PIN 碼）確認個體身分。
-- **工控環境衝突與風險**：
-  1. **禁止嚴格鎖定**：傳統 IT 常設定「密碼嘗試失敗 3 次即鎖定帳號」，若直接套用於工控操作員站，攻擊者發動暴力猜解或操作員緊張誤植時，將導致操作介面鎖死，無法因應現場製程異常。
-  2. **快速過期衝擊**：要求頻繁更換密碼（如每 30 天）會導致操作人員將密碼寫於便利貼黏貼於螢幕邊框，或使用簡單規律數字（如 1234、1478），反而弱化安全性。
-  3. **共享帳號依賴**：輪班制操作員常共用單一 HMI 帳號，導致事後鑑識無法歸責至具體個人。
-- **實務建議**：
-  1. 對現場 HMI 採取實體安全搭配適度複雜度的常效通行碼，並將存取稽核重點置於實體進出管制。
-  2. 遠端連線與工程工作站（EWS）則必須強制實施個別化高強度密碼與雙因子鑑別。
+### 2.2 Passcodes and Passwords (Section 5.3)
+- **Technical Attributes**: Authenticates identity based on knowledge factors (passwords, PINs).
+- **OT Constraints and Risks**:
+  1. **Strict Lockout Prohibited**: IT rules such as "lockout after 3 failed attempts" risk locking operator stations during process upsets or brute-force floods, blocking operators from mitigating physical anomalies.
+  2. **Frequent Expiration Impact**: Mandatory 30-day password changes lead to sticky notes on monitor bezels or predictable sequences (1234, 1478), degrading security.
+  3. **Shared Account Dependency**: Shift operators frequently share single HMI accounts, complicating forensic non-repudiation.
+- **Recommendations**:
+  1. Combine physical room security with moderate-complexity persistent credentials on field HMIs.
+  2. Mandate unique high-entropy credentials and multi-factor authentication (MFA) for remote access and Engineering Workstations (EWS).
 
-### 2.3 詰問/回應鑑別（Challenge/Response, 5.4 節）
-- **運作機制**：鑑別伺服器產生隨機數（Challenge/Nonce）傳送至客戶端，客戶端使用共享密鑰或私鑰計算雜湊/加密結果後回傳（Response）。
-- **OT 適用性**：有效消除明文密碼在傳輸過程中遭竊聽（Sniffing）與重演攻擊（Replay Attack）的風險。適用於 SCADA 主站與遠端終端單元（RTU）之間的指令確認通訊。
-- **限制**：舊型 PLC 缺乏足夠的處理器週期與隨機數產生器（PRNG），無法支援高頻率的詰問回應運算。
+### 2.3 Challenge/Response Authentication (Section 5.4)
+- **Mechanism**: Authentication server transmits a random nonce (challenge) to the client, which computes and returns an encrypted hash using a shared key or private key (response).
+- **OT Value**: Eliminates plaintext password sniffing and replay attacks across SCADA-to-RTU telemetry links.
+- **Limitations**: Legacy PLCs lack sufficient CPU cycles and Hardware Random Number Generators (TRNG) to sustain high-frequency cryptographic challenge/response transactions.
 
-### 2.4 實體符記、智慧卡與生物量測（5.5、5.6、5.7 節）
-- **硬體符記與智慧卡（Smart Cards / Hardware Tokens）**：
-  - 適用情境：工程工作站（EWS）下載 PLC 邏輯或變更安全聯鎖設定時，採用具備暗碼晶片的智慧卡或 USB 硬體鎖。
-  - 效益：提供基於持有因子的強固鑑別，避免遠端惡意程式單純利用憑證竊取執行非法控制。
-- **生物量測技術（Biometrics）**：
-  - 工控限制：工業現場環境常有油污、粉塵、化學蒸氣，且操作員需配戴防護手套與安全面罩，指紋辨識與面部辨識之拒真率（FRR）過高。
-  - 建議作法：生物辨識僅適用於中控室（Control Room）實體進出管制閘門，不宜直接作為緊急控制指令的操作鑑別因子。
+### 2.4 Physical Tokens, Smart Cards, and Biometrics (Sections 5.5, 5.6, 5.7)
+- **Hardware Tokens and Smart Cards**:
+  - Use case: Mandate smart cards or cryptographic USB dongles when downloading PLC logic or modifying safety interlocks from EWS.
+  - Value: Strong possession-based authentication prevents remote malware from executing unauthorized controls solely via stolen credentials.
+- **Biometrics**:
+  - OT Limitations: Field dust, grease, chemical vapors, and required PPE (gloves, face shields) cause high False Rejection Rates (FRR).
+  - Guidance: Restrict biometrics to Central Control Room physical access turnstiles; avoid using biometrics as real-time control execution gates.
 
-### 2.5 密碼學技術與金鑰管理（7.2、7.3 節）
-- **對稱金鑰（Symmetric Key）與非對稱金鑰（PKI / Asymmetric Key）之工控權衡**：
+### 2.5 Cryptography and Key Management (Sections 7.2, 7.3)
+- **Symmetric vs. Asymmetric Cryptography in OT**:
 
-| 技術特性 | 對稱金鑰密碼學（AES-128/256） | 公開金鑰密碼學（RSA-2048 / ECC-256） |
+| Attribute | Symmetric Cryptography (AES-128/256) | Asymmetric Cryptography (RSA-2048 / ECC-256) |
 | :--- | :--- | :--- |
-| **運算負荷** | 極低，微秒級完成 | 偏高，毫秒級完成，運算耗能大 |
-| **即時通訊支援** | 適合即時控制封包與場域通訊加密 | 嚴禁直接用於時間敏感性（Time-critical）之控制迴路 |
-| **金鑰分發與管理** | 需預先共享密鑰，端點眾多時管理複雜 | 透過數位憑證與 CA 架構，分發容易 |
-| **適用範圍** | 導管流量加密、感測器至控制器通訊 | 建立連線時之身分鑑別、金鑰交換協商、韌體數位簽章 |
+| **Computational Overhead** | Extremely low, microsecond execution | Moderate to high, millisecond execution, high power draw |
+| **Real-Time Support** | Suitable for real-time control packets and fieldbus links | Strictly prohibited within time-critical control loops |
+| **Key Management** | Requires pre-shared keys, complex across massive fleets | Scalable via digital certificates and PKI CA trust hierarchies |
+| **Scope** | Conduit traffic encryption, sensor-to-controller payloads | Connection handshake authentication, session key exchange, firmware signing |
 
-- **工控 PKI 最佳實務**：
-  1. 控制訊息本身採用對稱加密（如 AES-GCM 提供認證加密），而連線初始化階段採用橢圓曲線密碼（ECC，如 160 至 256 位元）以較小金鑰長度達到等同 RSA 1024 至 3072 位元的安全強度，節省有限頻寬與記憶體。
-  2. 嚴格分離原文埠（Plaintext Port）與密文埠（Ciphertext Port），選用通過 FIPS 140-3 驗證之加密模組。
-  3. 金鑰更新機制需具備斷網維持運作（Survivability）能力，避免因 CA 連線中斷導致控制器拒絕通訊。
+- **OT PKI Best Practices**:
+  1. Encrypt operational payloads using symmetric ciphers (AES-GCM for authenticated encryption); restrict Elliptic Curve Cryptography (ECC 256-bit) to initial handshakes to minimize bandwidth and memory consumption.
+  2. Physically and logically isolate plaintext ports from ciphertext ports using FIPS 140-3 validated cryptographic modules.
+  3. Ensure key management systems support offline survivability so controllers continue operating during CA outages.
 
-### 2.6 裝置對裝置鑑別（Device-to-Device Authentication, 5.10 節）
-- **機制**：控制器與控制器（PLC-to-PLC）、控制器與遠端 I/O 之間，於建立通訊鏈路時執行雙向密碼學身分驗證。
-- **工控價值**：防範流氓裝置（Rogue Device）接入控制網路發送未授權指令（如假冒 SCADA 伺服器發送 Trip 訊號）。
-- **實施依據**：採用 CIP Security、OPC UA 安全設定檔（Security Profiles）或 IEEE 802.1AR 裝置身分憑證（IDevID）。
+### 2.6 Device-to-Device Authentication (Section 5.10)
+- **Mechanism**: Mutual cryptographic authentication between peer controllers (PLC-to-PLC) and remote I/O during link initialization.
+- **OT Value**: Prevents rogue devices from spoofing SCADA servers or peer controllers to inject unauthorized trip commands.
+- **Standards Alignment**: CIP Security, OPC UA Security Profiles, and IEEE 802.1AR Secure Device Identifiers (IDevID).
 
 ---
 
-## 3. 網路分區、過濾、防火牆與導管防護（Segmentation, Firewalls & Conduits）
+## 3. Network Segmentation, Firewalls, and Conduit Protection
 
-### 3.1 區域與導管架構（Zones and Conduits）
-CNS 62443-3-1 要求將工業自動化系統依據功能、風險等級與關鍵性劃分為多個安全區域（Security Zones），區域之間的通訊必須完全透過受保護的導管（Conduits）進行傳輸。
+### 3.1 Zones and Conduits Architecture
+IEC 62443-3-1 mandates partitioning industrial networks into Security Zones based on functional roles, risk levels, and criticality. Inter-zone communication must traverse explicitly secured Conduits.
 
 ```
 +-----------------------------------------------------------------------------------+
-|                           Zone A: 監控營運區 (Level 3)                             |
+|                           Zone A: Supervisory Operations (Level 3)                |
 |  [SCADA Server]        [Historian]        [Engineering Workstation (EWS)]         |
 +-----------------------------------------------------------------------------------+
                                           |
                      ===========================================
-                     導管 Conduit 1 (工業狀態檢視防火牆 + 被動 TAP)
-                     - 僅允許 OPC UA / 嚴禁未授權連線
+                     Conduit 1 (Industrial Stateful Firewall + Passive TAP)
+                     - Permit OPC UA only / Block unauthorized ports
                      ===========================================
                                           |
 +-----------------------------------------------------------------------------------+
-|                           Zone B: 單元控制區 (Level 2)                             |
+|                           Zone B: Unit Control (Level 2)                          |
 |  [HMI Panel 1]         [HMI Panel 2]      [Local Batch Controller]                |
 +-----------------------------------------------------------------------------------+
                                           |
                      ===========================================
-                     導管 Conduit 2 (深層封包檢測 DPI 微防火牆)
-                     - 嚴格限定 Modbus TCP / 限制 Function Code
+                     Conduit 2 (Deep Packet Inspection / Micro-Firewall)
+                     - Restrict Modbus TCP / Enforce Read-Only Function Codes
                      ===========================================
                                           |
 +-----------------------------------------------------------------------------------+
-|                           Zone C: 直接控制區 (Level 1)                             |
+|                           Zone C: Direct Control (Level 1)                        |
 |  [Safety PLC (SIS)]    [Process PLC]      [RTU / IED Controller]                  |
 +-----------------------------------------------------------------------------------+
 ```
 
-### 3.2 網路防火牆技術評量（Network Firewalls, 6.2 節）
-- **防火牆技術類型比較**：
-  1. **封包過濾防火牆（Packet Filtering）**：依據第 3/4 層標頭（IP、Port）過濾，速度最快，但無法辨識應用層偽造。
-  2. **狀態檢視防火牆（Stateful Inspection）**：追蹤 TCP 連線狀態，防範非預期連線，為工控邊界基本防線。
-  3. **應用層代理 / 工控深層封包檢測（Application Proxy / Industrial DPI）**：
-     - 能深度解析工控協定（Modbus/TCP、DNP3、EtherNet/IP、IEC 60870-5-104、OPC UA）。
-     - 能精確控制指令動作：允許特定主機讀取暫存器（如 Modbus Function Code 03/04），但嚴格禁止寫入（Function Code 06/16）或韌體重寫/停機指令。
-- **工業級防火牆必備特點**：無風扇散熱、寬溫運作（-40°C 至 75°C）、雙重直流電源備援、DIN 導軌安裝、毫秒級硬體旁路（Hardware Bypass）。
+### 3.2 Network Firewall Assessment (Section 6.2)
+- **Firewall Technology Comparison**:
+  1. **Packet Filtering**: Inspects Layer 3/4 headers (IP, Port); highest throughput, but cannot detect application-layer payload tampering.
+  2. **Stateful Inspection**: Tracks TCP connection states; blocks unexpected unsolicited inbound sessions.
+  3. **Application Proxy / Industrial Deep Packet Inspection (DPI)**:
+     - Parses industrial protocol payloads (Modbus TCP, DNP3, EtherNet/IP, IEC 60870-5-104, OPC UA).
+     - Granularly enforces function codes: allows register reads (Modbus FC 03/04), while blocking writes (FC 06/16), firmware flashing, and stop commands.
+- **Industrial Hardware Requirements**: Fanless passive cooling, extended operating temperature (-40°C to 75°C), redundant DC power inputs, DIN-rail mounting, sub-millisecond hardware bypass relay.
 
-### 3.3 主機型防火牆（Host-based Firewalls, 6.3 節）
-- **效益**：安裝於 Level 3/2 之 HMI、EWS、歷程伺服器，限制僅特定 IP 與通訊協定能與本機互動，有效遏止勒索軟體在同一子網內的橫向擴散。
-- **限制**：無法安裝於封閉式韌體（PLC、RTU、安全儀表系統 SIS），該類設備必須依賴導管邊界的硬體安全閘道器或微防火牆。
+### 3.3 Host-Based Firewalls (Section 6.3)
+- **Value**: Installed on Level 3/2 HMIs, EWS, and Historians to constrain permissible communicating peers, containing lateral ransomware propagation across identical subnets.
+- **Limitations**: Inapplicable to embedded firmware (PLCs, RTUs, SIS), which mandate perimeter security gateways or micro-firewalls.
 
-### 3.4 虛擬區域網路（VLAN, 6.4 節）
-- **技術配置**：基於 IEEE 802.1Q 標籤將實體交換器劃分為多個邏輯隔離子網。
-- **工控運用**：隔離廣播風暴（Broadcast Storms），將時間敏感性場域流量（如 PROFINET RT、GOOSE）與一般資訊流量隔離於不同 VLAN。
-- **弱點防範**：停用交換器未使用的連接埠、關閉 DTP 自動協商、防止 VLAN 跳躍攻擊（VLAN Hopping）。
+### 3.4 Virtual LANs (VLAN, Section 6.4)
+- **Configuration**: Logically segments physical switches using IEEE 802.1Q tags.
+- **OT Utilization**: Contains broadcast storms; isolates real-time time-critical industrial traffic (PROFINET RT, GOOSE) from general telemetry.
+- **Hardening**: Disable unused switch ports, deactivate Dynamic Trunking Protocol (DTP) auto-negotiation, and enforce anti-VLAN hopping controls.
 
-### 3.5 Level 3.5 工業非軍事區（IDMZ）架構規範
-- **嚴禁直通連線**：企業 IT 網路（Level 4）嚴禁建立任何直接通往控制網路（Level 3/2/1）的路由或連線。
-- **雙向代理中繼機制**：
-  1. **跳板機（Jump Host）**：外部或 IT 管理員必須先經由雙因子鑑別登入 IDMZ 跳板機，再由跳板機開啟受限的遠端桌面（RDP/SSH）連線至 Level 3 系統。
-  2. **鏡像歷程資料庫（Replica Historian）**：Level 3 內部歷程伺服器單向將生產數據推送到 IDMZ 鏡像伺服器，企業 IT 使用者僅能向 IDMZ 查詢數據。
-  3. **WSUS / 軟體更新中繼**：IDMZ 伺服器自外部下載更新並完成測試簽署後，再排程分發至控制層內部。
+### 3.5 Level 3.5 Industrial Demilitarized Zone (IDMZ) Rules
+- **No Direct Routing**: Enterprise IT networks (Level 4) must NEVER maintain direct routable connections into control layers (Level 3/2/1).
+- **Dual-Homed Proxy Architecture**:
+  1. **Jump Hosts**: External administrators must authenticate via MFA to IDMZ jump hosts before establishing restricted RDP/SSH sessions to Level 3.
+  2. **Replica Historians**: Internal Level 3 Historians push production records unidirectionally to IDMZ replica servers; IT clients query IDMZ replicas exclusively.
+  3. **Patch Relays (WSUS)**: IDMZ update servers download and stage vendor-verified patches externally before scheduled redistribution into control layers.
 
 ---
 
-## 4. 系統日誌、被動式入侵偵測與監控遙測（Logging, IDS & Telemetry）
+## 4. System Logging, Passive Intrusion Detection, and Telemetry
 
-### 4.1 日誌稽核公用程式與稽核軌跡（8.2 節）
-- **關鍵日誌範疇**：
-  1. **作業系統層級（Windows Event Logs / Linux Syslog）**：
-     - 安全帳戶管理（SAM）事件：本機帳號建立、修改、刪除。
-     - 特權使用事件：系統管理員權限提升與敏感服務呼叫。
-     - 登入事件：登入成功、失敗次數與存取來源 IP。
-     - 政策變更事件：防火牆規則、稽核政策與登錄檔（Registry）變更。
-     - 程序追蹤事件：非預期執行檔啟動與親代程序關聯。
-  2. **工控應用與控制器層級**：
-     - HMI 警報與操作紀錄（Alarm & Event Historian）。
-     - EWS 專案檔下載、PLC 模式切換（Run -> Program）、變數強制作業（Forcing I/O）。
-- **時鐘同步規範**：所有主機、控制器與網路設備必須同步至高精確度時鐘源（NTP 或 IEEE 1588 PTP），確保事件分析時時序比對的一致性。
-- **差異比對工具**：運用系統快照比較工具（如 Sysdiff、WinDiff）定期檢視登錄檔與系統檔案變更，快速發掘未授權竄改。
+### 4.1 Logging Utilities and Audit Trails (Section 8.2)
+- **Core Log Telemetry**:
+  1. **Operating System Layer (Windows Event Logs / Linux Syslog)**:
+     - SAM Security Account events: Local account creation, modification, deletion.
+     - Privilege use events: Administrator elevation and sensitive service invocation.
+     - Logon events: Success/failure counters and source IP addresses.
+     - Policy change events: Firewall rules, audit policies, and registry mutations.
+     - Process tracking: Unscheduled binary execution and parent-child process lineages.
+  2. **IACS Application and Controller Layer**:
+     - HMI Alarm and Event Historian logs.
+     - EWS project downloads, PLC operational mode switches (Run -> Program), and I/O forcing events.
+- **Clock Synchronization**: Synchronize all hosts, controllers, and network appliances to authoritative high-precision time sources (NTP or IEEE 1588 PTP) to maintain event correlation integrity.
+- **Integrity Baseline Tools**: Use snapshot comparison utilities (Sysdiff, WinDiff) to periodically inspect registry and system file baselines against unauthorized modifications.
 
-### 4.2 工控入侵偵測系統（IDS / NIDS, 8.4 節）
-- **偵測原理與雙軌機制**：
-  1. **特徵比對（Signature-based）**：比對已知工控威脅特徵（如已知 Exploit、惡意載荷特徵碼）。
-  2. **異常行為偵測（Anomaly-based）**：建立正常製程通訊基線（Baseline），監測偏離常態的行為（如：非工作時間下發寫入指令、未知 IP 連線、通訊頻率異常突增、暫存器數值超出安全極限）。
-- **被動監聽架構（Passive Network Monitoring）**：
+### 4.2 Industrial Network Intrusion Detection Systems (NIDS, Section 8.4)
+- **Dual-Engine Detection Principles**:
+  1. **Signature-Based**: Matches known industrial exploits, malware payloads, and malicious communication artifacts.
+  2. **Anomaly-Based**: Establishes behavioral baselines for process communications, flagging deviations (e.g., off-shift write commands, unknown IP connections, abnormal polling spikes, out-of-bound register values).
+- **Passive Monitoring Architecture**:
 
 ```
 +-----------------------------------------------------------------------------------+
-|                        工控即時控制網路 (Level 2 / 1)                                |
+|                        Real-Time Control Network (Level 2 / 1)                    |
 |  [HMI Station] ============================================== [PLC Controller]   |
 |                                     |                                             |
-|                             (實體分流 TAP / 鏡像 SPAN)                             |
+|                             (Physical TAP / SPAN Port)                            |
 |                                     |                                             |
-|                                     v (單向被動接收 / 零封包注入)                    |
-|                        [ 工控專用被動式 NIDS 分析引擎 ]                               |
+|                                     v (Unidirectional Passive Ingestion)          |
+|                        [ Industrial Passive NIDS Engine ]                         |
 |                                     |                                             |
 |                        +------------+------------+                                |
 |                        |                         |                                |
 |                        v                         v                                |
-|               [異常工控語意告警]          [網路資產與通訊基線拓撲]                   |
+|               [Semantic Anomaly Alerts]  [Asset & Baseline Topology Map]          |
 +-----------------------------------------------------------------------------------+
 ```
 
-- **工控專用 NIDS 關鍵特性**：
-  1. **零延時與零干擾**：完全採被動模式（Passive Monitoring），透過硬體分流器（TAP）或交換器鏡像埠（SPAN Port）擷取封包，嚴禁主動向生產網路注入任何探測封包。
-  2. **工控語意深度解析**：精準解構工控專屬標頭（如 S7Comm、Modbus Function Codes、BACnet、EtherNet/IP CIP），識別異常的製程命令。
+- **Critical NIDS Attributes**:
+  1. **Zero Latency and Zero Injection**: Ingests packets exclusively via hardware TAPs or switch SPAN mirror ports; active probing packet injection is strictly prohibited.
+  2. **Industrial Semantic Parsing**: Deeply decodes industrial headers (S7Comm, Modbus FCs, BACnet, EtherNet/IP CIP) to detect abnormal engineering commands.
 
-### 4.3 脆弱性掃描器評量與安全紅線（Vulnerability Scanners, 8.5 節）
-- **安全紅線與風險警示**：
-  - 傳統 IT 主動式弱點掃描器（發送大量變形封包、暴力埠探測、漏洞攻擊測試套件）**嚴禁直接在運作中的生產網路執行**。
-  - 工控設備（PLC、RTU、舊型感測器）之 TCP/IP 堆疊脆弱，主動掃描極易引發記憶體緩衝區溢位、CPU 滿載或韌體死當，導致實體製程非計畫性停機。
-- **安全評量作業標準**：
-  1. **離線/測試環境先行**：所有主動弱點掃描必須在備用機、測試台（Staging Environment）或歲修隔離期間進行。
-  2. **線上被動資產清點**：線上運作環境僅允許使用被動網路流量解析工具（NFA/Passive Asset Discovery）辨識設備型號、韌體版本與潛在漏洞。
+### 4.3 Vulnerability Scanners and Safety Redlines (Section 8.5)
+- **Safety Redlines**:
+  - Active vulnerability scanners (sending malformed packets, aggressive port scans, automated exploit payloads) are **STRICTLY PROHIBITED on active production networks**.
+  - Fragile TCP/IP stacks on legacy PLCs, RTUs, and microcontrollers easily suffer buffer overflows, CPU exhaustion, or firmware crashes, triggering unscheduled plant trips.
+- **Assessment Standards**:
+  1. **Offline Staging First**: All active scans must run exclusively on isolated bench testers, staging environments, or during scheduled plant turnarounds.
+  2. **Online Passive Discovery**: Production environments must only use passive network flow discovery (NFA) to profile assets, firmware versions, and associated CVEs.
 
-### 4.4 鑑識與分析工具（Forensics and Analysis Tools, FAT, 8.6 節）
-- **工具分類**：
-  1. **封包擷取工具**：Ethereal/Wireshark、NetMon，用於原始通訊封包捕獲與重組分析。
-  2. **網路鑑識分析軟體（NFA）**：自動分析網路通訊行為，對比正常基線，產出攻擊路徑與異常通訊圖譜。
-- **工控鑑識挑戰**：市場上專屬場域協定（Fieldbus、專屬 DCS 匯流排）的鑑識解析工具匱乏，需結合歷程資料庫（Historian Event Logs）與系統轉儲檔（Crash Dump）進行綜合交叉比對。
+### 4.4 Forensics and Analysis Tools (FAT, Section 8.6)
+- **Tool Categories**:
+  1. **Packet Analyzers**: Wireshark, NetMon for raw packet reconstruction and protocol analysis.
+  2. **Network Forensic Analysis (NFA)**: Automated traffic behavioral mapping, anomaly graphing, and attack path tracing.
+- **Forensic Challenges**: Specialized fieldbus and proprietary DCS protocols lack commercial dissectors, requiring correlated analysis across Historian Event Logs, crash dumps, and controller state snapshots.
 
-### 4.5 主機組態管理與自動化軟體管理（HCM & ASM, 8.7、8.8 節）
-- **組態管理（HCM）**：建立標準化安全設定基線（登錄檔設定、未授權服務停用、網路介面管制），透過定期查核防範組態漂移（Configuration Drift）。
-- **修補管理（ASM）**：
-  - 評估工控環境專用修補管理架構。
-  - 修補程式必須經由原廠（OEM）測試認證並於測試環境驗證後，方能納入歲修排程分發，不可盲目套用即時自動修補。
+### 4.5 Host Configuration Management and Automated Software Management (Sections 8.7, 8.8)
+- **Configuration Management (HCM)**: Enforces hardened baselines (registry locks, unused service deactivation, USB port blocks) with automated auditing to prevent configuration drift.
+- **Automated Software Management (ASM)**: Evaluates patch management architectures. Patches must pass OEM compatibility certification and staging validation before inclusion in scheduled turnaround deployments.
 
 ---
 
-## 5. 工控主機、即時作業系統與 Web 技術安全（Host, RTOS & Web Security）
+## 5. Host, RTOS, and Web Security
 
-### 5.1 伺服器與工作站作業系統強化（9.2 節）
-- **作業系統加固要點**：
-  1. **服務極小化**：停用所有非必要服務（如 Telnet、FTP、遠端登錄檔服務、Windows 預設共用資料夾）。
-  2. **應用程式白名單（Application Whitelisting）**：嚴格鎖定僅允許已簽章的工控應用軟體、驅動程式與動態函式庫執行，封鎖未授權二進位檔與指令碼。
-  3. **存取權限最適化**：移除本機 Guest 帳號，分離日常操作員帳號與工程維護帳號，落實最小權限原則。
-- **安全政策與製程可用性平衡**：
-  - 避免設定極短的螢幕鎖定時間，防止操作員在監控連續製程時因螢幕頻繁鎖定而延誤告警判讀。
-  - 對緊急中控室操作端點，配置實體存取隔離以補償軟體帳號鎖定限制。
+### 5.1 Server and Workstation OS Hardening (Section 9.2)
+- **Hardening Baseline**:
+  1. **Service Minimization**: Disable unnecessary services (Telnet, FTP, Remote Registry, Windows default shares).
+  2. **Application Allowlisting**: Enforce cryptographically signed binary allowlists, blocking unapproved executables, dynamic libraries, and scripts.
+  3. **Access Optimization**: Remove default Guest accounts, segregate operator accounts from engineering accounts, and enforce least privilege.
+- **Balancing Security with Operational Availability**:
+  - Avoid aggressive short screen saver timeouts on operator consoles to prevent locking out operators during critical process alarms.
+  - Apply physical control room access boundaries to compensate for relaxed console lockouts.
 
-### 5.2 即時與嵌入式作業系統安全（RTOS & Embedded OS, 9.3 節）
-- **架構特性與本質弱點**：
-  - 廣泛應用於 PLC、RTU、IED、智慧儀表之即時作業系統（如 VxWorks、QNX、FreeRTOS、嵌入式 Linux）。
-  - 傳統 RTOS 設計聚焦於微秒級確定性排程（Deterministic Scheduling），普遍缺乏記憶體空間隔離（Memory Protection）、未預設啟用密碼學鑑別，且除錯通訊埠（JTAG、UART、Telnet Debug）常處於開放狀態。
-- **防護工程技術**：
-  1. **實體模式開關控制（Run/Program Key Switch）**：在控制器硬體層級將運作模式鎖定於「RUN」模式，切斷透過網路遠端下載新控制邏輯或改寫韌體之硬體通道。
-  2. **韌體雜湊校驗與安全啟動（Secure Boot）**：透過硬體信任根（Hardware Root of Trust）在開機時驗證韌體數位簽章，防止韌體遭植入惡意後門。
-  3. **網路流量邊界隔離**：將 RTOS 裝置嚴密限制於 Level 1 專屬 VLAN，由前端安全閘道器嚴格過濾所有外來連線。
+### 5.2 Real-Time and Embedded Operating Systems (RTOS, Section 9.3)
+- **Inherent Weaknesses**:
+  - RTOS platforms (VxWorks, QNX, FreeRTOS, Embedded Linux) power PLCs, RTUs, and smart meters.
+  - Traditional RTOS prioritizes microsecond deterministic scheduling over memory protection, lacks default cryptographic authentication, and leaves hardware debug ports (JTAG, UART) exposed.
+- **Engineering Countermeasures**:
+  1. **Physical Key-Switch Locking (Run/Program)**: Switch physical controller key switches to "RUN" mode, cutting remote network pathways for logic downloads and firmware overwrites.
+  2. **Firmware Hash Validation and Secure Boot**: Verify firmware digital signatures via a Hardware Root of Trust at boot time to block persistent implants.
+  3. **Strict VLAN Containment**: Confine RTOS devices to isolated Level 1 VLANs with upstream firewall filtering.
 
-### 5.3 工控 Web 介面與嵌入式伺服器防護（9.4 節）
-- **威脅現況**：現代工控設備（交換器、PLC、電力電表）廣泛內建 Web 管理伺服器，但常存在弱密碼、跨站腳本（XSS）、命令注入（Command Injection）與未授權 API 呼叫弱點。
-- **防護要求**：
-  1. 生產環境中若非絕對必要，強制關閉控制器與網路設備之內建 Web 管理介面。
-  2. 若必須使用 Web 介面管理，嚴禁直接暴露於網際網路或 IT 網路，必須限制僅能透過 IDMZ 內部管理主機經由 HTTPS 與專屬管理 VLAN 存取。
+### 5.3 Web Interfaces and Embedded Servers (Section 9.4)
+- **Threat Landscape**: Embedded web management servers on industrial switches, PLCs, and meters frequently suffer from weak default credentials, XSS, Command Injection, and unauthenticated API endpoints.
+- **Protective Mandates**:
+  1. Disable embedded web management interfaces on controllers and network appliances in production unless strictly required.
+  2. If web management is necessary, prohibit direct IT/Internet exposure; restrict access to HTTPS from designated IDMZ hosts via dedicated management VLANs.
 
 ---
 
-## 6. CNS 62443-3-1 與 DAIR-IR 事件應變技術體系整合
+## 6. IEC 62443-3-1 & DAIR-IR Lifecycle Integration
 
-### 6.1 62443-3-1 技術控制項對應 DAIR 8 階段矩陣
+### 6.1 Mapping Matrix to DAIR 8-Stage Lifecycle
 
-| DAIR-IR 應變階段 | CNS 62443-3-1 技術控制對應項 | 工控現場具體實施工作 |
+| DAIR-IR Stage | IEC 62443-3-1 Control Mapping | Operational Tasks in Industrial Environments |
 | :--- | :--- | :--- |
-| **Phase 1: Prepare (準備)** | • 主機組態管理（HCM, 8.7 節）<br>• 日誌與時鐘同步（8.2 節）<br>• 導管與 IDMZ 拓撲（6.2, 6.4 節） | • 建立 PLC/HMI/EWS 組態與韌體雜湊基線。<br>• 部署 PTP/NTP 時鐘同步與被動監聽 TAP。<br>• 確立區域（Zones）邊界與導管防護規則。 |
-| **Phase 2: Detect (偵測)** | • 被動式 NIDS（8.4 節）<br>• 歷程資料庫異常（8.2 節）<br>• DPI 工控語意檢驗（6.2 節） | • 監測非預期工控協定寫入指令（如 Modbus FC 16）。<br>• 識別異常裝置 MAC/IP 與流氓連線。<br>• 捕獲偏離基線之控制變數突變與警報。 |
-| **Phase 3: Verify & Triage (驗證與分類)** | • 鑑識與分析工具（FAT, 8.6 節）<br>• 登錄檔/檔案差異比對（8.2 節） | • 比對網路封包與製程物理狀態，排除感測器硬體故障。<br>• 判斷受害層級（Level 0/1 實體製程 vs Level 2/3 管理層）。<br>• 依據安全等級（SL）啟動對應應變層級。 |
-| **Phase 4: Actions Loop (動態行動循環)** | • 角色授權與緊急提權（5.2 節）<br>• 跨職能指揮體系 | • 成立由工控製程工程師與資安分析師組成的雙軌應變小組。<br>• 維持製程安全第一原則，任何動作需製程工程師覆核。 |
-| **Phase 5: Scope (範圍界定)** | • 區域與導管邊界檢驗（6.1 節）<br>• 被動流量拓撲重組（8.6 節） | • 沿導管追蹤攻擊者橫向移動路徑。<br>• 檢視全廠區 EWS、HMI、歷程伺服器與控制器感染範圍。<br>• 盤查 IDMZ 跳板機與遠端維護通道連線紀錄。 |
-| **Phase 6: Contain (圍堵隔離)** | • 導管動態熔斷（6.2 節）<br>• 硬體模式開關（9.3 節）<br>• IDMZ 阻斷與微隔離 | • 封閉非必要導管，切斷 IT 與 OT 跨區連線。<br>• 將受影響 PLC 硬體開關切換至 RUN/STOP 模式。<br>• 啟動備援控制迴路或切換為現地手動控制。 |
-| **Phase 7: Eradicate (根除)** | • 應用程式白名單重新驗證（9.2 節）<br>• 韌體重刷與邏輯比對（9.3 節）<br>• 憑證與金鑰全面撤換（7.3 節） | • 由安全來源重新載入 PLC 梯形邏輯（Ladder Logic）。<br>• 重建受污染的 EWS 與 HMI 主機映像檔。<br>• 撤銷並重新簽發所有裝置憑證與遠端存取金鑰。 |
-| **Phase 8: Recover & Debrief (復原與檢討)** | • 階梯式重啟驗證（Staged Recovery）<br>• 脆弱性測試環境驗證（8.5 節）<br>• 防護基線修訂（8.7 節） | • 逐一驗證安全儀表系統（SIS）獨立性後復歸製程。<br>• 於測試台驗證補強措施，更新防火牆過濾規則。<br>• 修訂 62443 區域與導管定義及事件應變計畫。 |
+| **Phase 1: Prepare** | • Host Config Management (8.7)<br>• Logging & Clock Sync (8.2)<br>• Zones, Conduits & IDMZ (6.2, 6.4) | • Establish PLC/HMI/EWS golden baseline hashes.<br>• Deploy PTP/NTP time sync and passive network TAPs.<br>• Define Security Zones and conduit inspection rules. |
+| **Phase 2: Detect** | • Passive NIDS (8.4)<br>• Historian Anomaly Tracking (8.2)<br>• Industrial DPI (6.2) | • Monitor unauthorized industrial write commands (e.g., Modbus FC 16).<br>• Flag rogue MAC/IP addresses and anomalous sessions.<br>• Capture process setpoint anomalies and trip events. |
+| **Phase 3: Verify & Triage** | • Forensic & Analysis Tools (8.6)<br>• Registry/File Diffs (8.2) | • Correlate network packets with physical process telemetry to rule out sensor faults.<br>• Determine compromise layer (Level 0/1 Process vs. Level 2/3 Supervisory).<br>• Activate response tiers based on Security Level (SL). |
+| **Phase 4: Actions Loop** | • Role Authorization & Break-Glass (5.2)<br>• Joint Command System | • Form a dual-track response team of process engineers and IR analysts.<br>• Enforce process safety as the primary directive; all actions require engineering sign-off. |
+| **Phase 5: Scope** | • Conduit Boundary Validation (6.1)<br>• Passive Flow Mapping (8.6) | • Trace adversary lateral movement along industrial conduits.<br>• Assess blast radius across EWS, HMIs, Historians, and controllers.<br>• Review IDMZ jump host and remote maintenance logs. |
+| **Phase 6: Contain** | • Dynamic Conduit Severing (6.2)<br>• Physical Key-Switch Locking (9.3)<br>• IDMZ Microsegmentation | • Sever non-essential conduits; isolate IT-OT cross-zone links.<br>• Switch affected PLC physical key switches to RUN or STOP.<br>• Engage backup control loops or transition to manual local control. |
+| **Phase 7: Eradicate** | • Allowlist Revalidation (9.2)<br>• Firmware Re-flashing & Logic Diffs (9.3)<br>• Certificate & Key Revocation (7.3) | • Reload verified offline ladder logic into PLCs.<br>• Reimage contaminated EWS and HMI workstations.<br>• Revoke and reissue device certificates and remote access keys. |
+| **Phase 8: Recover & Debrief** | • Staged Recovery Validation<br>• Staging Test Validation (8.5)<br>• Hardened Baseline Rebuild (8.7) | • Verify Safety Instrumented Systems (SIS) before process restart.<br>• Validate compensatory controls in staging testbeds; update firewall rules.<br>• Refine 62443 zone/conduit definitions and incident playbooks. |
 
-### 6.2 工控圍堵（Containment）決策矩陣與作業程序
+### 6.2 OT Containment Decision Matrix and Operational Strategy
 
-在工控事件應變中，圍堵手段必須兼顧製程連續性與實體安全性，嚴禁直接使用傳統 IT 之全面斷網或無預警關機手段。
+OT incident containment must maintain process safety and continuity; traditional IT measures such as immediate network severing or abrupt server shutdowns are strictly prohibited.
 
 ```
-                                  [ 偵測到 OT 資安事件 ]
-                                            |
-                                            v
-                            +-------------------------------+
-                            | 評估受影響層級與製程風險等級   |
-                            +-------------------------------+
-                                            |
-                   +------------------------+------------------------+
-                   |                                                 |
-                   v                                                 v
-        [ Level 2 / 3 管理與監控層 ]                       [ Level 0 / 1 核心控制層 ]
-                   |                                                 |
-         +-------------------+                             +-------------------+
-         | 執行網路微隔離    |                             | 嚴禁重開機或中斷  |
-         | 切斷 IDMZ 跳板通道|                             | 控制迴路通訊      |
-         | 阻斷橫向移動路徑  |                             +-------------------+
-         +-------------------+                                       |
-                   |                                                 v
-                   v                                       +-------------------+
-         +-------------------+                             | 現場切換為本地手動|
-         | 啟用備援 HMI /    |                             | 控制 (Manual Run) |
-         | 離線監控模式      |                             | 鎖定 PLC 硬體開關 |
-         +-------------------+                             +-------------------+
-                                                                     |
-                                                                     v
-                                                           +-------------------+
-                                                           | 導管熔斷: 隔離    |
-                                                           | 上層網路寫入指令  |
-                                                           +-------------------+
+                                  [ OT Security Incident Detected ]
+                                                 |
+                                                 v
+                             +---------------------------------------+
+                             | Assess Affected Layer & Safety Impact |
+                             +---------------------------------------+
+                                                 |
+                    +----------------------------+----------------------------+
+                    |                                                         |
+                    v                                                         v
+        [ Level 2 / 3 Operations Layer ]                           [ Level 0 / 1 Control Layer ]
+                    |                                                         |
+          +-------------------+                                     +-------------------+
+          | Microsegment Net  |                                     | DO NOT REBOOT OR  |
+          | Sever IDMZ Jumps  |                                     | CUT CONTROL LOOPS |
+          | Block Lateral Flow|                                     +-------------------+
+          +-------------------+                                               |
+                    |                                                         v
+                    v                                               +-------------------+
+          +-------------------+                                     | Transition to     |
+          | Engage Backup HMI |                                     | Manual Local Run  |
+          | Offline Monitor   |                                     | Lock Physical Keys|
+          +-------------------+                                     +-------------------+
+                                                                              |
+                                                                              v
+                                                                    +-------------------+
+                                                                    | Conduit Severing: |
+                                                                    | Block Upstream    |
+                                                                    | Write Commands    |
+                                                                    +-------------------+
 ```
 
-#### 工控圍堵四階策略
-1. **第一級：導管動態限縮（Conduit Throttling）**
-   - 透過工業防火牆將導管規則從雙向通訊收縮為「僅允許唯讀查詢」，全面阻斷寫入指令（Write Function Codes）與韌體更新連線。
-2. **第二級：管理層微隔離（Control Management Isolation）**
-   - 阻斷 IDMZ 與企業網的所有網路連線，隔離受感染之 EWS 或 HMI 主機，切換至副控室備援操作站。
-3. **第三級：實體硬體鎖定（Physical Key-Switch Locking）**
-   - 指派現場工程人員將所有關鍵 PLC 與安全控制器（SIS）實體開關由「REMOTE / PROGRAM」切換至「RUN」或硬體鎖定位置，杜絕任何遠端指令修改控制器邏輯之可能性。
-4. **第四級：製程安全切換（Process Safety Transition）**
-   - 若控制層通訊已遭受破壞或出現非預期動作，由製程操作員依標準作業程序（SOP）將產線切換為現場氣動/手動控制，或在安全條件下啟動預定義之安全受控降載程序。
+#### Four-Tier Containment Strategy
+1. **Tier 1: Conduit Throttling**
+   - Use industrial firewalls to restrict conduit rules from bidirectional to read-only, blocking write function codes and firmware update sessions.
+2. **Tier 2: Operations Layer Microsegmentation**
+   - Sever IDMZ-to-enterprise connections, isolate infected EWS or HMI hosts, and switch operations to secondary control room backup panels.
+3. **Tier 3: Physical Key-Switch Locking**
+   - Dispatch on-site technicians to turn physical key switches on critical PLCs and SIS controllers from "REMOTE / PROGRAM" to "RUN", physically blocking network logic modifications.
+4. **Tier 4: Process Safety Transition**
+   - If control communications are compromised or exhibiting erratic behavior, process operators execute standard operating procedures (SOPs) to switch production to local pneumatic/manual control, or initiate controlled safe shutdown procedures.
 
-### 6.3 現場鑑識取證安全守則（Rules of Engagement for OT Forensics）
-1. **嚴禁主動掃描**：現場應變人員嚴禁使用任何主動式網路掃描工具探測生產網路。
-2. **優先被動側錄**：封包與鑑識資料擷取一律透過硬體分流器（TAP）或被動式監聽埠進行。
-3. **記憶體與映像檔擷取限制**：
-   - 伺服器與工作站（EWS/HMI）：僅在製程平穩且經現場主管核可下，使用低衝擊鑑識工具提取記憶體。
-   - 控制器（PLC/RTU）：嚴禁直接對運行中控制器進行侵入式記憶體傾印（Memory Dump），應透過原廠支援工具在停機維護或離線測試台執行韌體與程式碼比對。
-4. **歷程資料即時備份**：優先匯出歷程資料庫（Historian）、OPC 伺服器與系統稽核日誌，確保數位證據鏈完整性。
+### 6.3 Rules of Engagement for OT Forensics
+1. **Strictly Prohibit Active Scanning**: Incident responders must never use active network scanners on live production networks.
+2. **Prioritize Passive Capture**: Capture packets and forensic telemetry exclusively via hardware TAPs or passive mirror ports.
+3. **Memory and Image Acquisition Constraints**:
+   - Servers and Workstations (EWS/HMI): Extract volatile memory only during stable process windows with formal site authorization using low-impact forensic tools.
+   - Controllers (PLC/RTU): Never attempt invasive live memory dumps on running controllers; perform firmware and logic verification using OEM tools on bench testers or during offline maintenance.
+4. **Immediate Historian Backups**: Export Historian databases, OPC server audit trails, and OS event logs promptly to preserve the chain of custody.
