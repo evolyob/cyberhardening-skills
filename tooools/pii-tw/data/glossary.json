@@ -1,34 +1,183 @@
 ﻿{
-  "version": "1.0.0",
-  "last_updated": "2026-10-01",
-  "scope": "Taiwan PDPA Legal Terms vs Privacy Engineering Privacy Engineering Terms",
+  "version": "2.1.0",
+  "last_updated": "2026-10-02",
+  "scope": "Taiwan PDPA Official Statutory Terms (114 Draft Aligned) and Industry Standards Privacy Engineering Standards",
   "terms": [
     {
       "term_zh": "個人資料",
-      "term_en": "Personal Data / Personally Identifiable Information (PII)",
+      "term_en": "Personal Data",
       "category": "PDPA Statutory Term",
+      "official_en": "Personal Data",
+      "engineering_en": "Personally Identifiable Information (PII)",
       "legal_reference": "個人資料保護法 第2條第1款、施行細則 第2條至第3條",
       "legal_definition": "指自然人之姓名、出生年月日、國民身分證統一編號、護照號碼、特徵、指紋、婚姻、家庭、教育、職業、病歷、醫療、基因、性生活、健康檢查、犯罪前科、聯絡方式、財務情況、社會活動及其他得以直接或間接方式識別該個人之資料。",
       "engineering_definition": "任何能單獨或結合其他數據集直接關聯或間接推斷特定自然人實體身分之屬性集合（Direct & Indirect Identifiers），包含數位足跡如 IP 位址、MAC 位址、Cookie ID、廣告識別碼（IDFA/GAID）、裝置指紋及地理座標。",
       "practical_guidance": "工程架構中須將所有間接識別碼納入個資治理範疇，在 Schema 設計時建立敏感標籤分類，避免未受保護之數位足跡散落於應用程式日誌或分析平台。"
     },
     {
-      "term_zh": "特種個人資料",
-      "term_en": "Sensitive Personal Data / Special Categories of Data",
+      "term_zh": "個人資料檔案",
+      "term_en": "Personal Data File",
       "category": "PDPA Statutory Term",
-      "legal_reference": "個人資料保護法 第6條、施行細則 第4條",
-      "legal_definition": "指病歷、醫療、基因、性生活、健康檢查及犯罪前科等六大類敏感個人資料。原則上禁止蒐集、處理或利用，僅在法律明文、法定職務、公共利益學術研究（經去識別化）、當事人自行公開或經書面同意等嚴格法定例外情形下允許。",
-      "engineering_definition": "實施欄位層級信封加密（Envelope Encryption）、獨立資料庫隔離（Data Vault）、嚴格基於屬性的存取控制（ABAC）及細緻操作審核日誌。",
-      "practical_guidance": "禁止在通用業務服務直接以明文查詢特種個資；應使用專用加密金鑰與獨立微服務管理，並限制僅有通過特定授權之角色可發起解密操作。"
+      "official_en": "Personal Data File",
+      "engineering_en": "Data Filing System / Record Sets",
+      "legal_reference": "個人資料保護法 第2條第2款、施行細則 第5條",
+      "legal_definition": "指依系統建立而得以自動化機器或其他非自動化方式檢索、整理之個人資料之集合。",
+      "engineering_definition": "結構化（如關聯式資料庫表格、NoSQL 文件）或非結構化（如儲存貯體中的物件檔案）之個資儲存集合，具備可查詢、索引及檢索之特徵。",
+      "practical_guidance": "須建立全組織之個資資產清冊（Data Inventory / ROPA），標註各個資料檔案之儲存位置、擁有者、存取權限及生命週期規則。"
     },
     {
-      "term_zh": "個人資料檔案",
-      "term_en": "Personal Data File / Record Sets",
+      "term_zh": "蒐集",
+      "term_en": "Collection",
       "category": "PDPA Statutory Term",
-      "legal_reference": "個人資料保護法 第2條第2款、施行細則 第5條",
-      "legal_definition": "指依系統建立而得以自動化機器或其他非自動化方式檢索、整理之個人資料之集合。施行細則第5條明確規定包含「備份檔案」及「軌跡資料」。",
-      "engineering_definition": "任何結構化或非結構化之個資儲存實體，包括關聯式資料庫、NoSQL 資料庫、資料倉儲、資料湖、備份磁帶、冷儲存快照、以及包含個資存取記錄之日誌檔案系統。",
-      "practical_guidance": "備份檔案與操作日誌具有法定個資檔案地位，必須同步套用等同生產資料庫之加密、存取控制與保留銷毀機制。"
+      "official_en": "Collection",
+      "engineering_en": "Data Ingestion / Capture",
+      "legal_reference": "個人資料保護法 第2條第3款",
+      "legal_definition": "指以任何方式取得個人資料。",
+      "engineering_definition": "透過 API 請求、前端表單輸入、SDK 埋點、感測器上傳或第三方 Webhook 等各類途徑取得用戶數據之行為。",
+      "practical_guidance": "落實資料最小化原則，在蒐集入口即實施 Schema 驗證與白名單過濾，確保未宣告之敏感欄位不被自動寫入。"
+    },
+    {
+      "term_zh": "處理",
+      "term_en": "Processing",
+      "category": "PDPA Statutory Term",
+      "official_en": "Processing",
+      "engineering_en": "Data Processing / Pipeline Operations",
+      "legal_reference": "個人資料保護法 第2條第4款",
+      "legal_definition": "指為建立或利用個人資料檔案所為資料之記錄、輸入、儲存、編輯、更正、複製、檢索、刪除、輸出、連結或內部傳送。",
+      "engineering_definition": "對個人資料進行之任何運算或操作序列，涵蓋 ETL 流程、快取載入、跨表 Join、資料轉換及備份歸檔。",
+      "practical_guidance": "針對處理管線實施端對端加密（In-Transit / At-Rest Encryption），並在微服務調用鏈路中傳遞不可篡改之用途權杖（Purpose Token）。"
+    },
+    {
+      "term_zh": "利用",
+      "term_en": "Use",
+      "category": "PDPA Statutory Term",
+      "official_en": "Use",
+      "engineering_en": "Data Utilization / Consumption / Disclosure",
+      "legal_reference": "個人資料保護法 第2條第5款",
+      "legal_definition": "指將蒐集之個人資料為處理以外之使用。",
+      "engineering_definition": "包含業務邏輯執行、報表產出、演算法推論訓練、行銷推播、資料共享與跨系統介接。",
+      "practical_guidance": "實施目的導向存取控制（PBAC），利用前比對當事人授權範圍與法定特定目的，目的外利用須具備獨立合法基礎或書面同意。"
+    },
+    {
+      "term_zh": "國際傳輸",
+      "term_en": "Cross-Border Transfer",
+      "category": "PDPA Statutory Term",
+      "official_en": "Cross-Border Transfer",
+      "engineering_en": "Cross-Border Data Flow",
+      "legal_reference": "個人資料保護法 第2條第6款、第21條、第51條之1（草案）",
+      "legal_definition": "指將個人資料作跨國（境）之處理或利用。",
+      "engineering_definition": "跨國境之資料流動，包含海外雲端區域（如 AWS us-east-1）、跨國 SaaS 軟體、跨國 CDN 節點或境外委外團隊遠端存取。",
+      "practical_guidance": "部署資料駐留（Data Residency）檢查機制，對境外傳輸節點簽署標準資料處理協議（DPA），並評估目的國之適當保護水準與合規限制。"
+    },
+    {
+      "term_zh": "公務機關",
+      "term_en": "Government Agency",
+      "category": "PDPA Statutory Term",
+      "official_en": "Government Agency",
+      "engineering_en": "Public Authority / Public Sector Entity",
+      "legal_reference": "個人資料保護法 第2條第7款",
+      "legal_definition": "指依法行使公權力之中央或地方機關或行政法人。",
+      "engineering_definition": "行使公權力或受法規委任之公部門系統實體。",
+      "practical_guidance": "公務機關系統須嚴格遵守法定職務範圍，建立雙因子認證與完整獨立稽核軌跡以符合公法義務。"
+    },
+    {
+      "term_zh": "非公務機關",
+      "term_en": "Non-Government Agency",
+      "category": "PDPA Statutory Term",
+      "official_en": "Non-Government Agency",
+      "engineering_en": "Private Entities / Data Controllers & Processors",
+      "legal_reference": "個人資料保護法 第2條第8款",
+      "legal_definition": "指公務機關以外之自然人、法人或其他團體。",
+      "engineering_definition": "企業、民營組織、非營利機構或個人開發者所屬之系統架構與業務主體。",
+      "practical_guidance": "建立資安防護與隱私治理制度，受主管機關與個人資料保護委員會之行政監督與檢查。"
+    },
+    {
+      "term_zh": "當事人",
+      "term_en": "Data Subject",
+      "category": "PDPA Statutory Term",
+      "official_en": "Data Subject",
+      "engineering_en": "Data Subject / End User",
+      "legal_reference": "個人資料保護法 第2條第9款",
+      "legal_definition": "指個人資料之本人。",
+      "engineering_definition": "作為個資實體來源之自然人。",
+      "practical_guidance": "提供自助式當事人權利門戶（DSR Portal），支援查詢閱覽、複製本下載、資料更正與刪除申請。"
+    },
+    {
+      "term_zh": "人格權",
+      "term_en": "Personality Rights",
+      "category": "PDPA Statutory Term",
+      "official_en": "Personality Rights",
+      "engineering_en": "Fundamental Rights & Privacy Interests",
+      "legal_reference": "個人資料保護法 第1條",
+      "legal_definition": "為規範個人資料之蒐集、處理及利用，以避免人格權受侵害，並促進個人資料之合理利用，特制定本法。",
+      "engineering_definition": "自然人之隱私權與資訊自主決定權（Informational Self-Determination）。",
+      "practical_guidance": "架構設計應尊重用戶隱私尊嚴，避免未經授權之數據濫用與歧視性畫像分析。"
+    },
+    {
+      "term_zh": "個人資料保護委員會",
+      "term_en": "Personal Data Protection Commission (PDPC)",
+      "category": "PDPA Statutory Term",
+      "official_en": "Personal Data Protection Commission (PDPC)",
+      "engineering_en": "Data Protection Authority (DPA)",
+      "legal_reference": "個人資料保護法 第1條之1",
+      "legal_definition": "本法之主管機關為個人資料保護委員會。",
+      "engineering_definition": "我國個資法之獨立專責主管機關，負責政策研擬、裁罰處分、行政檢查與跨國適當性對接。",
+      "practical_guidance": "重大資安與個資外洩事件須依第20條之1於法定時限內通報個資保護委員會。"
+    },
+    {
+      "term_zh": "個人資料保護政策推進會議",
+      "term_en": "Personal Data Protection Policy Promotion Meeting",
+      "category": "PDPA Statutory Term",
+      "official_en": "Personal Data Protection Policy Promotion Meeting",
+      "engineering_en": "Inter-Agency Privacy Policy Coordination Body",
+      "legal_reference": "個人資料保護法 第1條之2（草案）",
+      "legal_definition": "為落實個人資料保護相關事項，主管機關得召開個人資料保護政策推進會議。",
+      "engineering_definition": "中央與地方跨機關個資政策協調與推進機制。",
+      "practical_guidance": "作為公私部門落實個資保護措施之政策指導依據。"
+    },
+    {
+      "term_zh": "行政監督",
+      "term_en": "Administrative Supervision",
+      "category": "PDPA Statutory Term",
+      "official_en": "Administrative Supervision",
+      "engineering_en": "Regulatory Oversight & Enforcement",
+      "legal_reference": "個人資料保護法 第三章之一（草案）",
+      "legal_definition": "主管機關對公務機關與非公務機關實施之監督、檢查、命提供資料、命限期改正及行政處分等權力行使。",
+      "engineering_definition": "法規監管合規檢查、技術稽核與強制執行流程。",
+      "practical_guidance": "維持完整的架構圖資、資安維護記錄與稽核軌跡，以隨時因應主管機關之現場檢查與資料調閱。"
+    },
+    {
+      "term_zh": "適當安全維護措施",
+      "term_en": "Proper Security and Maintenance Measures",
+      "category": "PDPA Statutory Term",
+      "official_en": "Proper Security and Maintenance Measures",
+      "engineering_en": "Technical and Organizational Measures (TOMs)",
+      "legal_reference": "個人資料保護法 第6條、第18條、施行細則 第12條",
+      "legal_definition": "公務與非公務機關保有個人資料檔案者，應採行之組織與技術性安全控制措施，防止個人資料被竊取、竄改、毀損、滅失或洩漏。",
+      "engineering_definition": "涵蓋配置管理組織、界定範疇、風險評估、事故預防通報、內部管理、安全與人員管理、教育訓練、設備安全、稽核、軌跡保存與持續改善等11大控制項。",
+      "practical_guidance": "落實施行細則第12條所定11項安全維護措施，結合CIS Controls與ISO 27701建立自動化合規監控。"
+    },
+    {
+      "term_zh": "特種個人資料",
+      "term_en": "Sensitive Personal Data",
+      "category": "PDPA Statutory Term",
+      "official_en": "Sensitive Personal Data (Medical records, Healthcare, Genetics, Sex life, Physical examination, Criminal records)",
+      "engineering_en": "Special Categories of Personal Data / Sensitive PII",
+      "legal_reference": "個人資料保護法 第6條、施行細則 第4條",
+      "legal_definition": "有關病歷、醫療、基因、性生活、健康檢查及犯罪前科之個人資料。",
+      "engineering_definition": "高敏感度數據欄位，一旦洩漏將對當事人隱私、人格尊嚴或人身安全造成不可逆損害。",
+      "practical_guidance": "實施列級加密（Field-Level Encryption）、細粒度屬性存取控制（ABAC）及嚴格之雙人授權與專案審批流程。"
+    },
+    {
+      "term_zh": "業務終止",
+      "term_en": "Business Termination",
+      "category": "PDPA Statutory Term",
+      "official_en": "Business Termination",
+      "engineering_en": "Business Cessation / Service Decommissioning",
+      "legal_reference": "個人資料保護法 第51條之1（草案）",
+      "legal_definition": "非公務機關終止業務者，其保有之個人資料不得繼續使用，應銷毀、移轉或刪除。",
+      "engineering_definition": "服務下線、系統退役或公司解散時之數據清理與安全銷毀流程。",
+      "practical_guidance": "訂定系統退役安全指引，採用密碼學抹除（Crypto-shredding）或符合DoD 5220.22-M/NIST SP 800-88之銷毀程序，並保留銷毀證明。"
     },
     {
       "term_zh": "去識別化",
@@ -47,24 +196,6 @@
       "legal_definition": "當事人對其個人資料享有五大法定權利：查詢或請求閱覽、請求製給複製本、請求補充或更正、請求停止蒐集處理或利用、請求刪除。權利不得預先拋棄或以特約限制。",
       "engineering_definition": "透過自動化 API、自服務入口網站（Self-Service Portal）與分散式協調引擎（Orchestrator），支援對分散式儲存環境中當事人資料的檢索、結構化匯出（JSON/CSV）、即時修正及分散式資料刪除。",
       "practical_guidance": "系統應實施強身分驗證機制以防冒名發起權利請求，並針對刪除操作實施關聯系統（包括快取與備份冷儲存）之分階段清除與事件通知。"
-    },
-    {
-      "term_zh": "非公務機關",
-      "term_en": "Non-Government Agencies / Private Entities",
-      "category": "PDPA Statutory Term",
-      "legal_reference": "個人資料保護法 第2條第8款",
-      "legal_definition": "指公務機關以外之自然人、法人或其他團體。涵蓋所有民營企業、金融機構、電商平台、醫療院所、學校及非營利組織。",
-      "engineering_definition": "企業架構環境下的資料控制者（Data Controller）與資料處理者（Data Processor），負有建立內部隱私架構、安全維護措施及合規稽核機制之法定義務。",
-      "practical_guidance": "企業內部必須由架構團隊依所屬產業主管機關頒布之「特定行業個人資料檔案安全維護計畫實施辦法」訂定工程技術標準。"
-    },
-    {
-      "term_zh": "適當安全維護措施",
-      "term_en": "Appropriate Technical and Organizational Measures (TOMs)",
-      "category": "PDPA Statutory Term",
-      "legal_reference": "個人資料保護法 第27條、施行細則 第12條",
-      "legal_definition": "指防止個人資料被竊取、竄改、毀損、滅失或洩漏所採取技術上及組織上之必要措施。施行細則第12條列明管理組織、範圍界定、風險評估、事故應變、內部程序、資料與人員管理、教育訓練、設備安全、稽核機制、軌跡保存及持續改善等 11 款事項。",
-      "engineering_definition": "涵蓋身分驗證（IAM）、傳輸與靜態加密、金鑰管理（KMS）、細緻存取控制、入侵偵測（IDS/IPS）、日誌審計（WORM）、備份災難復原等端到端技術縱深防禦架構。",
-      "practical_guidance": "採取之技術控制措施須與所處理個資之數量、敏感度及潛在風險符合比例原則，並保留技術實施佐證以滿足舉證責任要求。"
     },
     {
       "term_zh": "特定目的",
