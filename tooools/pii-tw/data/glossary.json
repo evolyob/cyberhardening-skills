@@ -18,7 +18,7 @@
       "category": "PDPA Statutory Term",
       "legal_reference": "個人資料保護法 第6條、施行細則 第4條",
       "legal_definition": "指病歷、醫療、基因、性生活、健康檢查及犯罪前科等六大類敏感個人資料。原則上禁止蒐集、處理或利用，僅在法律明文、法定職務、公共利益學術研究（經去識別化）、當事人自行公開或經書面同意等嚴格法定例外情形下允許。",
-      "engineering_control": "實施欄位層級信封加密（Envelope Encryption）、獨立資料庫隔離（Data Vault）、嚴格基於屬性的存取控制（ABAC）及細緻操作審核日誌。",
+      "engineering_definition": "實施欄位層級信封加密（Envelope Encryption）、獨立資料庫隔離（Data Vault）、嚴格基於屬性的存取控制（ABAC）及細緻操作審核日誌。",
       "practical_guidance": "禁止在通用業務服務直接以明文查詢特種個資；應使用專用加密金鑰與獨立微服務管理，並限制僅有通過特定授權之角色可發起解密操作。"
     },
     {
