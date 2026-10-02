@@ -650,7 +650,7 @@ connected to nfdev-01.internal.novarise.io
 
 + Checking shell history
 
-- Found aws s3 commands referencing: novarise-customer-data, novarise-algo-assets 2
+- Found aws s3 commands referencing: sample-customer-data, sample-algo-assets 2
 
 + Checking docker configs
 
@@ -702,17 +702,17 @@ Listing 17 | AWS Environment Enumeration
 
 > aws s3 ls
 
-2024-08-14 09:23:17 novarise-customer-data 2
+2024-08-14 09:23:17 sample-customer-data 2
 
-2024-11-02 14:07:33 novarise-algo-assets 3
+2024-11-02 14:07:33 sample-algo-assets 3
 
-2025-01-15 08:45:22 novarise-prod-backups
+2025-01-15 08:45:22 sample-prod-backups
 
-2025-02-28 16:33:41 novarise-dev-artifacts
+2025-02-28 16:33:41 sample-dev-artifacts
 
-2025-03-10 11:12:09 novarise-logs-archive
+2025-03-10 11:12:09 sample-logs-archive
 
-2025-03-22 09:55:48 novarise-ml-training-data
+2025-03-22 09:55:48 sample-ml-training-data
 
 1 Jordan’s IAM identity confirmed
 
@@ -726,7 +726,7 @@ server. The names told him everything he needed to know about their contents.
 
 Listing 18 | S3 Bucket Enumeration
 
-> aws s3 ls s3://novarise-customer-data --recursive --human-readable --summarize
+> aws s3 ls s3://sample-customer-data --recursive --human-readable --summarize
 
 [...]
 
@@ -739,7 +739,7 @@ Total Objects: 847
 
 Total Size: 34.8 GiB 1
 
-> aws s3 ls s3://novarise-algo-assets --recursive --human-readable --summarize
+> aws s3 ls s3://sample-algo-assets --recursive --human-readable --summarize
 
 [...]
 
@@ -777,21 +777,21 @@ pulled the staged archives to his own machine over SSH.
 
 Listing 19 | Data Staging
 
-[ec2-user@ip-10-0-47-12 ~]$ aws s3 cp s3://novarise-algo-assets/src/routing-engine-core.tar.gz
+[ec2-user@ip-10-0-47-12 ~]$ aws s3 cp s3://sample-algo-assets/src/routing-engine-core.tar.gz
 
 /tmp/staging/
 
-download: s3://novarise-algo-assets/src/routing-engine-core.tar.gz to /tmp/staging/routing-engine-core.tar.gz
+download: s3://sample-algo-assets/src/routing-engine-core.tar.gz to /tmp/staging/routing-engine-core.tar.gz
 
-[ec2-user@ip-10-0-47-12 ~]$ aws s3 cp s3://novarise-customer-data/exports/customer-shipping-2025-Q1.csv.gz /tmp/staging/
+[ec2-user@ip-10-0-47-12 ~]$ aws s3 cp s3://sample-customer-data/exports/customer-shipping-2025-Q1.csv.gz /tmp/staging/
 
-download: s3://novarise-customer-data/exports/customer-shipping-2025-Q1.csv.gz to
+download: s3://sample-customer-data/exports/customer-shipping-2025-Q1.csv.gz to
 
 /tmp/staging/customer-shipping-2025-Q1.csv.gz
 
-[ec2-user@ip-10-0-47-12 ~]$ aws s3 cp s3://novarise-customer-data/exports/customer-contacts-2025-Q1.csv.gz /tmp/staging/
+[ec2-user@ip-10-0-47-12 ~]$ aws s3 cp s3://sample-customer-data/exports/customer-contacts-2025-Q1.csv.gz /tmp/staging/
 
-download: s3://novarise-customer-data/exports/customer-contacts-2025-Q1.csv.gz to
+download: s3://sample-customer-data/exports/customer-contacts-2025-Q1.csv.gz to
 
 /tmp/staging/customer-contacts-2025-Q1.csv.gz
 

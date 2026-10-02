@@ -161,7 +161,7 @@ What Remained
 
 While Sam closed the ticket, Pyrix was downloading the latest quarterly customer data export from the
 
-novarise-customer-data S3 bucket. The EC2 instance he had launched using Jordan’s credentials was still
+sample-customer-data S3 bucket. The EC2 instance he had launched using Jordan’s credentials was still
 
 running in the NovaRise AWS account, quietly staging files for exfiltration. Jordan’s SSH keys were still valid
 

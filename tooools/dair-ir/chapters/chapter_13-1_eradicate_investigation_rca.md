@@ -720,7 +720,7 @@ Next, consider applying this root cause analysis approach to a cloud security in
 
 Root Cause Analysis Example: Public S3 Bucket Exposure
 
-My team worked on an incident for a customer where an S3 bucket named dat-ng-cdn-890378906859
+My team worked on an incident for a customer where an S3 bucket named sample-cdn-bucket
 
 containing customer data had been publicly accessible for several months, resulting in unauthorized data
 
@@ -734,7 +734,7 @@ Listing 62 | Permissive Principal Policy for S3 Bucket
 
 {
 
-"Id": "dat-ng-cdn-890378906859-Policy",
+"Id": "sample-cdn-bucket-Policy",
 
 "Statement": [
 
@@ -758,9 +758,9 @@ Listing 62 | Permissive Principal Policy for S3 Bucket
 
 "Resource": [
 
-"arn:aws:s3:::dat-ng-cdn-890378906859",
+"arn:aws:s3:::sample-cdn-bucket",
 
-"arn:aws:s3:::dat-ng-cdn-890378906859/*"
+"arn:aws:s3:::sample-cdn-bucket/*"
 
 ],
 

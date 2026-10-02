@@ -932,11 +932,11 @@ An analyst on the incident response team received a report concerning the disclo
 
 Amazon Simple Storage Service (S3) bucket. The report was from an unknown source, a self-identified bug
 
-bounty hunter , indicating that they found a high-risk vulnerability in the ssptmsdata S3 bucket. The bug
+bounty hunter , indicating that they found a high-risk vulnerability in the sample-data-bucket S3 bucket. The bug
 
 bounty hunter wanted to know the organization’s policy on rewarding bug bounty hunters for their work.
 
-The company analyst reviewed the report and identified that the ssptmsdata bucket was indeed used by one
+The company analyst reviewed the report and identified that the sample-data-bucket bucket was indeed used by one
 
 of the company’s AWS accounts. Using the AWS Command Line Interface, she reviewed the bucket’s
 
@@ -944,13 +944,13 @@ security settings, as shown in Listing 39.
 
 Listing 39 | AWS S3 Bucket Policy
 
-$ aws s3api get-bucket-policy --bucket ssptmsdata | jq '.Policy | fromjson'
+$ aws s3api get-bucket-policy --bucket sample-data-bucket | jq '.Policy | fromjson'
 
 {
 
 "Version": "2012-10-17",
 
-"Id": "ssptmsdata-Policy",
+"Id": "sample-data-bucket-Policy",
 
 "Statement": [
 
@@ -976,9 +976,9 @@ $ aws s3api get-bucket-policy --bucket ssptmsdata | jq '.Policy | fromjson'
 
 "Resource": [
 
-"arn:aws:s3:::ssptmsdata",
+"arn:aws:s3:::sample-data-bucket",
 
-"arn:aws:s3:::ssptmsdata/*"
+"arn:aws:s3:::sample-data-bucket/*"
 
 ]
 
@@ -1012,7 +1012,7 @@ contents of the bucket, as shown in Listing 40.
 
 Listing 40 | AWS S3 Bucket Contents
 
-$ aws s3 ls s3://ssptmsdata
+$ aws s3 ls s3://sample-data-bucket
 
 PRE css/
 
@@ -1030,7 +1030,7 @@ PRE pdf/
 
 PRE uat/
 
-$ aws s3 ls s3://ssptmsdata/uat/
+$ aws s3 ls s3://sample-data-bucket/uat/
 
 2025-02-14 14:56:41     112537 acceptance_summary.pdf
 
@@ -1086,7 +1086,7 @@ needs. Was the intention to share this data publicly, or was this a misconfigura
 
 the bucket sensitive, or was the data intended for public use?
 
-The analyst reached out to the AWS account holder of the ssptmsdata bucket to confirm its purpose and
+The analyst reached out to the AWS account holder of the sample-data-bucket bucket to confirm its purpose and
 
 contents. She advised that the team responsible for this asset review each file contained in the bucket and
 
