@@ -31,15 +31,5 @@ Run the target command with a single tool call:
 
 ### Step 3: Structured Reporting & Exit Gate Verification
 - Format results into concise tables with explicit Exit Gate conditions.
+- Reference [references/chapter_index.md](references/chapter_index.md) for the 36-chapter mapping catalog.
 - Reference [references/dair_lifecycle.md](references/dair_lifecycle.md) and [references/playbooks.md](references/playbooks.md) for deep protocols.
-
----
-
-## Chapter & Playbook Reference Index
-- **Chapter 1-16**: Core DAIR Lifecycle & Foundations
-- **Chapter 17**: [Ransomware & Double Extortion](chapters/chapter_17_ransomware.md)
-- **Chapter 18**: [Cloud Systems IR](chapters/chapter_18_cloud_ir.md)
-- **Chapter 19**: [OT/ICS Operational Technology IR](chapters/chapter_19_ot_ics.md)
-- **Chapter 19-2**: [IEC 62443-3-1 Technical Security & Conduit Telemetry](chapters/chapter_19-2_ot_62443_3_1_tech.md) (Zone/Conduit isolation, passive telemetry, DPI, containment runbooks)
-- **Chapter 19-3**: [IEC 62443-4-1 Secure Development & Defect Remediation](chapters/chapter_19-3_ot_62443_4_1_sdlc.md) (Supply chain defect notifications, CSAF ingestion, staging regression validation, recovery exit gates)
-- **Chapter 20**: [NIST CSF 2.0 Integration](chapters/chapter_20_nist_csf.md)
