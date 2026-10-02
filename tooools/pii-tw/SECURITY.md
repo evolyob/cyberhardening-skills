@@ -10,4 +10,4 @@ This skill provides Taiwan Personal Data Protection Act (PDPA) and Privacy Engin
 
 ## Execution
 Single-shot ephemeral CLI (< 1s). Read-only in-memory queries with structured outputs.
-- Validated execution flags: `--article`, `--check`, `--domain`, `--format`, `--list`, `--measure`.
+- Validated execution flags: `--article`, `--category`, `--check`, `--domain`, `--format`, `--list`, `--list-chapters`, `--measure`.

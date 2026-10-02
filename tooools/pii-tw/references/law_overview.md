@@ -1,4 +1,4 @@
-# Taiwan Personal Data Protection Act (PDPA) Overview (`references/law_overview.md`)
+﻿# Taiwan Personal Data Protection Act (PDPA) Overview (`references/law_overview.md`)
 
 ## 1. Statutory Architecture & Hierarchy
 The Taiwan Personal Data Protection Act (PDPA) governs public and private entities across Taiwan jurisdiction.

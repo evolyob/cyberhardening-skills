@@ -129,6 +129,11 @@
       "name": "glossary",
       "file": "data/glossary.json",
       "title": "台灣個資法與 Privacy Engineering 雙語術語字典"
+    },
+    {
+      "name": "data_categories",
+      "file": "data/data_categories.json",
+      "title": "台灣個資法法定個人資料類別代號 (C001~C134) 與特定目的代號 (001~182)"
     }
   ]
 }

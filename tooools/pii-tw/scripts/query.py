@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Taiwan Personal Data Protection Act (PDPA) and Privacy Engineering Query Engine."""
 
 import argparse
@@ -67,6 +67,21 @@ def query_by_domain(matrix: dict, index_data: dict, keyword: str) -> list:
     return results
 
 
+def query_by_category(categories_data: dict, keyword: str) -> dict:
+    kw = keyword.strip().lower()
+    matched_cats = []
+    matched_purposes = []
+    for cat in categories_data.get("categories", []):
+        text = f"{cat.get('code', '')} {cat.get('name', '')} {cat.get('class', '')} {cat.get('description', '')} {' '.join(cat.get('examples', []))}".lower()
+        if kw in text:
+            matched_cats.append(cat)
+    for pur in categories_data.get("purposes", []):
+        text = f"{pur.get('code', '')} {pur.get('name', '')} {pur.get('class', '')} {pur.get('description', '')} {' '.join(pur.get('examples', []))}".lower()
+        if kw in text:
+            matched_purposes.append(pur)
+    return {"categories": matched_cats, "purposes": matched_purposes}
+
+
 def cross_check(matrix: dict, glossary: dict, index_data: dict, keyword: str) -> dict:
     kw = keyword.strip().lower()
     res = {"articles": [], "measures": [], "glossary": [], "chapters": []}
@@ -86,6 +101,15 @@ def cross_check(matrix: dict, glossary: dict, index_data: dict, keyword: str) ->
         if kw in text:
             res["chapters"].append(ch)
     return res
+
+
+def format_markdown_chapters(index_data: dict) -> str:
+    lines = ["# 台灣個資法 (PDPA) 與 Privacy Engineering 核心章節指南 (Chapters 01~08)\n"]
+    for ch in index_data.get("chapters", []):
+        lines.append(f"- **Ch{ch.get('id')}**: {ch.get('title')} (`{ch.get('file')}`)")
+        lines.append(f"  - 領域: {ch.get('domain')}")
+        lines.append(f"  - 法源: {', '.join(ch.get('legal_basis', []))}")
+    return "\n".join(lines)
 
 
 def format_markdown_list(index_data: dict, matrix: dict) -> str:
@@ -121,6 +145,28 @@ def format_markdown_items(items: list, header_title: str) -> str:
     return "\n".join(lines).strip()
 
 
+def format_markdown_category(res: dict, keyword: str) -> str:
+    lines = [f"# 個資類別與特定目的檢索: `{keyword}`\n"]
+    if res["categories"]:
+        lines.append(f"### 個人資料類別代號 ({len(res['categories'])} 筆)")
+        for c in res["categories"]:
+            spec_badge = " [特種個資 (Art 6)]" if c.get("is_special") else ""
+            lines.append(f"- **{c.get('code', '')} {c.get('name', '')}** ({c.get('class', '')}){spec_badge}")
+            lines.append(f"  - 說明: {c.get('description', '')}")
+            if c.get("examples"):
+                lines.append(f"  - 範例: {', '.join(c.get('examples', []))}")
+    if res["purposes"]:
+        lines.append(f"\n### 特定目的代號 ({len(res['purposes'])} 筆)")
+        for p in res["purposes"]:
+            lines.append(f"- **{p.get('code', '')} {p.get('name', '')}** ({p.get('class', '')})")
+            lines.append(f"  - 說明: {p.get('description', '')}")
+            if p.get("examples"):
+                lines.append(f"  - 範例: {', '.join(p.get('examples', []))}")
+    if not any(res.values()):
+        lines.append("未檢索到相關個資類別或特定目的。")
+    return "\n".join(lines).strip()
+
+
 def format_markdown_check(res: dict, keyword: str) -> str:
     lines = [f"# 交叉檢索結果: `{keyword}`\n"]
     if res["articles"]:
@@ -149,21 +195,39 @@ def main():
     parser.add_argument("--article", type=str, help="依個資法條號查詢技術控制項與合規查核點")
     parser.add_argument("--measure", type=str, help="依施行細則第12條款次查詢安全維護措施指引")
     parser.add_argument("--domain", type=str, help="依隱私工程領域或章節關鍵字查詢對應法令與技術規範")
+    parser.add_argument("--category", type=str, help="依個資類別代號 (如 C001) 或特定目的代號 (如 001) 查詢詳細定義")
     parser.add_argument("--check", type=str, help="法規、技術控制、術語與章節跨庫交叉檢索")
     parser.add_argument("--format", choices=["markdown", "json"], default="markdown", help="輸出格式")
     parser.add_argument("--list", action="store_true", help="列出完整章節與安全維護款次總覽")
+    parser.add_argument("--list-chapters", action="store_true", help="列出核心合規指南八大章節清單")
 
     args = parser.parse_args()
 
     index_data = load_json_data("index.json")
     matrix_data = load_json_data("compliance_matrix.json")
     glossary_data = load_json_data("glossary.json")
+    categories_data = load_json_data("data_categories.json")
+
+    if args.list_chapters:
+        if args.format == "json":
+            print(json.dumps(index_data.get("chapters", []), ensure_ascii=False, indent=2))
+            return
+        print(format_markdown_chapters(index_data))
+        return
 
     if args.list:
         if args.format == "json":
             print(json.dumps({"index": index_data, "matrix": matrix_data}, ensure_ascii=False, indent=2))
             return
         print(format_markdown_list(index_data, matrix_data))
+        return
+
+    if args.category:
+        res = query_by_category(categories_data, args.category)
+        if args.format == "json":
+            print(json.dumps(res, ensure_ascii=False, indent=2))
+            return
+        print(format_markdown_category(res, args.category))
         return
 
     if args.article:

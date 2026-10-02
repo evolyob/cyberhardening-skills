@@ -1,0 +1,1087 @@
+﻿{
+  "version": "1.0.0",
+  "standard": "中華民國法務部與國家發展委員會公告之「個人資料保護法之特定目的及個人資料之類別」",
+  "categories_count": 74,
+  "purposes_count": 25,
+  "categories": [
+    {
+      "code": "C001",
+      "class": "識別類",
+      "name": "辨識個人者",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "足以直接或間接識別該個人之資料。",
+      "examples": [
+        "姓名",
+        "職稱",
+        "住址",
+        "工作地址",
+        "電話號碼",
+        "行動電話",
+        "網路平臺帳號",
+        "通訊地址",
+        "相片",
+        "指紋",
+        "電子郵件地址(Email)",
+        "電子簽章",
+        "憑證卡序號",
+        "IP位址",
+        "MAC位址",
+        "車牌號碼"
+      ]
+    },
+    {
+      "code": "C002",
+      "class": "識別類",
+      "name": "辨識財務者",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "金融機構帳戶、信用卡或各類財務載具識別資訊。",
+      "examples": [
+        "金融機構帳戶號碼",
+        "信用卡號碼",
+        "簽帳卡號碼",
+        "保險單號碼",
+        "電子錢包帳號",
+        "跨行業務統號"
+      ]
+    },
+    {
+      "code": "C003",
+      "class": "識別類",
+      "name": "政府資料中之辨識者",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "政府核發之各類身分證明文件與識別編號。",
+      "examples": [
+        "身分證統一編號",
+        "統一證號",
+        "稅籍編號",
+        "保險憑證號碼",
+        "護照號碼",
+        "居留證號",
+        "駕照號碼",
+        "役籍號碼"
+      ]
+    },
+    {
+      "code": "C011",
+      "class": "特徵類",
+      "name": "個人描述",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "個人基本特徵與背景描述。",
+      "examples": [
+        "年齡",
+        "性別",
+        "出生年月日",
+        "出生地",
+        "國籍",
+        "聲音"
+      ]
+    },
+    {
+      "code": "C012",
+      "class": "特徵類",
+      "name": "身體特徵",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "身體外觀與生理量測數據。",
+      "examples": [
+        "身高",
+        "體重",
+        "血型"
+      ]
+    },
+    {
+      "code": "C013",
+      "class": "特徵類",
+      "name": "習慣",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "個人生活與日常習性。",
+      "examples": [
+        "抽煙",
+        "喝酒"
+      ]
+    },
+    {
+      "code": "C014",
+      "class": "特徵類",
+      "name": "個性",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "個性與心理評述意見。",
+      "examples": [
+        "個性評估報告",
+        "心理測驗特質描述"
+      ]
+    },
+    {
+      "code": "C021",
+      "class": "家庭情形",
+      "name": "家庭情形",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "婚姻與直系家庭狀況。",
+      "examples": [
+        "結婚有無",
+        "配偶姓名",
+        "子女數"
+      ]
+    },
+    {
+      "code": "C022",
+      "class": "家庭情形",
+      "name": "婚姻之歷史",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "婚姻變動與過往紀錄。",
+      "examples": [
+        "離婚紀錄",
+        "分居協議"
+      ]
+    },
+    {
+      "code": "C023",
+      "class": "家庭情形",
+      "name": "家庭其他成員之細節",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "家屬、受扶養人與同居人資訊。",
+      "examples": [
+        "扶養親屬名單",
+        "緊急聯絡人姓名與關係",
+        "父母資料"
+      ]
+    },
+    {
+      "code": "C024",
+      "class": "家庭情形",
+      "name": "其他社會關係",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "除家庭外之社交與人際網絡。",
+      "examples": [
+        "朋友",
+        "同事",
+        "推薦人"
+      ]
+    },
+    {
+      "code": "C031",
+      "class": "社會情況",
+      "name": "住家及設施",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "居住環境、房屋所有權與設施狀況。",
+      "examples": [
+        "住所形式",
+        "房屋所有權",
+        "租賃契約",
+        "住家環境"
+      ]
+    },
+    {
+      "code": "C032",
+      "class": "社會情況",
+      "name": "財產",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "所有權之動產或不動產。",
+      "examples": [
+        "不動產清冊",
+        "車輛所有權"
+      ]
+    },
+    {
+      "code": "C033",
+      "class": "社會情況",
+      "name": "移民情形",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "入境許可與居留簽證狀態。",
+      "examples": [
+        "工作許可證",
+        "居留許可",
+        "入境限制紀錄"
+      ]
+    },
+    {
+      "code": "C034",
+      "class": "社會情況",
+      "name": "旅行及其他遷徙細節",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "國內外出入境與旅行移動軌跡。",
+      "examples": [
+        "出入境紀錄",
+        "外國居留史",
+        "差旅紀錄"
+      ]
+    },
+    {
+      "code": "C035",
+      "class": "社會情況",
+      "name": "休閒活動及興趣",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "休閒愛好與個人興趣。",
+      "examples": [
+        "運動嗜好",
+        "社團活動"
+      ]
+    },
+    {
+      "code": "C036",
+      "class": "社會情況",
+      "name": "生活格調",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "消費模式與生活方式細節。",
+      "examples": [
+        "消費模式分析",
+        "生活品味偏好"
+      ]
+    },
+    {
+      "code": "C037",
+      "class": "社會情況",
+      "name": "慈善機構或其他團體之會員資格",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "非政黨或工會之公益或慈善團體參與情形。",
+      "examples": [
+        "基金會志工",
+        "慈善協會會員"
+      ]
+    },
+    {
+      "code": "C038",
+      "class": "社會情況",
+      "name": "職業",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "個人從事之行業別與職務。",
+      "examples": [
+        "職業類別",
+        "職務職稱"
+      ]
+    },
+    {
+      "code": "C039",
+      "class": "社會情況",
+      "name": "執照或其他許可",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "政府或專業機構核發之許可證照。",
+      "examples": [
+        "各類專業證照",
+        "營業許可"
+      ]
+    },
+    {
+      "code": "C040",
+      "class": "社會情況",
+      "name": "無法歸類之相約及承諾",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "個人所作之誓約或非正式約定。",
+      "examples": [
+        "保證事項",
+        "個人承諾書"
+      ]
+    },
+    {
+      "code": "C041",
+      "class": "社會情況",
+      "name": "審計、反詐欺、反恐怖主義等資訊",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "洗錢防制、打擊詐欺與資恐防制查核紀錄。",
+      "examples": [
+        "AML/KYC黑名單比對紀錄",
+        "反洗錢查核報告",
+        "異常交易告警紀錄"
+      ]
+    },
+    {
+      "code": "C051",
+      "class": "教育考選與專業",
+      "name": "學校紀錄",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "就讀學校與在學履歷。",
+      "examples": [
+        "畢業學校",
+        "肄業證明",
+        "主修學系"
+      ]
+    },
+    {
+      "code": "C052",
+      "class": "教育考選與專業",
+      "name": "資格或技術",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "學歷資格與專業技術等級。",
+      "examples": [
+        "學位證明",
+        "技術士證照",
+        "專業技能認證"
+      ]
+    },
+    {
+      "code": "C053",
+      "class": "教育考選與專業",
+      "name": "職業團體會員資格",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "公會、學會或專業組織會員身分。",
+      "examples": [
+        "律師公會會員",
+        "會計師公會會員",
+        "工程師學會會員"
+      ]
+    },
+    {
+      "code": "C054",
+      "class": "教育考選與專業",
+      "name": "職業專長",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "專家顧問領域與特殊技能。",
+      "examples": [
+        "專長領域",
+        "技術諮詢範疇"
+      ]
+    },
+    {
+      "code": "C055",
+      "class": "教育考選與專業",
+      "name": "委員會之會員資格",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "各類官方或民間評議委員會成員資格。",
+      "examples": [
+        "評審委員名單",
+        "評議委員任期"
+      ]
+    },
+    {
+      "code": "C056",
+      "class": "教育考選與專業",
+      "name": "著作",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "學術出版、專利與創作紀錄。",
+      "examples": [
+        "專利發明清冊",
+        "書籍著作",
+        "學術論文"
+      ]
+    },
+    {
+      "code": "C057",
+      "class": "教育考選與專業",
+      "name": "學生、應考人紀錄",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "在校學習歷程與應試基本資料。",
+      "examples": [
+        "學籍資料",
+        "在學成績單",
+        "操行評語"
+      ]
+    },
+    {
+      "code": "C058",
+      "class": "教育考選與專業",
+      "name": "考試與評量結果",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "各類考選、證照檢定與測驗分數。",
+      "examples": [
+        "國家考試成績",
+        "檢定測驗分數"
+      ]
+    },
+    {
+      "code": "C061",
+      "class": "受僱情形",
+      "name": "現行之受僱情形",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "在職單位、工作職責與職級狀況。",
+      "examples": [
+        "僱主名稱",
+        "部門",
+        "工作職稱",
+        "員工編號",
+        "到職日期",
+        "工作地點",
+        "差勤打卡紀錄"
+      ]
+    },
+    {
+      "code": "C062",
+      "class": "受僱情形",
+      "name": "僱用經過",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "應徵歷程、面試紀錄與招募審核。",
+      "examples": [
+        "應徵履歷表",
+        "面試訪談紀錄",
+        "錄取通知書"
+      ]
+    },
+    {
+      "code": "C063",
+      "class": "受僱情形",
+      "name": "離職經過",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "終止僱傭契約之原因與辦理流程。",
+      "examples": [
+        "離職申請書",
+        "離職原因",
+        "業務交接清單"
+      ]
+    },
+    {
+      "code": "C064",
+      "class": "受僱情形",
+      "name": "工作經驗",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "過往任職機構與年資歷練。",
+      "examples": [
+        "過往服務機關",
+        "任職起訖期間",
+        "曾任職位"
+      ]
+    },
+    {
+      "code": "C065",
+      "class": "受僱情形",
+      "name": "薪資與預扣款",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "薪酬結構、獎金與法定代扣款項。",
+      "examples": [
+        "底薪",
+        "績效獎金",
+        "所得稅預扣款",
+        "勞健保自付額"
+      ]
+    },
+    {
+      "code": "C066",
+      "class": "受僱情形",
+      "name": "健康與安全紀錄",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "職場職業災害通報與工安事件紀錄。",
+      "examples": [
+        "職災通報單",
+        "工作場所安全事故紀錄"
+      ]
+    },
+    {
+      "code": "C067",
+      "class": "受僱情形",
+      "name": "工會會員資格",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "產業工會或企業工會之加入情形。",
+      "examples": [
+        "企業工會會員名冊",
+        "工會幹部職務"
+      ]
+    },
+    {
+      "code": "C068",
+      "class": "受僱情形",
+      "name": "薪資與工作紀錄",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "薪轉明細、加班工時與薪俸清冊。",
+      "examples": [
+        "薪轉清冊Excel",
+        "扣繳憑單",
+        "出勤加班時數彙整"
+      ]
+    },
+    {
+      "code": "C069",
+      "class": "受僱情形",
+      "name": "退休金細節",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "勞退新舊制提繳與退休金帳戶。",
+      "examples": [
+        "勞工退休金提繳名冊",
+        "自願提繳比例"
+      ]
+    },
+    {
+      "code": "C070",
+      "class": "受僱情形",
+      "name": "工作之評量與考績",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "年度績效考核與主管評核紀錄。",
+      "examples": [
+        "年度考績表",
+        "KPI評核分數",
+        "晉升評議紀錄"
+      ]
+    },
+    {
+      "code": "C071",
+      "class": "受僱情形",
+      "name": "員工訓練紀錄",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "內部或外部培訓、資安個資教育訓練時數。",
+      "examples": [
+        "個資教育訓練簽到退紀錄",
+        "內訓結業證書",
+        "訓練時數證明"
+      ]
+    },
+    {
+      "code": "C072",
+      "class": "受僱情形",
+      "name": "受訓資格",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "符合各項專案培訓或進修之審核資格。",
+      "examples": [
+        "培訓資格審核表"
+      ]
+    },
+    {
+      "code": "C073",
+      "class": "受僱情形",
+      "name": "安全查核",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "特定高機敏崗位之身家背景或信用查核。",
+      "examples": [
+        "關鍵機敏人員背景查核表"
+      ]
+    },
+    {
+      "code": "C081",
+      "class": "財務細節",
+      "name": "收入、所得、資產與投資",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "個人所得來源、資產總值與證券投資。",
+      "examples": [
+        "年所得清單",
+        "股票投資明細",
+        "資產證明"
+      ]
+    },
+    {
+      "code": "C082",
+      "class": "財務細節",
+      "name": "負債與信用",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "債務總額、向金融機構之借貸狀態。",
+      "examples": [
+        "債務總額",
+        "借貸合約",
+        "催收紀錄"
+      ]
+    },
+    {
+      "code": "C083",
+      "class": "財務細節",
+      "name": "信用評等",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "聯合徵信中心(JCIC)信用報告或內部評分。",
+      "examples": [
+        "聯徵信用評分報告",
+        "授信評等紀錄"
+      ]
+    },
+    {
+      "code": "C084",
+      "class": "財務細節",
+      "name": "貸款",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "房貸、車貸、信貸等各類分期貸款條件。",
+      "examples": [
+        "房貸本息明細",
+        "貸款申請書",
+        "還款計畫表"
+      ]
+    },
+    {
+      "code": "C085",
+      "class": "財務細節",
+      "name": "外匯交易紀錄",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "跨境匯款、外幣買賣申報紀錄。",
+      "examples": [
+        "外匯水單",
+        "國際匯款電文"
+      ]
+    },
+    {
+      "code": "C086",
+      "class": "財務細節",
+      "name": "票據信用",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "支票開立、拒絕往來與退票註記。",
+      "examples": [
+        "退票紀錄",
+        "拒絕往來戶註記"
+      ]
+    },
+    {
+      "code": "C087",
+      "class": "財務細節",
+      "name": "津貼、福利、贈款",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "各類專案補助、育兒津貼或獎勵金發放紀錄。",
+      "examples": [
+        "育兒補助申請表",
+        "急難救助金撥款紀錄"
+      ]
+    },
+    {
+      "code": "C088",
+      "class": "財務細節",
+      "name": "保險細節",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "商業保險保單、投保金額與理賠紀錄。",
+      "examples": [
+        "人壽保單",
+        "產險保額",
+        "理賠申請書與撥款明細"
+      ]
+    },
+    {
+      "code": "C089",
+      "class": "財務細節",
+      "name": "社會保險給付、救助津貼",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "公保、勞保、健保、國民年金給付領取紀錄。",
+      "examples": [
+        "勞保老年給付核定函",
+        "失業給付紀錄"
+      ]
+    },
+    {
+      "code": "C091",
+      "class": "財務細節",
+      "name": "行動及虛擬資產",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "虛擬通貨(Crypto)、NFT、遊戲代幣與第三方支付餘額。",
+      "examples": [
+        "虛擬貨幣錢包地址",
+        "第三方支付餘額帳戶"
+      ]
+    },
+    {
+      "code": "C092",
+      "class": "財務細節",
+      "name": "信用交易",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "信用卡刷卡明細、分期付款消費與信用擴張。",
+      "examples": [
+        "持卡人交易明細檔",
+        "分期付款授權碼",
+        "POS刷卡存根"
+      ]
+    },
+    {
+      "code": "C093",
+      "class": "財務細節",
+      "name": "財務交易",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "銀行轉帳匯款、現金收付與出納票據。",
+      "examples": [
+        "銀行轉帳交易紀錄",
+        "電子發票開立記錄",
+        "實體請款單據"
+      ]
+    },
+    {
+      "code": "C094",
+      "class": "財務細節",
+      "name": "賠償",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "和解協議、民事損害賠償支付紀錄。",
+      "examples": [
+        "和解協議書",
+        "損害賠償受領據"
+      ]
+    },
+    {
+      "code": "C101",
+      "class": "商業資訊",
+      "name": "資料主體之商業活動",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "個人獨資或合夥之商業營運、進銷存往來。",
+      "examples": [
+        "商業往來名冊",
+        "進貨出貨單據"
+      ]
+    },
+    {
+      "code": "C102",
+      "class": "商業資訊",
+      "name": "約定或契約",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "商務合約、保密協定與授權文件。",
+      "examples": [
+        "合約書掃描檔",
+        "保密協定(NDA)正本",
+        "客戶同意書"
+      ]
+    },
+    {
+      "code": "C103",
+      "class": "商業資訊",
+      "name": "貿易秘密",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "營業秘密、專有配方與商業策略資訊。",
+      "examples": [
+        "營業秘密存證",
+        "技術授權清單"
+      ]
+    },
+    {
+      "code": "C111",
+      "class": "健康與特種個資",
+      "name": "健康與其他",
+      "is_special": true,
+      "legal_basis": "個資法第6條第1項",
+      "description": "醫療紀錄、病歷、健康檢查報告及相關處置。",
+      "examples": [
+        "病歷",
+        "醫療處方",
+        "年度健康檢查報告紙本/電子檔",
+        "體檢報告"
+      ]
+    },
+    {
+      "code": "C112",
+      "class": "健康與特種個資",
+      "name": "護理紀錄",
+      "is_special": true,
+      "legal_basis": "個資法第6條第1項",
+      "description": "臨床照護、護理交班與生命徵象監測資料。",
+      "examples": [
+        "護理紀錄單",
+        "長期照護照管紀錄"
+      ]
+    },
+    {
+      "code": "C113",
+      "class": "健康與特種個資",
+      "name": "身體健康狀況",
+      "is_special": true,
+      "legal_basis": "個資法第6條第1項",
+      "description": "重大傷病史、慢性病就醫紀錄與身心障礙等級。",
+      "examples": [
+        "重大傷病證明",
+        "身心障礙手冊影本",
+        "慢性病診斷書"
+      ]
+    },
+    {
+      "code": "C114",
+      "class": "健康與特種個資",
+      "name": "心理健康狀況",
+      "is_special": true,
+      "legal_basis": "個資法第6條第1項",
+      "description": "精神鑑定、心理諮商與精神科就醫歷程。",
+      "examples": [
+        "心理諮商會談紀錄",
+        "精神科就診診斷"
+      ]
+    },
+    {
+      "code": "C115",
+      "class": "健康與特種個資",
+      "name": "遺傳特徵",
+      "is_special": true,
+      "legal_basis": "個資法第6條第1項",
+      "description": "基因檢測、DNA 序列與家族遺傳標記。",
+      "examples": [
+        "基因定序分析報告",
+        "遺傳性疾病篩檢資料",
+        "DNA檢體報告"
+      ]
+    },
+    {
+      "code": "C116",
+      "class": "健康與特種個資",
+      "name": "性生活",
+      "is_special": true,
+      "legal_basis": "個資法第6條第1項",
+      "description": "性取向、性行為紀錄或性諮商紀錄。",
+      "examples": [
+        "性傾向揭露資訊",
+        "性健康醫療諮詢紀錄"
+      ]
+    },
+    {
+      "code": "C117",
+      "class": "健康與特種個資",
+      "name": "犯罪前科紀錄",
+      "is_special": true,
+      "legal_basis": "個資法第6條第1項",
+      "description": "刑事前案判決、通緝、羈押及執行紀錄。",
+      "examples": [
+        "警察刑事紀錄證明(良民證)",
+        "前科查核紀錄",
+        "刑事判決書影本"
+      ]
+    },
+    {
+      "code": "C118",
+      "class": "健康與特種個資",
+      "name": "醫療評估",
+      "is_special": true,
+      "legal_basis": "個資法第6條第1項",
+      "description": "失能等級鑑定、勞保失能給付診斷與兵役體檢。",
+      "examples": [
+        "勞工保險失能診斷書",
+        "兵役複檢評估表"
+      ]
+    },
+    {
+      "code": "C119",
+      "class": "健康與特種個資",
+      "name": "藥物使用及濫用",
+      "is_special": true,
+      "legal_basis": "個資法第6條第1項",
+      "description": "管制藥品處方、戒癮治療與藥物濫用檢驗。",
+      "examples": [
+        "管制藥品處方箋",
+        "毒物篩檢報告"
+      ]
+    },
+    {
+      "code": "C120",
+      "class": "其他資料",
+      "name": "宗教信仰",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "信仰宗教派別與聚會參與。",
+      "examples": [
+        "宗教宗派",
+        "信仰受洗紀錄"
+      ]
+    },
+    {
+      "code": "C121",
+      "class": "其他資料",
+      "name": "政治意見",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "政黨黨籍、公職參選與政治立場傾向。",
+      "examples": [
+        "政黨黨籍證件",
+        "政治獻金捐款紀錄"
+      ]
+    },
+    {
+      "code": "C131",
+      "class": "其他資料",
+      "name": "社會住宅",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "社會救助、低收入戶與公共租賃住宅申請資料。",
+      "examples": [
+        "低收入戶證明書",
+        "社會住宅承租申請表"
+      ]
+    },
+    {
+      "code": "C132",
+      "class": "其他資料",
+      "name": "未分類之資料",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "未列入上述各款但足以直接或間接識別之其他個人資料。",
+      "examples": [
+        "活動潛客留單備註",
+        "未分類客服訪談錄音檔"
+      ]
+    },
+    {
+      "code": "C133",
+      "class": "其他資料",
+      "name": "安全調查",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "國家安全、重大公共安全之查核建檔。",
+      "examples": [
+        "重大國安查證檔案"
+      ]
+    },
+    {
+      "code": "C134",
+      "class": "其他資料",
+      "name": "警政資料",
+      "is_special": false,
+      "legal_basis": "個資法第2條第1款",
+      "description": "警政報案、交通事故處理及治安列管資料。",
+      "examples": [
+        "道路交通事故當事人登記聯單",
+        "報案三聯單存根"
+      ]
+    }
+  ],
+  "purposes": [
+    {
+      "code": "001",
+      "name": "人身保險",
+      "description": "人身保險之招攬、核保、理賠、客戶服務及相關業務。"
+    },
+    {
+      "code": "002",
+      "name": "人事管理",
+      "description": "包含甄選、離職及所屬員工基本資訊、差勤、考績、薪資福利等各項人事業務。"
+    },
+    {
+      "code": "012",
+      "name": "公共衛生或傳染病防治",
+      "description": "防疫調查、接觸者追蹤、預防接種及公共衛生統計。"
+    },
+    {
+      "code": "013",
+      "name": "公共關係",
+      "description": "公關行銷、媒體聯繫、政府關係及對外聯絡作業。"
+    },
+    {
+      "code": "022",
+      "name": "外匯業務",
+      "description": "外匯買賣、跨境匯款申報及進出口外匯結匯作業。"
+    },
+    {
+      "code": "036",
+      "name": "存款與匯款",
+      "description": "開戶、存款、轉帳、匯款及銀行往來業務。"
+    },
+    {
+      "code": "040",
+      "name": "行銷",
+      "description": "商業廣告、促銷活動、金控共同行銷及市場推廣業務。"
+    },
+    {
+      "code": "059",
+      "name": "非公務機關依法定義務進行個人資料之蒐集處理及利用",
+      "description": "配合洗錢防制法、稅捐稽徵法、勞基法等法規強制要求執行之個資作業。"
+    },
+    {
+      "code": "063",
+      "name": "非公務機關依法定義務進行個人資料之蒐集處理及利用(金融與特定行業)",
+      "description": "符合各目的事業主管機關法規要求之通報與稽核。"
+    },
+    {
+      "code": "067",
+      "name": "信用卡、現金卡、轉帳卡或電子票證業務",
+      "description": "發卡審核、授權交易、清算、帳務處理及風險控管。"
+    },
+    {
+      "code": "068",
+      "name": "信託業務",
+      "description": "信託契約簽訂、信託財產管理及收益分配作業。"
+    },
+    {
+      "code": "069",
+      "name": "契約、類似契約或其他法律關係事務",
+      "description": "各項商務買賣契約、委託合約、會員定型化契約之簽訂與履行。"
+    },
+    {
+      "code": "082",
+      "name": "借款戶與相關當事人信用調查及授信業務",
+      "description": "授信審核、聯徵查詢、擔保品鑑價及放款管理。"
+    },
+    {
+      "code": "090",
+      "name": "消費者、客戶管理與服務",
+      "description": "客戶建檔、售後服務、會員管理、客戶滿意度調查及工單處理。"
+    },
+    {
+      "code": "091",
+      "name": "消費者保護",
+      "description": "消費爭議調解、客訴申訴處理及退費保障事宜。"
+    },
+    {
+      "code": "098",
+      "name": "商業與技術資訊",
+      "description": "產業研發、技術合作、專利評估及商業情報管理。"
+    },
+    {
+      "code": "104",
+      "name": "帳務管理及債權交易業務",
+      "description": "應收帳款催收、會計憑證核銷及不良債權處置。"
+    },
+    {
+      "code": "135",
+      "name": "資（通）訊服務",
+      "description": "雲端運算、網路連線、系統維運及委外技術支援。"
+    },
+    {
+      "code": "136",
+      "name": "資（通）訊與資料庫管理",
+      "description": "資訊系統維護、資料庫管理、備份備援及系統架構管理。"
+    },
+    {
+      "code": "137",
+      "name": "資通安全與管理",
+      "description": "資通安全事件應變、弱點掃描、日誌稽核與存取權限控管。"
+    },
+    {
+      "code": "148",
+      "name": "網路購物及其他電子商務服務",
+      "description": "線上訂購、金流支付、物流配送、退換貨及電商平台運營。"
+    },
+    {
+      "code": "152",
+      "name": "廣告或商業行為管理",
+      "description": "廣告投放評估、廣告成效追蹤及商業推廣管理。"
+    },
+    {
+      "code": "157",
+      "name": "調查、統計與研究分析",
+      "description": "市場調查、大數據去識別化分析、學術統計與滿意度抽樣。"
+    },
+    {
+      "code": "181",
+      "name": "其他經營合於營業登記項目或組織章程所定之業務",
+      "description": "符合公司登記營業項目、章程或法定特許業務範疇之常態營運作業。"
+    },
+    {
+      "code": "182",
+      "name": "其他諮詢與顧問服務",
+      "description": "管理顧問、法務諮詢、會計稅務及技術諮詢服務。"
+    }
+  ]
+}

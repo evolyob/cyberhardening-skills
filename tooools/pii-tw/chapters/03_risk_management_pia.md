@@ -49,7 +49,7 @@
 
 ## 2. Production Scenario: Open Banking Third-Party API Integration
 - **Incident Overview**: A commercial bank planned an Open Banking integration allowing third-party fintech applications to pull customer financial transaction histories.
-- **PIA Findings**: Inherent risk was critical due to third-party lack of MFA and potential data linkage attacks; calculated residual risk significantly exceeded the bank's approved risk appetite.
+- **PIA Findings**: Inherent risk was critical due to third-party lack of MFA and potential data linkage attacks; calculated residual risk exceeded the bank's approved risk appetite thresholds.
 - **Remediation Architecture**:
   1. Rejected unconditional risk acceptance.
   2. Applied hybrid treatment: Avoided transmitting national IDs; Mitigated transaction linkage by issuing ephemeral pseudo-tokens via KMS.
