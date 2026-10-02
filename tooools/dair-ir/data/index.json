@@ -55,7 +55,7 @@
     {
       "id": "07-1",
       "slug": "chapter_07-1_prepare_strategy_policy",
-      "title": "準備階段－策略、政策與漏洞揭露計畫",
+      "title": "Preparation: Strategy, Policies & Vulnerability Disclosure Programs",
       "file": "chapters/chapter_07-1_prepare_strategy_policy.md",
       "size_kb": 59,
       "token_budget": 12000
@@ -63,7 +63,7 @@
     {
       "id": "07-2",
       "slug": "chapter_07-2_prepare_telemetry_logging",
-      "title": "準備階段－日誌遙測、稽核基準與監控佈署",
+      "title": "Preparation: Telemetry Logging, Audit Baselines & Monitoring Deployment",
       "file": "chapters/chapter_07-2_prepare_telemetry_logging.md",
       "size_kb": 54,
       "token_budget": 12000
@@ -71,7 +71,7 @@
     {
       "id": "07-3",
       "slug": "chapter_07-3_prepare_backup_dr",
-      "title": "準備階段－黃金備份、災難復原與演練整備",
+      "title": "Preparation: Golden Backups, Disaster Recovery & Readiness Drills",
       "file": "chapters/chapter_07-3_prepare_backup_dr.md",
       "size_kb": 53,
       "token_budget": 12000
@@ -79,7 +79,7 @@
     {
       "id": "08-1",
       "slug": "chapter_08-1_detect_telemetry_sources",
-      "title": "偵測階段－遙測資料源、ATT&CK 映射與架構基準",
+      "title": "Detection: Telemetry Data Sources, ATT&CK Mapping & Architecture Baselines",
       "file": "chapters/chapter_08-1_detect_telemetry_sources.md",
       "size_kb": 30,
       "token_budget": 8000
@@ -87,7 +87,7 @@
     {
       "id": "08-2",
       "slug": "chapter_08-2_detect_hunting_analysis",
-      "title": "偵測階段－威脅獵捕、異常分析與偵測工程",
+      "title": "Detection: Threat Hunting, Anomaly Analysis & Detection Engineering",
       "file": "chapters/chapter_08-2_detect_hunting_analysis.md",
       "size_kb": 27,
       "token_budget": 7250
@@ -119,7 +119,7 @@
     {
       "id": "12-1",
       "slug": "chapter_12-1_contain_strategy_decision",
-      "title": "圍堵階段－處置策略、主被動決策與時序協同",
+      "title": "Containment: Response Strategy, Active/Passive Decisions & Timeline Coordination",
       "file": "chapters/chapter_12-1_contain_strategy_decision.md",
       "size_kb": 51,
       "token_budget": 12000
@@ -127,7 +127,7 @@
     {
       "id": "12-2",
       "slug": "chapter_12-2_contain_network_isolation",
-      "title": "圍堵階段－網路微隔離、導管切斷與流量阻斷",
+      "title": "Containment: Network Microsegmentation, Conduit Isolation & Traffic Blocking",
       "file": "chapters/chapter_12-2_contain_network_isolation.md",
       "size_kb": 48,
       "token_budget": 12000
@@ -135,7 +135,7 @@
     {
       "id": "12-3",
       "slug": "chapter_12-3_contain_host_session",
-      "title": "圍堵階段－主機權杖撤銷、Session 終止與跡證保全",
+      "title": "Containment: Host Token Revocation, Session Termination & Evidence Preservation",
       "file": "chapters/chapter_12-3_contain_host_session.md",
       "size_kb": 39,
       "token_budget": 10250
@@ -143,7 +143,7 @@
     {
       "id": "13-1",
       "slug": "chapter_13-1_eradicate_investigation_rca",
-      "title": "根除階段－根本原因分析 (RCA)、5 Whys 與鑑識調查",
+      "title": "Eradication: Root Cause Analysis (RCA), 5 Whys & Forensic Investigation",
       "file": "chapters/chapter_13-1_eradicate_investigation_rca.md",
       "size_kb": 66,
       "token_budget": 12000
@@ -151,7 +151,7 @@
     {
       "id": "13-2",
       "slug": "chapter_13-2_eradicate_persistence_removal",
-      "title": "根除階段－惡意常駐機制清除與後門拔除",
+      "title": "Eradication: Persistence Mechanism Removal & Backdoor Elimination",
       "file": "chapters/chapter_13-2_eradicate_persistence_removal.md",
       "size_kb": 62,
       "token_budget": 12000
@@ -159,7 +159,7 @@
     {
       "id": "13-3",
       "slug": "chapter_13-3_eradicate_credential_iam",
-      "title": "根除階段－身分憑證重置、金鑰輪換與權限收回",
+      "title": "Eradication: Identity Credential Reset, Key Rotation & Access Revocation",
       "file": "chapters/chapter_13-3_eradicate_credential_iam.md",
       "size_kb": 55,
       "token_budget": 12000
@@ -167,7 +167,7 @@
     {
       "id": "13-4",
       "slug": "chapter_13-4_eradicate_patch_hardening",
-      "title": "根除階段－漏洞修補、系統強化與基線重建",
+      "title": "Eradication: Vulnerability Patching, System Hardening & Baseline Rebuild",
       "file": "chapters/chapter_13-4_eradicate_patch_hardening.md",
       "size_kb": 58,
       "token_budget": 12000
@@ -175,7 +175,7 @@
     {
       "id": "14-1",
       "slug": "chapter_14-1_recover_restoration_validation",
-      "title": "復原階段－安全還原、完整性校驗與逐步通電",
+      "title": "Recovery: Secure Restoration, Integrity Validation & Phased Power-On",
       "file": "chapters/chapter_14-1_recover_restoration_validation.md",
       "size_kb": 31,
       "token_budget": 9000
@@ -183,7 +183,7 @@
     {
       "id": "14-2",
       "slug": "chapter_14-2_recover_canary_monitoring",
-      "title": "復原階段－金絲雀監控、認證強化與上線簽核",
+      "title": "Recovery: Canary Monitoring, Authentication Hardening & Production Sign-Off",
       "file": "chapters/chapter_14-2_recover_canary_monitoring.md",
       "size_kb": 34,
       "token_budget": 9250
@@ -191,7 +191,7 @@
     {
       "id": "15-1",
       "slug": "chapter_15-1_debrief_timeline_postmortem",
-      "title": "檢討階段－視覺化時序線重構與事後會議實務",
+      "title": "Debrief: Visual Timeline Reconstruction & Post-Incident Review",
       "file": "chapters/chapter_15-1_debrief_timeline_postmortem.md",
       "size_kb": 43,
       "token_budget": 11250
@@ -199,7 +199,7 @@
     {
       "id": "15-2",
       "slug": "chapter_15-2_debrief_governance_improvement",
-      "title": "檢討階段－防禦韌性升級、指標計算與管理改善",
+      "title": "Debrief: Resilience Upgrades, Metric Tracking & Governance Improvement",
       "file": "chapters/chapter_15-2_debrief_governance_improvement.md",
       "size_kb": 39,
       "token_budget": 10500
@@ -207,7 +207,7 @@
     {
       "id": "16-1",
       "slug": "chapter_16-1_ai_threat_hunting",
-      "title": "AI 輔助應變－模型選型、威脅獵捕與日誌關聯",
+      "title": "AI-Assisted Response: Model Selection, Threat Hunting & Log Correlation",
       "file": "chapters/chapter_16-1_ai_threat_hunting.md",
       "size_kb": 44,
       "token_budget": 11500
@@ -215,7 +215,7 @@
     {
       "id": "16-2",
       "slug": "chapter_16-2_ai_playbook_skills",
-      "title": "AI 輔助應變－Playbook as Skill 架構與提示工程",
+      "title": "AI-Assisted Response: Playbook as Skill Architecture & Prompt Engineering",
       "file": "chapters/chapter_16-2_ai_playbook_skills.md",
       "size_kb": 45,
       "token_budget": 12000
@@ -223,7 +223,7 @@
     {
       "id": "16-3",
       "slug": "chapter_16-3_ai_guardrails_evaluation",
-      "title": "AI 輔助應變－安全邊界護欄與自動化成效評估",
+      "title": "AI-Assisted Response: Safety Guardrails & Automation Efficacy Evaluation",
       "file": "chapters/chapter_16-3_ai_guardrails_evaluation.md",
       "size_kb": 36,
       "token_budget": 10250
@@ -231,7 +231,7 @@
     {
       "id": "17-1",
       "slug": "chapter_17-1_ransomware_triage_contain",
-      "title": "勒索專用劇本－雙重勒索分析、談判風險與緊急隔離",
+      "title": "Ransomware Playbook: Double Extortion Triage, Negotiation Risks & Emergency Containment",
       "file": "chapters/chapter_17-1_ransomware_triage_contain.md",
       "size_kb": 53,
       "token_budget": 12000
@@ -239,7 +239,7 @@
     {
       "id": "17-2",
       "slug": "chapter_17-2_ransomware_recovery_hardening",
-      "title": "勒索專用劇本－解密陷阱防範、WORM 還原與韌性強化",
+      "title": "Ransomware Playbook: Decryption Pitfalls, WORM Restoration & Resilience Hardening",
       "file": "chapters/chapter_17-2_ransomware_recovery_hardening.md",
       "size_kb": 50,
       "token_budget": 12000
@@ -247,7 +247,7 @@
     {
       "id": "18-1",
       "slug": "chapter_18-1_cloud_iam_storage",
-      "title": "雲端專用劇本－IAM 憑證洩漏、S3/Blob 外洩與帳單警報",
+      "title": "Cloud Systems Playbook: IAM Credential Leakage, S3/Blob Exfiltration & Billing Alerts",
       "file": "chapters/chapter_18-1_cloud_iam_storage.md",
       "size_kb": 27,
       "token_budget": 9500
@@ -255,7 +255,7 @@
     {
       "id": "18-2",
       "slug": "chapter_18-2_cloud_workload_iiot",
-      "title": "雲端專用劇本－虛擬工作負載鑑識與 IIoT 邊緣閘道應變",
+      "title": "Cloud Systems Playbook: Virtual Workload Forensics & IIoT Edge Gateway Response",
       "file": "chapters/chapter_18-2_cloud_workload_iiot.md",
       "size_kb": 46,
       "token_budget": 9000
@@ -263,7 +263,7 @@
     {
       "id": "19-1",
       "slug": "chapter_19-1_ot_safety_baseline",
-      "title": "工控與營運技術 (OT/ICS) 基礎安全基線與 Purdue 應變架構",
+      "title": "OT/ICS Playbook: Industrial Security Baselines & Purdue Architecture Response",
       "file": "chapters/chapter_19-1_ot_safety_baseline.md",
       "size_kb": 65,
       "token_budget": 12000
@@ -271,7 +271,7 @@
     {
       "id": "19-2",
       "slug": "chapter_19-2_ot_62443_3_1_tech",
-      "title": "CNS/IEC 62443-3-1 工控系統資安技術評量與事件應變工程實務",
+      "title": "OT/ICS Playbook: IEC 62443-3-1 Technical Security Assessment & Incident Engineering",
       "file": "chapters/chapter_19-2_ot_62443_3_1_tech.md",
       "size_kb": 30,
       "token_budget": 7250
@@ -279,7 +279,7 @@
     {
       "id": "19-3",
       "slug": "chapter_19-3_ot_62443_4_1_sdlc",
-      "title": "工控安全開發生命週期 (CNS/IEC 62443-4-1 SDLC) 與供應鏈事件應變",
+      "title": "OT/ICS Playbook: IEC 62443-4-1 Secure Development & Supply Chain Defect Remediation",
       "file": "chapters/chapter_19-3_ot_62443_4_1_sdlc.md",
       "size_kb": 43,
       "token_budget": 10500
