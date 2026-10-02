@@ -1,12 +1,8 @@
 ﻿# Chapter 5: Incident Response Models and Limitations
 
-> Source: PDF Pages 72-81 (Total Pages: 10)
-
 essential for meaningful metrics, whether tracking manually or using automated tools. Start with
 
-three to five broad incident categories (e.g., malware, unauthorized access, data loss, denial-of-
-
-service) and refine them over time.
+three to five broad incident categories (e.g., malware, unauthorized access, data loss, denial-of-service) and refine them over time.
 
 3. Use existing tools to automate data collection : Leverage ticketing systems (e.g., ServiceNow,
 
@@ -126,10 +122,6 @@ enforcement as needed)
 
 • Post-incident review ownership and remediation tracking
 
-While incident response focuses on the technical resolution of the incident, incident management ensures
-
-Getting Started | Chapter 4 | 49
-
 the organization responds in a coordinated, documented, and defensible manner. Both functions are
 
 essential, and in practice they operate in parallel: responders investigate and contain the threat while
@@ -172,35 +164,7 @@ their response efforts, along with the limitations that have emerged as incident
 
 and scale.
 
-[1] Incident Response Recommendations and Considerations for Cyber Risk Management, retrieved from nvlpubs.nist.gov/nistpubs/
-
-SpecialPublications/NIST.SP.800-61r3.pdf.
-
-[2] Twingate, "Mr. Cooper Data Breach: What & How It Happened?" www.twingate.com/blog/tips/Mr.%20Cooper-data-breach
-
-[3] Hutchins, E. M., Cloppert, M. J., Amin, R. M., Ph. D., & Lockheed Martin Corporation. (n.d.). Intelligence-Driven Computer Network
-
-Defense Informed by Analysis of Adversary Campaigns and Intrusion Kill Chains ( www.lockheedmartin.com/content/dam/lockheed-
-
-martin/rms/documents/cyber/LM-White-Paper-Intel-Driven-Defense.pdf).
-
-[4] FortiGuard Labs. (2025, January 1). Authentication bypass in Node.js websocket module and CSF requests ( www.fortinet.com/blog/
-
-threat-research/fortiguard-labs-discovers-multiple-critical-vulnerabilities-in-adobe-reader).
-
-[5] CrowdStrike. (2022, October 4). IOA VS IOC (www.crowdstrike.com/en-us/cybersecurity-101/threat-intelligence/ioa-vs-ioc/).
-
-[6] IBM Security, "Cost of a Data Breach Report 2024," www.ibm.com/reports/data-breach
-
-[7] Verizon, "2024 Data Breach Investigations Report," www.verizon.com/business/resources/reports/dbir/
-
-[8] Ponemon Institute, "The Cost of Cybercrime Study," sponsored by Accenture, 2023
-
-[9] SANS Institute, "2025 SOC Survey," www.sans.org/white-papers/sans-2025-soc-survey
-
-[10] SANS Institute, "2025 SOC Survey," www.sans.org/white-papers/sans-2025-soc-survey
-
-Getting Started | Chapter 4 | 51
+Defense Informed by Analysis of Adversary Campaigns and Intrusion Kill Chains (hxxps://www[.]lockheedmartin[.]com/content/dam/lockheed-martin/rms/documents/cyber/LM-White-Paper-Intel-Driven-Defense.pdf).
 
 5 Incident Response
 
@@ -289,12 +253,6 @@ responding to incidents. It describes a process known as the Incident Response L
 • Phase 3: Containment, Eradication, and Recovery
 
 • Phase 4: Post-Incident Activity
-
-These phases emphasize the cyclical nature of incident response, with lessons learned feeding back into
-
-improved preparation.
-
-Incident Response Models and Their Limitations | Chapter 5 | 53
 
 Figure 18 | NIST Incident Response Life Cycle
 
@@ -406,8 +364,6 @@ established seven step process: Prepare; Identify; Contain; Eradicate; Restore; 
 
 — Applied Risk, Seven steps to implementing a successful incident response plan
 
-Incident Response Models and Their Limitations | Chapter 5 | 55
-
 Figure 20 | Seven-Step Incident Response Model, Applied Risk BV (a DNV Company)
 
 Other variations include a communication or documentation step following the eradication step. These
@@ -489,11 +445,3 @@ repeated as more affected hosts are identified.
 steps (1.1, 1.2) to identify all other affected hosts, then contain (5) and eradicate (6) the incident for them.
 
 — NIST SP 800-61r2 table 3-5, Incident Handling Checklist
-
-However, the need for an iterative loop during containment, eradication, and recovery is not emphasized
-
-anywhere else in the NIST SP 800-61r2 document, and it is also missing from the 800-61r3 document.
-
-Effective incident response relies on an iterative analysis process to ensure that all affected systems are
-
-Incident Response Models and Their Limitations | Chapter 5 | 57

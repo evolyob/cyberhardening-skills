@@ -81,7 +81,7 @@ def load_index() -> list[dict]:
     if not INDEX_FILE.exists():
         return []
     try:
-        data = json.loads(INDEX_FILE.read_text(encoding="utf-8"))
+        data = json.loads(INDEX_FILE.read_text(encoding="utf-8-sig"))
         return data.get("chapters", [])
     except (json.JSONDecodeError, OSError):
         return []
@@ -91,9 +91,9 @@ def list_chapters(fmt: str) -> str:
     chs = load_index()
     if fmt == "json":
         return json.dumps(chs, ensure_ascii=False, indent=2)
-    headers = ["#", "Chapter Title", "Pages", "Est Tokens", "File"]
+    headers = ["ID", "Chapter Title", "Size (KB)", "Token Budget", "File"]
     rows = [
-        [str(c.get("chapter", "")), f"**{c.get('title', '')}**", str(c.get("pages", "")), str(c.get("est_tokens", 0)), f"`{c.get('file', '')}`"]
+        [str(c.get("id", c.get("chapter", ""))), f"**{c.get('title', '')}**", str(c.get("size_kb", c.get("pages", ""))), str(c.get("token_budget", c.get("est_tokens", 0))), f"`{c.get('file', '')}`"]
         for c in chs
     ]
     return render_markdown_table(headers, rows)
@@ -103,7 +103,8 @@ def read_chapter(query: str) -> str:
     chs = load_index()
     target = None
     for c in chs:
-        if str(c.get("chapter")) == query or query.lower() in c.get("title", "").lower() or query.lower() in c.get("file", "").lower():
+        c_id = str(c.get("id", c.get("chapter", "")))
+        if c_id == query or query.lower() in c.get("title", "").lower() or query.lower() in c.get("file", "").lower() or query.lower() in c.get("slug", "").lower():
             target = c
             break
     if not target:

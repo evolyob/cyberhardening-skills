@@ -1,188 +1,296 @@
-{
-  "total_chapters": 20,
-  "source_file": "dynamicir.pdf",
-  "total_pages": 655,
-  "total_est_tokens": 380932,
+﻿{
+  "skill": "dair-ir",
+  "version": "2.2.0",
+  "description": "Dynamic Incident Response (DAIR) Lifecycle & Specialized Playbooks with IEC 62443 Alignment",
+  "total_chapters": 36,
   "chapters": [
     {
-      "chapter": 1,
-      "title": "Chapter 1: Case Study: Supply Chain Calamity",
+      "id": "01",
+      "slug": "chapter_01_supply_chain",
+      "title": "Case Study: Supply Chain Calamity",
       "file": "chapters/chapter_01_supply_chain.md",
-      "pages": "23-39",
-      "page_count": 17,
-      "est_tokens": 7950,
-      "summary": "Code Claude Code was my go-to tool for much of the custom code developed in the examples used in this book. This includes the stealer code Pyrix uses in Case Study: Supply Chain Calamity , various sam"
+      "size_kb": 26,
+      "token_budget": 7750
     },
     {
-      "chapter": 2,
-      "title": "Chapter 2: Introduction to Modern Incident Response",
+      "id": "02",
+      "slug": "chapter_02_foundations",
+      "title": "Introduction to Modern Incident Response",
       "file": "chapters/chapter_02_foundations.md",
-      "pages": "40-44",
-      "page_count": 5,
-      "est_tokens": 2477,
-      "summary": "Identification Sam’s first step was to examine Jordan’s workstation. He connected remotely and checked for any running processes matching the names Jordan had described. Listing 20 | Process Check on "
+      "size_kb": 10,
+      "token_budget": 2250
     },
     {
-      "chapter": 3,
-      "title": "Chapter 3: History of Incident Response & Major Threats",
+      "id": "03",
+      "slug": "chapter_03_threat_history",
+      "title": "History of Incident Response & Major Threats",
       "file": "chapters/chapter_03_threat_history.md",
-      "pages": "45-56",
-      "page_count": 12,
-      "est_tokens": 5482,
-      "summary": "operate under uncertainty, and resilience to maintain focus when outcomes are not fully within one’s control. An effective response requires collaboration across teams, clear communication under press"
+      "size_kb": 20,
+      "token_budget": 5250
     },
     {
-      "chapter": 4,
-      "title": "Chapter 4: Getting Started: Roles, Teams & Playbooks",
+      "id": "04",
+      "slug": "chapter_04_team_readiness",
+      "title": "Getting Started: Roles, Teams & Playbooks",
       "file": "chapters/chapter_04_team_readiness.md",
-      "pages": "57-71",
-      "page_count": 15,
-      "est_tokens": 8006,
-      "summary": "That format, a checklist of numbered actions framed by the problem each one was meant to prevent, set the template for practical incident response documentation in the years that followed. The Step-by"
+      "size_kb": 29,
+      "token_budget": 7750
     },
     {
-      "chapter": 5,
-      "title": "Chapter 5: Incident Response Models and Limitations",
+      "id": "05",
+      "slug": "chapter_05_models_limitation",
+      "title": "Incident Response Models and Limitations",
       "file": "chapters/chapter_05_models_limitation.md",
-      "pages": "72-81",
-      "page_count": 10,
-      "est_tokens": 4976,
-      "summary": "essential for meaningful metrics, whether tracking manually or using automated tools. Start with three to five broad incident categories (e.g., malware, unauthorized access, data loss, denial-of- serv"
+      "size_kb": 19,
+      "token_budget": 4750
     },
     {
-      "chapter": 6,
-      "title": "Chapter 6: DAIR: A Dynamic Approach to Incident Response",
+      "id": "06",
+      "slug": "chapter_06_dair_core",
+      "title": "DAIR: A Dynamic Approach to Incident Response",
       "file": "chapters/chapter_06_dair_core.md",
-      "pages": "82-89",
-      "page_count": 8,
-      "est_tokens": 3375,
-      "summary": "identified and addressed. The linear models do not provide sufficient guidance on this important aspect of the incident response process. Inadequate Resource Prioritization Guidance Few organizations "
+      "size_kb": 10,
+      "token_budget": 3250
     },
     {
-      "chapter": 7,
-      "title": "Chapter 7: Prepare Activity: Visibility & Telemetry",
-      "file": "chapters/chapter_07_prepare.md",
-      "pages": "90-161",
-      "page_count": 72,
-      "est_tokens": 45745,
-      "summary": "organizationally damaging, such as taking all systems offline simultaneously for imaging. Throughout the incident response process, we’ll communicate with and get input from decision makers to ensure "
+      "id": "07-1",
+      "slug": "chapter_07-1_prepare_strategy_policy",
+      "title": "準備階段－策略、政策與漏洞揭露計畫",
+      "file": "chapters/chapter_07-1_prepare_strategy_policy.md",
+      "size_kb": 59,
+      "token_budget": 12000
     },
     {
-      "chapter": 8,
-      "title": "Chapter 8: Detect Activity: Monitoring & Detection Engineering",
-      "file": "chapters/chapter_08_detect.md",
-      "pages": "162-185",
-      "page_count": 24,
-      "est_tokens": 15646,
-      "summary": "exercises that combine tabletop discussion with technical execution). ◦ Develop realistic scenarios based on relevant threats. ◦ Include participants from all departments involved in the response. ◦ T"
+      "id": "07-2",
+      "slug": "chapter_07-2_prepare_telemetry_logging",
+      "title": "準備階段－日誌遙測、稽核基準與監控佈署",
+      "file": "chapters/chapter_07-2_prepare_telemetry_logging.md",
+      "size_kb": 54,
+      "token_budget": 12000
     },
     {
-      "chapter": 9,
-      "title": "Chapter 9: Verify and Triage Activities: Severity Scoring",
+      "id": "07-3",
+      "slug": "chapter_07-3_prepare_backup_dr",
+      "title": "準備階段－黃金備份、災難復原與演練整備",
+      "file": "chapters/chapter_07-3_prepare_backup_dr.md",
+      "size_kb": 53,
+      "token_budget": 12000
+    },
+    {
+      "id": "08-1",
+      "slug": "chapter_08-1_detect_telemetry_sources",
+      "title": "偵測階段－遙測資料源、ATT&CK 映射與架構基準",
+      "file": "chapters/chapter_08-1_detect_telemetry_sources.md",
+      "size_kb": 30,
+      "token_budget": 8000
+    },
+    {
+      "id": "08-2",
+      "slug": "chapter_08-2_detect_hunting_analysis",
+      "title": "偵測階段－威脅獵捕、異常分析與偵測工程",
+      "file": "chapters/chapter_08-2_detect_hunting_analysis.md",
+      "size_kb": 27,
+      "token_budget": 7250
+    },
+    {
+      "id": "09",
+      "slug": "chapter_09_verify_triage",
+      "title": "Verify and Triage Activities: Severity Scoring",
       "file": "chapters/chapter_09_verify_triage.md",
-      "pages": "186-208",
-      "page_count": 23,
-      "est_tokens": 12885,
-      "summary": "Step 1. Select and Combine Detection Methodologies Representative activities include: • Use signature-based detection for efficient, high-confidence identification of known threats. • Apply behavioral"
+      "size_kb": 47,
+      "token_budget": 12000
     },
     {
-      "chapter": 10,
-      "title": "Chapter 10: Response Actions Loop: Operational Synchronization",
+      "id": "10",
+      "slug": "chapter_10_actions_loop",
+      "title": "Response Actions Loop: Operational Synchronization",
       "file": "chapters/chapter_10_actions_loop.md",
-      "pages": "209-219",
-      "page_count": 11,
-      "est_tokens": 7570,
-      "summary": "incident information. • Be prepared to answer questions: Decision makers may have questions about the incident, the potential impact on the organization, and the recommended response actions. The deci"
+      "size_kb": 27,
+      "token_budget": 7250
     },
     {
-      "chapter": 11,
-      "title": "Chapter 11: Scope Activity: Blast Radius & Pivot Analysis",
+      "id": "11",
+      "slug": "chapter_11_scope",
+      "title": "Scope Activity: Blast Radius & Pivot Analysis",
       "file": "chapters/chapter_11_scope.md",
-      "pages": "220-239",
-      "page_count": 20,
-      "est_tokens": 11997,
-      "summary": "First, organizational resources should be managed effectively throughout the incident response process, including multiple iterations of the response actions loop.  Teams may experience fatigue across"
+      "size_kb": 46,
+      "token_budget": 11750
     },
     {
-      "chapter": 12,
-      "title": "Chapter 12: Contain Activity: Isolation & Network Segmentation",
-      "file": "chapters/chapter_12_contain.md",
-      "pages": "240-295",
-      "page_count": 56,
-      "est_tokens": 37300,
-      "summary": "The extended activity search revealed that the service principal had been accessed from the external IP address as early as October 8th, more than a week before the first management operations Priya h"
+      "id": "12-1",
+      "slug": "chapter_12-1_contain_strategy_decision",
+      "title": "圍堵階段－處置策略、主被動決策與時序協同",
+      "file": "chapters/chapter_12-1_contain_strategy_decision.md",
+      "size_kb": 51,
+      "token_budget": 12000
     },
     {
-      "chapter": 13,
-      "title": "Chapter 13: Eradicate Activity: Persistence Removal & Patching",
-      "file": "chapters/chapter_13_eradicate.md",
-      "pages": "296-400",
-      "page_count": 105,
-      "est_tokens": 65010,
-      "summary": "Enable termination protection on contained instances to prevent accidental deletion. ◦ Apply deletion locks on critical resources containing evidence. ◦ Create snapshots of compromised volumes and vir"
+      "id": "12-2",
+      "slug": "chapter_12-2_contain_network_isolation",
+      "title": "圍堵階段－網路微隔離、導管切斷與流量阻斷",
+      "file": "chapters/chapter_12-2_contain_network_isolation.md",
+      "size_kb": 48,
+      "token_budget": 12000
     },
     {
-      "chapter": 14,
-      "title": "Chapter 14: Recover Activity: Safe Restoration & Canary Validation",
-      "file": "chapters/chapter_14_recover.md",
-      "pages": "401-429",
-      "page_count": 29,
-      "est_tokens": 18837,
-      "summary": "◦ Test patches in a non-production environment before broad deployment. 2. Implement patch management during eradication, including: ◦ Track patch status with inventory management tools. ◦ Balance cha"
+      "id": "12-3",
+      "slug": "chapter_12-3_contain_host_session",
+      "title": "圍堵階段－主機權杖撤銷、Session 終止與跡證保全",
+      "file": "chapters/chapter_12-3_contain_host_session.md",
+      "size_kb": 39,
+      "token_budget": 10250
     },
     {
-      "chapter": 15,
-      "title": "Chapter 15: Debrief Activity: Root Cause & Post-Mortem",
-      "file": "chapters/chapter_15_debrief.md",
-      "pages": "430-467",
-      "page_count": 38,
-      "est_tokens": 22266,
-      "summary": "3. Establish monitoring duration and procedures, including: ◦ Define a monitoring period appropriate to incident severity (typically thirty days minimum). ◦ Document what constitutes abnormal behavior"
+      "id": "13-1",
+      "slug": "chapter_13-1_eradicate_investigation_rca",
+      "title": "根除階段－根本原因分析 (RCA)、5 Whys 與鑑識調查",
+      "file": "chapters/chapter_13-1_eradicate_investigation_rca.md",
+      "size_kb": 66,
+      "token_budget": 12000
     },
     {
-      "chapter": 16,
-      "title": "Chapter 16: Accelerating Incident Response with AI & Playbook as Skill",
-      "file": "chapters/chapter_16_ai_playbooks.md",
-      "pages": "468-541",
-      "page_count": 74,
-      "est_tokens": 34691,
-      "summary": "Step 4. Capture Incident Metrics 1. Calculate detection and response metrics, including: ◦ Mean Time to Detect (MTTD): Elapsed time from incident start to detection. ◦ Mean Time to Respond (MTTR): Ela"
+      "id": "13-2",
+      "slug": "chapter_13-2_eradicate_persistence_removal",
+      "title": "根除階段－惡意常駐機制清除與後門拔除",
+      "file": "chapters/chapter_13-2_eradicate_persistence_removal.md",
+      "size_kb": 62,
+      "token_budget": 12000
     },
     {
-      "chapter": 17,
-      "title": "Chapter 17: Specialized IR for Ransomware & Double Extortion",
-      "file": "chapters/chapter_17_ransomware.md",
-      "pages": "542-579",
-      "page_count": 38,
-      "est_tokens": 26673,
-      "summary": "Use Case Documentation Documentation should capture which AI applications have proven valuable and which have not worked well in specific organizational environments for internal distribution. Not eve"
+      "id": "13-3",
+      "slug": "chapter_13-3_eradicate_credential_iam",
+      "title": "根除階段－身分憑證重置、金鑰輪換與權限收回",
+      "file": "chapters/chapter_13-3_eradicate_credential_iam.md",
+      "size_kb": 55,
+      "token_budget": 12000
     },
     {
-      "chapter": 18,
-      "title": "Chapter 18: Specialized IR for Cloud Systems (AWS/Azure/GCP)",
-      "file": "chapters/chapter_18_cloud_ir.md",
-      "pages": "580-608",
-      "page_count": 29,
-      "est_tokens": 19182,
-      "summary": "BLACKBAUD: FOUR YEARS OF REGULATORY CONSEQUENCES The 2020 Blackbaud ransomware incident illustrates how regulatory consequences can cascade for years after technical recovery concludes. Blackbaud prov"
+      "id": "13-4",
+      "slug": "chapter_13-4_eradicate_patch_hardening",
+      "title": "根除階段－漏洞修補、系統強化與基線重建",
+      "file": "chapters/chapter_13-4_eradicate_patch_hardening.md",
+      "size_kb": 58,
+      "token_budget": 12000
     },
     {
-      "chapter": 19,
-      "title": "Chapter 19: Specialized IR for Operational Technology (OT/ICS)",
-      "file": "chapters/chapter_19_ot_ics.md",
-      "pages": "609-632",
-      "page_count": 24,
-      "est_tokens": 16020,
-      "summary": "8000, \"protocol\": \"tcp\"}, {\"containerPort\": 8001, \"protocol\": \"tcp\"}], \"mountPoints\": [{\"sourceVolume\": \"velociraptor-data\", \"containerPath\": \"/velociraptor\"}]}]' --volumes '[{\"name\": \"velociraptor-da"
+      "id": "14-1",
+      "slug": "chapter_14-1_recover_restoration_validation",
+      "title": "復原階段－安全還原、完整性校驗與逐步通電",
+      "file": "chapters/chapter_14-1_recover_restoration_validation.md",
+      "size_kb": 31,
+      "token_budget": 9000
     },
     {
-      "chapter": 20,
-      "title": "Chapter 20: Integrating DAIR with NIST CSF 2.0 Framework",
+      "id": "14-2",
+      "slug": "chapter_14-2_recover_canary_monitoring",
+      "title": "復原階段－金絲雀監控、認證強化與上線簽核",
+      "file": "chapters/chapter_14-2_recover_canary_monitoring.md",
+      "size_kb": 34,
+      "token_budget": 9250
+    },
+    {
+      "id": "15-1",
+      "slug": "chapter_15-1_debrief_timeline_postmortem",
+      "title": "檢討階段－視覺化時序線重構與事後會議實務",
+      "file": "chapters/chapter_15-1_debrief_timeline_postmortem.md",
+      "size_kb": 43,
+      "token_budget": 11250
+    },
+    {
+      "id": "15-2",
+      "slug": "chapter_15-2_debrief_governance_improvement",
+      "title": "檢討階段－防禦韌性升級、指標計算與管理改善",
+      "file": "chapters/chapter_15-2_debrief_governance_improvement.md",
+      "size_kb": 39,
+      "token_budget": 10500
+    },
+    {
+      "id": "16-1",
+      "slug": "chapter_16-1_ai_threat_hunting",
+      "title": "AI 輔助應變－模型選型、威脅獵捕與日誌關聯",
+      "file": "chapters/chapter_16-1_ai_threat_hunting.md",
+      "size_kb": 44,
+      "token_budget": 11500
+    },
+    {
+      "id": "16-2",
+      "slug": "chapter_16-2_ai_playbook_skills",
+      "title": "AI 輔助應變－Playbook as Skill 架構與提示工程",
+      "file": "chapters/chapter_16-2_ai_playbook_skills.md",
+      "size_kb": 45,
+      "token_budget": 12000
+    },
+    {
+      "id": "16-3",
+      "slug": "chapter_16-3_ai_guardrails_evaluation",
+      "title": "AI 輔助應變－安全邊界護欄與自動化成效評估",
+      "file": "chapters/chapter_16-3_ai_guardrails_evaluation.md",
+      "size_kb": 36,
+      "token_budget": 10250
+    },
+    {
+      "id": "17-1",
+      "slug": "chapter_17-1_ransomware_triage_contain",
+      "title": "勒索專用劇本－雙重勒索分析、談判風險與緊急隔離",
+      "file": "chapters/chapter_17-1_ransomware_triage_contain.md",
+      "size_kb": 53,
+      "token_budget": 12000
+    },
+    {
+      "id": "17-2",
+      "slug": "chapter_17-2_ransomware_recovery_hardening",
+      "title": "勒索專用劇本－解密陷阱防範、WORM 還原與韌性強化",
+      "file": "chapters/chapter_17-2_ransomware_recovery_hardening.md",
+      "size_kb": 50,
+      "token_budget": 12000
+    },
+    {
+      "id": "18-1",
+      "slug": "chapter_18-1_cloud_iam_storage",
+      "title": "雲端專用劇本－IAM 憑證洩漏、S3/Blob 外洩與帳單警報",
+      "file": "chapters/chapter_18-1_cloud_iam_storage.md",
+      "size_kb": 27,
+      "token_budget": 9500
+    },
+    {
+      "id": "18-2",
+      "slug": "chapter_18-2_cloud_workload_iiot",
+      "title": "雲端專用劇本－虛擬工作負載鑑識與 IIoT 邊緣閘道應變",
+      "file": "chapters/chapter_18-2_cloud_workload_iiot.md",
+      "size_kb": 46,
+      "token_budget": 9000
+    },
+    {
+      "id": "19-1",
+      "slug": "chapter_19-1_ot_safety_baseline",
+      "title": "工控與營運技術 (OT/ICS) 基礎安全基線與 Purdue 應變架構",
+      "file": "chapters/chapter_19-1_ot_safety_baseline.md",
+      "size_kb": 65,
+      "token_budget": 12000
+    },
+    {
+      "id": "19-2",
+      "slug": "chapter_19-2_ot_62443_3_1_tech",
+      "title": "CNS/IEC 62443-3-1 工控系統資安技術評量與事件應變工程實務",
+      "file": "chapters/chapter_19-2_ot_62443_3_1_tech.md",
+      "size_kb": 30,
+      "token_budget": 7250
+    },
+    {
+      "id": "19-3",
+      "slug": "chapter_19-3_ot_62443_4_1_sdlc",
+      "title": "工控安全開發生命週期 (CNS/IEC 62443-4-1 SDLC) 與供應鏈事件應變",
+      "file": "chapters/chapter_19-3_ot_62443_4_1_sdlc.md",
+      "size_kb": 43,
+      "token_budget": 10500
+    },
+    {
+      "id": "20",
+      "slug": "chapter_20_nist_csf",
+      "title": "Integrating DAIR with NIST CSF 2.0 Framework",
       "file": "chapters/chapter_20_nist_csf.md",
-      "pages": "633-655",
-      "page_count": 23,
-      "est_tokens": 14844,
-      "summary": "OT-Specific Debrief Questions Beyond the standard post-incident review topics covered in the debrief activity chapter, OT incidents raise questions that only engineering and operations personnel can a"
+      "size_kb": 25,
+      "token_budget": 12000
     }
   ]
 }

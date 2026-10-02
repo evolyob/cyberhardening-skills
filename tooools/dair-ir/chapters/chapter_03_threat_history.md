@@ -1,7 +1,5 @@
 ﻿# Chapter 3: History of Incident Response & Major Threats
 
-> Source: PDF Pages 45-56 (Total Pages: 12)
-
 operate under uncertainty, and resilience to maintain focus when outcomes are not fully within one’s
 
 control. An effective response requires collaboration across teams, clear communication under pressure,
@@ -73,16 +71,6 @@ NovaRise in the market.
 The case study concludes with an incident response analyst investigating Jordan’s ticket and following a
 
 structured, competent response process. The analyst’s work is thorough for the single workstation
-
-examined, but the linear progression from identification through recovery never prompts the broader
-
-scoping that would reveal the extent of the compromise. This gap illustrates a problem common in many
-
-organizations, and one that recurs as a theme throughout this book.  Linear incident response models that
-
-omit iterative scoping and verification steps often result in incomplete responses.
-
-Introduction | Chapter 2 | 21
 
 As incident responders, we are tasked with preparing organizations to respond to incidents like the one
 
@@ -184,36 +172,6 @@ security incidents.
 
 • AI-driven attack orchestration : The rise of AI has enabled attackers to automate and scale their
 
-operations, creating new challenges for incident response teams to detect and respond to threats using
-
-conventional response methods.
-
-These factors collectively require organizations to adopt more sophisticated, coordinated, and adaptable
-
-incident response capabilities. While many organizations have adopted models to guide their response
-
-functions, these models often predate modern challenges and do not sufficiently address the demands
-
-described here.
-
-A PATH FORWARD
-
-The chapters that follow aim to close the gap between traditional models and the demands of modern
-
-incident response. The next chapter traces the history of incident response from its earliest incidents
-
-through the development of the formal models that organizations rely on today. The frameworks,
-
-techniques, and considerations introduced throughout the rest of the book are designed to equip
-
-responders with a practical, repeatable approach to working under pressure with incomplete information,
-
-while remaining adaptable to the unique circumstances of each incident.
-
-Introduction | Chapter 2 | 23
-
-[1] Book recommendations for technical incident response tools and techniques include Applied Incident Response by Steve Anson and
-
 Digital Forensics and Incident Response: Incident response tools and techniques for effective cyber threat response by Gerard Johansen.
 
 3 A Short History of
@@ -281,8 +239,6 @@ computer data to the KGB, marking one of the first known
 cyber-espionage operations. The incident was later
 
 popularized by Clifford Stoll’s book The Cuckoo’s Egg.
-
-A Short History of Incident Response | Chapter 3 | 25
 
 November
 
@@ -404,17 +360,11 @@ subsequent appeals court ruling, United States v. Morris, 928 F.2d 504 (2d Cir. 
 
 Robert Morris was convicted under the Computer Fraud and Abuse Act (CFAA) in 1990,
 
-receiving a sentence of three years probation, 400 hours of community service, and a fine
-
-A Short History of Incident Response | Chapter 3 | 27
-
 of $10,050.
 
 A timeline of these notable incidents is shown in Figure 8.
 
 Figure 8 | Timeline of Early Cybersecurity Incidents
-
-A Short History of Incident Response | Chapter 3 | 29
 
 DEVELOPMENT OF INCIDENT RESPONSE MODELS
 
@@ -554,13 +504,7 @@ could take to address it. An Emergency Action Card  provided a one-page referenc
 
 practitioners caught unprepared, and later sections covered specific incident types (malicious code, denial
 
-of service, espionage, hoaxes, and unauthorized access) along with reusable forms for incident record-
-
-keeping. Figure 9 shows an early draft of the guide’s title page, held by Randy Marchany, one of the original
-
-contributors to the project. A sample interior page from the 1998 edition is shown in Figure 10.
-
-A Short History of Incident Response | Chapter 3 | 31
+of service, espionage, hoaxes, and unauthorized access) along with reusable forms for incident record-keeping. Figure 9 shows an early draft of the guide’s title page, held by Randy Marchany, one of the original authors.
 
 Figure 9 | Randy Marchany with an Early Draft of the SANS Step-By-Step Guide (PC: Sahil Dudani)
 

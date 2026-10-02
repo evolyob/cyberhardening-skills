@@ -1,7 +1,5 @@
 ﻿# Chapter 4: Getting Started: Roles, Teams & Playbooks
 
-> Source: PDF Pages 57-71 (Total Pages: 15)
-
 That format, a checklist of numbered actions framed by the problem each one was meant to prevent, set the
 
 template for practical incident response documentation in the years that followed. The Step-by-Step
@@ -24,12 +22,6 @@ four-step model to align with the broader NIST Cybersecurity Framework (CSF), ad
 
 high-level model: Govern, Identify, Protect, Detect, Respond, and Recover.
 
-A timeline of the development of these incident response models, along with the chosen historical incidents,
-
-is shown in Figure 11.
-
-A Short History of Incident Response | Chapter 3 | 33
-
 Figure 11 | Timeline of Incident Response Models and Early Cybersecurity Incidents
 
 The development of incident response models has been shaped by the evolving landscape of cybersecurity
@@ -47,32 +39,6 @@ ensuring that organizations remain resilient in the face of an ever-changing thr
 FROM THESE FOUNDATIONS
 
 The arc from CIAC’s 1990 guidelines through NIST SP 800-61 Revision 3 reflects three decades of
-
-refinement, with each generation of incident response models building on the last while incorporating
-
-lessons from new categories of incidents. These frameworks remain in active use today. Organizations
-
-continue to structure their incident response programs around the six-step model that originated with
-
-Schultz and was made practical in the SANS guide, or the four-step NIST model.
-
-That durability is a strength, but it is also where the limitations begin to show. The earliest formal models
-
-were developed when most incidents were one-system viruses or worms, when organizations were still
-
-figuring out who should respond, and when full-time security roles were rare. Modern incidents involve
-
-cloud-distributed identity, third-party SaaS dependencies, supply chain compromises, AI-orchestrated
-
-attack tooling, and adversaries who adapt their tactics during the response itself. The chapters that follow
-
-build a shared vocabulary for talking about these incidents, examine where the established models fall short,
-
-and introduce a model designed for response under those modern conditions.
-
-A Short History of Incident Response | Chapter 3 | 35
-
-[1] "Responding to Computer Security Incidents: Guidelines for Incident Handling," UCRL-MA-106650
 
 4 Getting Started
 
@@ -101,26 +67,6 @@ This is the classic definition of an incident, but there are many nuances to con
 incidents look the same: some result from a deliberate attack, others from human error, and still others
 
 from environmental causes beyond anyone’s control. Defining an incident as malicious, accidental, or
-
-environmental helps clarify its nature and shapes how the response team approaches it.
-
-Malicious Incidents
-
-These incidents are the result of deliberate action by a threat actor or adversary.  Exploiting a vulnerability,
-
-abusing stolen credentials, or deploying malicious code to compromise a system all qualify as malicious
-
-incidents.
-
-Malicious incidents are the primary focus of this book. While the incident response
-
-practices in this book also apply to accidental and environmental incidents, the techniques
-
-and strategies discussed here are primarily intended to address malicious incidents in
-
-which an attacker is actively trying to compromise systems and data.
-
-Getting Started | Chapter 4 | 37
 
 Accidental Incidents
 
@@ -234,14 +180,6 @@ EVENT OF INTEREST
 
 An Event of Interest  (EOI) is an event that warrants further investigation. When considering the unending
 
-flow of events across all systems, analysts quickly realize they cannot process them all. Filtering is necessary
-
-to identify which events are interesting. The definition of interesting will vary from organization to
-
-organization.
-
-Getting Started | Chapter 4 | 39
-
 Consider the events shown in Figure 13. This illustration annotates several of the events:
 
 • Unrecognized browser session: The web application server records the start of a new session for a user
@@ -351,12 +289,6 @@ was unsuccessful.
 The decision to use one or more events to qualify as an incident should take into account the
 
 organization’s policies and priorities. While the events themselves are objective, their interpretation
-
-is subjective and can vary from one organization to another.
-
-Consider the updated illustration shown in Figure 14. This illustration merges some of the previous EOI into
-
-Getting Started | Chapter 4 | 41
 
 an aggregated view, denoting multiple login failure events and a successful login followed by an MFA failure
 
@@ -472,9 +404,7 @@ attacker creates a new admin user.
 
 references:
 
-Getting Started | Chapter 4 | 43
-
-- https://www.fortiguard.com/psirt/FG-IR-24-535
+- hxxps://www[.]fortiguard[.]com/psirt/FG-IR-24-535
 
 author: Joshua Wright
 
@@ -610,8 +540,6 @@ or even minutes for critical incidents. Industry leaders with advanced threat de
 
 monitoring systems report MTTD of less than twenty-four hours for most incident types. [8]
 
-[9]
-
 Another challenge with MTTD is defining when an incident occurs. In many cases, the exact time of the
 
 compromise is unknown, and organizations should estimate the occurrence time based on the earliest
@@ -637,10 +565,6 @@ MEAN TIME TO RESPOND
 Mean time to respond (MTTR) is a metric that measures the average time to respond to and resolve a
 
 security incident after it is detected. While MTTD measures the efficacy of an organization’s detection
-
-processes, MTTR measures the efficiency of its incident response capabilities.
-
-Getting Started | Chapter 4 | 45
 
 MTTR is calculated by taking the total time to respond to and resolve all incidents over a specific period and
 
@@ -797,9 +721,3 @@ tracking provides valuable baseline data that can demonstrate trends over time a
 investments in more sophisticated tracking tools.
 
 2. Define clear incident categories and resolution criteria : Work with the incident response team
-
-to establish definitions for detection and resolution for each incident type. Document these
-
-definitions and ensure all team members apply them consistently. This standardization is
-
-Getting Started | Chapter 4 | 47

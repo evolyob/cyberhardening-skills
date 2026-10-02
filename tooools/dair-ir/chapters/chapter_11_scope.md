@@ -1,6 +1,4 @@
-﻿# Chapter 11: Scope Activity: Blast Radius & Pivot Analysis
-
-> Source: PDF Pages 220-239 (Total Pages: 20)
+﻿﻿﻿# Chapter 11: Scope Activity: Blast Radius & Pivot Analysis
 
 First, organizational resources should be managed effectively throughout the incident response process,
 
@@ -78,17 +76,11 @@ unknown attack vectors. Expect to cycle through the loop multiple times, with ea
 
 sophistication as understanding improves.
 
-This step-by-step guide is available for download in PDF and Markdown formats on the
-
-companion website at dynamicincidentresponse.com.
-
 Step 1. Run the Loop Expecting Each Activity to Deepen Across Iterations
 
 Representative principles include:
 
-• The four constituent activities (scope, contain, eradicate, recover) are owned by their own chapter step-
-
-by-step sections; this guide focuses on what is unique to running them as a loop. Refer to the individual
+• The four constituent activities (scope, contain, eradicate, recover) are owned by their own chapter step-by-step sections; this guide focuses on what is unique to running them as a loop. Refer to the individual
 
 scope, contain, eradicate, and recover step-by-step guides for the per-activity work.
 
@@ -152,8 +144,6 @@ Representative indicators include:
 
 • Systems are operating normally after recovery.
 
-Response Actions Loop | Chapter 10 | 197
-
 Step 6. Assess Business Indicators for Loop Conclusion
 
 Representative indicators include:
@@ -184,9 +174,7 @@ Representative considerations include:
 
 • Manage team fatigue through rotation and rest periods to maintain effectiveness across multiple cycles.
 
-• Account for budget constraints and tool limitations that may affect iteration speed, particularly time-
-
-consuming forensic analysis or evidence collection.
+• Account for budget constraints and tool limitations that may affect iteration speed, particularly time-consuming forensic analysis or evidence collection.
 
 • Balance documentation requirements with active response efforts, avoiding excessive documentation
 
@@ -199,16 +187,6 @@ execution rather than as the natural progression of incident understanding.
 • Communicate progress to stakeholders to manage expectations, explain the value of iterative learning,
 
 and address business pressure for faster resolution.
-
-[1] Boyd, John, "A Discourse on Winning and Losing," www.airuniversity.af.edu/Portals/10/AUPress/Books/
-
-B_0151_Boyd_Discourse_Winning_Losing.pdf
-
-[2] European Union, "Regulation (EU) 2022/2554 on Digital Operational Resilience for the Financial Sector (DORA)," January 2023,
-
-www.digital-operational-resilience-act.com/
-
-Response Actions Loop | Chapter 10 | 199
 
 11 Scope Activity
 
@@ -307,10 +285,6 @@ server, scoping should identify all systems that have communicated with that att
 level of analysis may reveal additional compromised systems not yet exhibiting obvious symptoms.
 
 Process and Service Indicators : These indicators include suspicious process names, service names,
-
-scheduled task names, command-line arguments, and any other process-launch configuration details.
-
-Scope Activity | Chapter 11 | 201
 
 Attackers often use consistent naming patterns across compromised systems, making these valuable for
 
@@ -466,8 +440,6 @@ activity.
 
 Work toward identifying the initial compromise, the patient zero  system (the first system compromised),
 
-Scope Activity | Chapter 11 | 203
-
 and the initial compromise vector, recognizing that early iterations of the analysis may conclude without
 
 any of these being confirmed. This analysis requires careful review of logs, file timestamps, and process
@@ -512,9 +484,7 @@ systems can reveal the attacker’s progression through the environment over tim
 
 multiple systems exhibit initial compromise events and the use of different C2 infrastructure over time
 
-(denoted as LOLC for the attacker lolcats[dot]org domain, and W1GA for the attacker www1-google-
-
-analytics[dot]com domain). This timeline was reconstructed from network activity logs into a simple CSV
+(denoted as LOLC for the attacker lolcats[dot]org domain, and W1GA for the attacker www1-google-analytics[dot]com domain). This timeline was reconstructed from network activity logs into a simple CSV
 
 file and visualized using a short Python script to plot the events over time.
 
@@ -582,31 +552,13 @@ particularly true for legacy systems, embedded devices, and industrial control s
 
 lack robust logging capabilities.  Network devices, printers, and Internet of Things (IoT) devices often
 
-generate minimal logs or store logs only temporarily, restricting the ability to scope historical compromise.
-
-When analyzing these systems, responders should look for alternative evidence sources including network
-
-flow data, authentication logs from connected systems, or physical evidence of unauthorized access.
-
-For example, consider the Siemens S7-1200, a widely-deployed programmable logic controller used in
-
-manufacturing, water treatment, building automation, and other industrial control environments. Despite
-
-having a built-in Ethernet interface, a full TCP/IP stack, and an integrated web server for diagnostics, the
-
-S7-1200 lacks the centralized logging capabilities found in modern IT systems. While the PLC maintains
-
-Scope Activity | Chapter 11 | 205
-
 internal diagnostics including connection tables and error counters accessible through its web interface, it
 
 does not generate syslog events, forward logs to SIEM platforms, or provide the historical audit trails that
 
 incident responders rely on for timeline reconstruction. For many organizations, network flow data
 
-becomes the primary source of evidence for determining whether industrial control systems like the S7-
-
-1200 have been accessed or manipulated during an incident, making comprehensive network visibility
+becomes the primary source of evidence for determining whether industrial control systems like the S7-1200 have been accessed or manipulated during an incident, making comprehensive network visibility
 
 essential in ICS environments.
 
@@ -614,9 +566,7 @@ Figure 71 | Siemens S7-1200 [1]
 
 While network flow data is valuable, it has its own limitations. Most enterprise switches export flow data
 
-using packet sampling by default, often at ratios of 1:1000 or higher. Sampling at these rates can miss short-
-
-lived connections or the low-volume C2 beaconing characteristic of targeted attacks. Analysts should verify
+using packet sampling by default, often at ratios of 1:1000 or higher. Sampling at these rates can miss short-lived connections or the low-volume C2 beaconing characteristic of targeted attacks. Analysts should verify
 
 the configured sampling rate for network flow capture devices and, where feasible, request unsampled
 
@@ -632,9 +582,7 @@ without imposing load on the control network, parsing industrial protocols such 
 
 S7comm to extract asset inventories and communication baselines that general-purpose flow tools cannot
 
-produce. Commercial platforms such as Dragos provide turnkey capabilities for threat analysis, and open-
-
-source alternatives include Malcolm from Idaho National Laboratory and Zeek extended with the ICS
+produce. Commercial platforms such as Dragos provide turnkey capabilities for threat analysis, and open-source alternatives include Malcolm from Idaho National Laboratory and Zeek extended with the ICS
 
 Network Protocol Parsers (ICSNPP) package. See Chapter 19 for guidance on scoping in OT environments.
 
@@ -681,8 +629,6 @@ correlating with network logs or other system events. For example, on Windows sy
 event is assigned a sequentially incrementing event record ID (viewable in Event Viewer by clicking Details |
 
 XML View). Gaps in event ID sequences may indicate deleted log entries.
-
-Scope Activity | Chapter 11 | 207
 
 Figure 73 | Windows Event Viewer Event Record ID Field
 
@@ -748,9 +694,7 @@ response. Searching for IOCs across thousands of systems generates significant v
 
 listings, and process information requiring analysis. Analysts should prioritize scoping efforts using the
 
-progressive scoping methodology described earlier, focusing first on high-value targets and known-
-
-compromised systems before expanding to the broader environment. Automation tools can help process
+progressive scoping methodology described earlier, focusing first on high-value targets and known-compromised systems before expanding to the broader environment. Automation tools can help process
 
 large data volumes, though analysts should still validate automated findings to avoid missing sophisticated
 
@@ -807,10 +751,6 @@ AttributeKey=ResourceName,AttributeValue=<name>
 Azure az monitor activity-log list --resource-id <resource-id>
 
 GCP gcloud logging read 'resource.type="<type>"'
-
-Filter by user or principal
-
-Scope Activity | Chapter 11 | 209
 
 AWS aws cloudtrail lookup-events --lookup-attributes
 
@@ -957,12 +897,6 @@ startxref              4
 /URI                   6
 
 /Colors > 2^24         0
-
-The output of pdfid.py revealed that the PDF is a single page, but includes six embedded URIs.  Renee
-
-extracted the URIs using pdf-parser.py, as shown in Listing 44.
-
-Scope Activity | Chapter 11 | 211
 
 Listing 44 | Unsolicited Document Pdf-parser Command Output
 
@@ -1122,11 +1056,7 @@ Next, Priya investigated who created the container by querying the Azure Activit
 
 Listing 46 | Cloud Exfiltration Container Creation Event
 
-$ az monitor activity-log list --offset 7d --query "[?contains(resourceId, 'backup-data-archive-
-
-Scope Activity | Chapter 11 | 213
-
-2025')] | [0]"
+$ az monitor activity-log list --offset 7d --query "[?contains(resourceId, 'backup-data-archive-2025')] | [0]"
 
 {
 
@@ -1134,9 +1064,7 @@ Scope Activity | Chapter 11 | 213
 
 "action": "Microsoft.Storage/storageAccounts/blobServices/containers/write",
 
-"scope": "/subscriptions/e7b3c1d9-a842-4f56-b6d1-8a3e5f902c4d/resourceGroups/rg-production-
-
-eastus2/providers/Microsoft.Storage/storageAccounts/stcorpdata01/blobServices/default/containers
+"scope": "/subscriptions/e7b3c1d9-a842-4f56-b6d1-8a3e5f902c4d/resourceGroups/rg-production-eastus2/providers/Microsoft.Storage/storageAccounts/stcorpdata01/blobServices/default/containers
 
 /backup-data-archive-2025"
 
@@ -1148,9 +1076,7 @@ eastus2/providers/Microsoft.Storage/storageAccounts/stcorpdata01/blobServices/de
 
 "appid": "e4f2d1b8-6a93-4c57-8e1f-9d0b2a3c5e7f",
 
-"http://schemas.microsoft.com/identity/claims/objectidentifier": "c7e2a091-4b38-4d65-9f12-
-
-b8a3e6d50c71"
+"hxxp://schemas[.]microsoft[.]com/identity/claims/objectidentifier": "c7e2a091-4b38-4d65-9f12-b8a3e6d50c71"
 
 },
 
@@ -1290,17 +1216,13 @@ Extend activity search to 90
 
 days
 
-az monitor activity-log list --caller c7e2a091-4b38-4d65-9f12-
-
-b8a3e6d50c71 --offset 90d
+az monitor activity-log list --caller c7e2a091-4b38-4d65-9f12-b8a3e6d50c71 --offset 90d
 
 Enumerate all role assignments
 
 for compromised principal
 
-az role assignment list --assignee c7e2a091-4b38-4d65-9f12-
-
-b8a3e6d50c71 --all
+az role assignment list --assignee c7e2a091-4b38-4d65-9f12-b8a3e6d50c71 --all
 
 Identify recently created or
 
@@ -1309,5 +1231,3 @@ modified storage containers
 az storage container list --account-name stcorpdata01 --query
 
 "[?properties.lastModified >= '2025-10-15']" --output table
-
-Scope Activity | Chapter 11 | 215

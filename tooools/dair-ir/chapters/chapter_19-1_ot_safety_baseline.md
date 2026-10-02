@@ -1,234 +1,10 @@
-﻿# Chapter 19: Specialized IR for Operational Technology (OT/ICS)
+﻿# 第 19-1 章：工控與營運技術 (OT/ICS) 基礎安全基線與 Purdue 應變架構
 
-> Source: PDF Pages 609-632 (Total Pages: 24)
+> 模組化子章節 | 隸屬來源: DAIR-IR Framework
 
-8000, "protocol": "tcp"}, {"containerPort": 8001, "protocol": "tcp"}], "mountPoints":
+---
 
-[{"sourceVolume": "velociraptor-data", "containerPath": "/velociraptor"}]}]' --volumes
-
-'[{"name": "velociraptor-data", "efsVolumeConfiguration": {"fileSystemId": "fs-0a1b2c3d4"}}]' 2
-
-$ aws ecs create-service --cluster forensics-cluster --service-name velociraptor --task
-
--definition velociraptor-server --desired-count 1 --launch-type FARGATE --network-configuration
-
-'{"awsvpcConfiguration": {"subnets": ["subnet-forensics"], "securityGroups": ["sg-
-
-velociraptor"], "assignPublicIp": "DISABLED"}}' 3
-
-1 Create a dedicated ECS cluster for forensic tooling.
-
-2 Register a task definition with the Velociraptor container image, mapping ports 8000 (GUI) and 8001 (client
-
-communication), and attaching an EFS volume for persistent artifact storage.
-
-3 Deploy the service in a private subnet with a security group restricting access to authorized forensic networks.
-
-Azure Container Instances and Google Cloud Run support similar deployments with their respective CLI
-
-tools, following the same pattern of container image, port mapping, and persistent storage configuration.
-
-FINAL CONSIDERATIONS
-
-Cloud incident response is a rapidly evolving discipline, shaped by changes in cloud architecture, attacker
-
-techniques, and available tooling. In this final section, we examine two overarching topics that apply across
-
-the entire response lifecycle: the challenges of multi-cloud environments and the direction cloud incident
-
-response is headed.
-
-Multi-Cloud Environments
-
-One of the most significant complications for cloud incident response is when a multi-cloud architecture is
-
-involved. Many organizations use different cloud providers for different use cases, so an organization may
-
-have resources and users spread across AWS, Azure, and Google Cloud. This complicates investigation and
-
-scoping in two important ways.
-
-First, log centralization becomes even more critical in multi-cloud environments. We have already
-
-recommended centralizing logs into a SIEM regardless of cloud architecture, but operating across multiple
-
-clouds makes this essential. Investigations are significantly slowed when responders need to pivot between
-
-cloud provider consoles, and cross-cloud activity correlation becomes more complex when field names and
-
-log formats differ between providers.
-
-Second, the cloud architecture itself affects scope. If each cloud environment is completely isolated, the
-
-scope of an incident is relatively clear. However, if there is connectivity between clouds, whether through a
-
-shared identity provider, federated authentication, or direct network communication between resources,
-
-the potential for lateral movement exists across cloud boundaries. In this case, understanding how the
-
-clouds connect and whether those connections are in scope is essential for accurate scoping.
-
-Treat cross-cloud identity federation as automatic scope expansion. If an organization
-
-uses a single identity provider (such as Entra ID or Okta) across multiple cloud
-
-environments, a compromised identity in one cloud should be assumed to have potential
-
-access to all federated environments until proven otherwise.
-
-Incident Response for Cloud Systems | Chapter 18 | 585
-
-Evolution of Cloud Incident Response
-
-Cloud incident response is changing rapidly, driven by shifts in how organizations use cloud services and
-
-how attackers target them. Several trends are reshaping what responders need to know and what tools they
-
-need to use effectively.
-
-Multi-cloud visibility
-
-As organizations distribute workloads across multiple cloud providers, gaining a unified view of security
-
-posture becomes increasingly difficult.  Cloud Security Posture Management (CSPM) tools address this
-
-challenge by providing centralized visibility into misconfigurations, policy violations, and security risks
-
-across AWS, Azure, Google Cloud, and SaaS platforms from a single interface. For incident responders,
-
-CSPM data can accelerate scoping by quickly identifying which resources are exposed, what permissions
-
-are overly broad, and where misconfigurations may have enabled the attack. Organizations operating in
-
-multi-cloud environments should evaluate CSPM tooling as part of their incident response preparation,
-
-rather than only for preventive security.
-
-AI-driven SOC operations
-
-The application of AI to security operations is moving beyond simple alert correlation. As discussed in
-
-Accelerating Incident Response with AI, AI-driven tools are beginning to perform investigation and response
-
-actions that previously required human analysts. In cloud environments, where API-driven infrastructure
-
-enables automated actions, AI agents can triage alerts, gather context across multiple log sources, and
-
-execute containment actions with minimal human oversight. Cloud-native detection services are also
-
-integrating AI to reduce false positives and surface higher-confidence findings. While these capabilities are
-
-still maturing, organizations should monitor developments in this space and evaluate how AI-assisted
-
-investigation can supplement their cloud response workflows.
-
-Runtime visibility for serverless and containers
-
-Traditional host-based forensics assumes that responders can access a persistent filesystem, memory, and
-
-process list on a compromised system. Serverless functions and ephemeral containers challenge this
-
-assumption. A Lambda function or Cloud Run service may execute for seconds and leave no persistent state
-
-to examine. Container workloads may be destroyed and replaced automatically before responders can
-
-collect evidence.
-
-Runtime security tools that monitor function execution, container behavior, and API calls in real time are
-
-becoming essential for cloud environments that rely on these services. Without runtime visibility,
-
-responders may have no evidence of what happened inside a compromised workload beyond the control
-
-plane logs showing that it executed. Organizations deploying significant serverless or container workloads
-
-should ensure they have monitoring in place that captures runtime behavior in addition to resource
-
-management events.
-
-For serverless and ephemeral container workloads, runtime monitoring is the only source
-
-of evidence about what happened inside the workload. Without it, responders are limited to
-
-control-plane logs that show whether a function executed or a container started, with no
-
-visibility into which code ran, what data was accessed, or which network connections were
-
-made.
-
-Token-based attacks
-
-Cloud and SaaS environments are seeing an increase in token-based attacks relative to traditional password
-
-compromise. Rather than stealing credentials and logging in, attackers are targeting session tokens, OAuth
-
-tokens, and API keys that bypass authentication controls entirely. A stolen session token can grant access
-
-without triggering MFA challenges or appearing as a new login event, making these attacks harder to detect
-
-with traditional authentication monitoring.
-
-This shift has practical implications for detection and response. Organizations should monitor for
-
-anomalous token usage patterns, such as tokens issued from unexpected IP addresses or geographic
-
-locations, tokens with unusually long lifetimes, or token refresh patterns that do not align with normal user
-
-behavior. Conditional access policies that bind tokens to specific devices or network ranges can limit the
-
-value of stolen tokens, and short token lifetimes reduce the window of exposure.
-
-Cloud-native forensics
-
-As discussed in Leveraging the Cloud for Incident Response , organizations are increasingly using cloud
-
-infrastructure itself for forensic analysis, evidence storage, and automated response. This trend is likely to
-
-accelerate as cloud-native tooling matures and as more organizations recognize that the scalability,
-
-accessibility, and auditability of cloud services make them well suited for incident response workloads. The
-
-ability to deploy forensic workstations on demand, store evidence in immutable storage with automatic
-
-chain-of-custody logging, and run automated collection scripts as serverless functions reduces the
-
-overhead of maintaining dedicated forensic infrastructure. For organizations whose production
-
-environments are already in the cloud, using cloud services for incident response is a natural extension that
-
-aligns forensic capabilities with the environment being investigated.
-
-Incident Response for Cloud Systems | Chapter 18 | 587
-
-[1] Google Cloud, "Threat Horizons Report H1 2025," services.google.com/fh/files/misc/threat_horizons_report_h1_2025.pdf
-
-[2] Google Cloud, "Threat Horizons Report H2 2025," services.google.com/fh/files/misc/cloud_threat_horizons_report_h22025.pdf
-
-[3] Mandiant, "M-Trends 2025," services.google.com/fh/files/misc/m-trends-2025-en.pdf
-
-[4] Orca Security, "2025 State of Cloud Security Report," orca.security/wp-content/uploads/2025/06/2025-State-of-Cloud-
-
-Security-Report-v2.pdf
-
-[5] Google Cloud, "Threat Horizons Report H1 2025," services.google.com/fh/files/misc/threat_horizons_report_h1_2025.pdf
-
-[6] CircleCI, "CircleCI incident report for January 4, 2023 security incident," January 2023, circleci.com/blog/jan-4-2023-incident-
-
-report/
-
-[7] Google Cloud, "Threat Horizons Report H1 2025," services.google.com/fh/files/misc/threat_horizons_report_h1_2025.pdf
-
-[8] Mandiant, "M-Trends 2025," services.google.com/fh/files/misc/m-trends-2025-en.pdf
-
-[9] AWS Prescriptive Guidance, "Automate incident response and forensics," docs.aws.amazon.com/prescriptive-guidance/latest/
-
-patterns/automate-incident-response-and-forensics.html
-
-19 Incident Response for
-
-Operational
-
-Technology
+# Chapter 19: Specialized IR for Operational Technology (OT/ICS)
 
 IT AND OT DIFFERENCES
 
@@ -275,8 +51,6 @@ assets and how they function, which can differ across critical infrastructure se
 In this section, we’ll examine the differences that shape OT incident response: how response actions need
 
 to be informed by control system context, why safety takes priority over data confidentiality, and what
-
-Incident Response for Operational Technology | Chapter 19 | 589
 
 engineering knowledge responders need to interpret industrial activity. We’ll also work through how long
 
@@ -434,8 +208,6 @@ THE PURDUE MODEL FOR INDUSTRIAL NETWORK ARCHITECTURE
 
 The Purdue Enterprise Reference Architecture (PERA), commonly called the Purdue model, is the
 
-Incident Response for Operational Technology | Chapter 19 | 591
-
 most widely used framework for organizing and segmenting OT network environments. Originally
 
 developed at Purdue University in the 1990s, the model defines a hierarchical structure that separates
@@ -541,8 +313,6 @@ the day. The drive had been used outside the facility and carried commodity IT m
 executed when plugged into the workstation. This was not a targeted OT attack. It was standard
 
 Windows malware that had landed on an OT asset.
-
-Incident Response for Operational Technology | Chapter 19 | 593
 
 Our OT security monitoring team immediately flagged the activity because the HMI was attempting
 
@@ -706,8 +476,6 @@ Terminal Units (RTUs) support telemetry and control across geographically distri
 
 pipelines, compressor stations, and remote well sites.
 
-Incident Response for Operational Technology | Chapter 19 | 595
-
 Figure 193 | PLC with I/O Modules
 
 Electrical and protection systems include protection relays ( Figure 194) that safeguard substations ( Figure
@@ -739,8 +507,6 @@ industrial devices. Data historians, which are often run on Windows server infra
 time-series operational data such as flow, pressure, temperature, and production metrics. These systems
 
 are commonly positioned between IT and OT networks to support reporting and analytics.
-
-Incident Response for Operational Technology | Chapter 19 | 597
 
 Figure 196 | Embedded Human Machine Interface Panel
 
@@ -908,8 +674,6 @@ early, responders can determine whether activity represents a true operational t
 
 that could disrupt the process or remove critical control system visibility.
 
-Incident Response for Operational Technology | Chapter 19 | 599
-
 When applied to OT, DAIR helps structure this process. It allows responders to validate events, determine
 
 scope, and plan response actions preserving operational control while addressing the threat. In industrial
@@ -979,8 +743,6 @@ recovery planning.
 COMMON TYPES OF OT INCIDENTS
 
 For years, critical infrastructure incidents were often treated as High-Impact, Low-Frequency (HILF) risks.
-
-[3]
 
 That assumption no longer holds. Increased connectivity, remote access, and the widespread use of
 
@@ -1065,8 +827,6 @@ In these environments, acting on an unverified alert may introduce greater opera
 suspected threat itself.
 
 For this reason, effective OT incident response prioritizes collecting relevant forensic data and operational
-
-Incident Response for Operational Technology | Chapter 19 | 601
 
 context before disruptive response actions are taken. Mature facilities gather available evidence, quickly
 
@@ -1233,8 +993,6 @@ Lateral movement, abnormal industrial
 commands, write operations, and
 
 remote engineering sessions
-
-Incident Response for Operational Technology | Chapter 19 | 603
 
 EVIDENCE SOURCE EXAMPLE SYSTEMS / DATA SOURCE WHAT IT REVEALS FOR OT INCIDENT
 
@@ -1410,8 +1168,6 @@ CONTAINMENT
 
 Once verification, triage, and scoping confirm that adversary activity poses a real threat to the control
 
-Incident Response for Operational Technology | Chapter 19 | 605
-
 environment, responders shift to containment. In OT, containment decisions should be shaped by the same
 
 engineering context that informed earlier phases: the architecture of the control network, the operational
@@ -1540,8 +1296,6 @@ Figure 198 | Reloading Controller Logic from an Engineering Workstation
 
 Recovery also extends into the physical plant environment. Engineering and operations teams conduct plant
 
-Incident Response for Operational Technology | Chapter 19 | 607
-
 walkthroughs to confirm that pumps, valves, drives, motors, sensors, and protective systems are ready for
 
 restart. Facilities then follow documented startup sequences to gradually restore automation, bringing
@@ -1617,3 +1371,227 @@ workstations, jump hosts, data historians, and architectural bridges between IT 
 In this section, we’ll work through the OT-specific questions that should be raised during the debrief and
 
 the engineering and architecture improvements that should result from the review.
+
+OT-Specific Debrief Questions
+
+Beyond the standard post-incident review topics covered in the debrief activity chapter, OT incidents raise
+
+questions that only engineering and operations personnel can answer. These questions help the debrief
+
+team evaluate whether the organization’s industrial architecture, engineering processes, and operational
+
+awareness were sufficient to support an effective response.
+
+• Cyber safe position and island mode.  Was cyber safe mode, manual operations, or island mode
+
+considered during the incident? If executed, did it provide value for containment, scoping, or
+
+eradication? If not executed, what prevented the transition?
+
+• Engineering system exposure.  Were the engineering workstations, project repositories, or
+
+configuration management systems exposed? Did the adversary gain the ability to interact directly with
+
+PLC engineering tools or modify project files?
+
+• Controller integrity verification.  Was the controller logic validated during recovery? Were logic
+
+baselines available and trustworthy, and could the organization rapidly confirm controller integrity
+
+through engineering tools or offline project comparisons?
+
+• Protocol-level visibility.  Did the organization have sufficient OT-aware visibility into industrial
+
+protocols (Modbus, EtherNet/IP, DNP3, PROFINET) to determine whether unauthorized control
+
+commands or configuration changes occurred?
+
+• Operational impact awareness. How quickly could responders determine whether the physical process
+
+was affected? Did operators have sufficient visibility through HMIs, historians, and alarms to confidently
+
+assess process state?
+
+• Backup access and validation.  Did the organization have backup access to critical systems, such as
+
+engineering workstation system images, HMIs, or historians, that could be used for validation and
+
+recovery if primary access was compromised?
+
+• Architectural trust relationships.  Which architectural decisions enabled adversary access or lateral
+
+movement? Examples include shared Active Directory environments, vendor remote access pathways,
+
+flat Level 3 networks, or insufficient segmentation between IT and control networks.
+
+• Containment and operational risk decisions.  Were containment actions delayed, modified, or
+
+sequenced to preserve controlled operations? Did responders have sufficient engineering context to
+
+understand when isolating systems could affect process control, visibility, or required functions?
+
+The answers to these questions reveal gaps that standard IT-focused debriefs often miss: weaknesses in
+
+engineering workflows, blind spots in protocol-level monitoring, and architectural trust relationships that
+
+enabled the adversary to access OT systems. Capturing these findings ensures that post-incident
+
+improvements address the OT-specific conditions that shaped the incident, not the IT infrastructure
+
+surrounding it alone.
+
+Engineering and Architecture Improvements
+
+The outcome of an OT debrief should be actionable technical improvements, including:
+
+• Improved industrial protocol monitoring and detection engineering.
+
+• Refinement of OT incident response playbooks, particularly containment sequencing.
+
+• Enhanced controller baseline management and configuration tracking.
+
+• Architectural changes to reduce unnecessary trust relationships.
+
+• Improved segmentation between IT, OT, and remote access environments.
+
+These improvements help ensure the organization is better prepared for the next incident and that
+
+response capabilities evolve alongside the threat landscape.
+
+OT IR lessons learned should also inform targeted OT tabletop exercises. These exercises should reflect
+
+realistic operational scenarios such as loss of operator visibility, unauthorized engineering access, remote
+
+vendor compromise, controller logic manipulation, or abuse of trusted industrial protocols.
+
+THE FIVE ICS CYBERSECURITY CRITICAL CONTROLS
+
+Effective OT incident response requires both cybersecurity expertise and industrial engineering knowledge.
+
+OT response exists at the intersection of cyber defense and industrial engineering, where responders need
+
+to understand not only how networks and adversaries behave, but also how physical processes operate and
+
+how they can safely continue during disruption. A successful response depends on close collaboration
+
+among IT security practitioners, OT cybersecurity specialists, operators, and engineers who understand the
+
+systems that control the process. When these teams work together, responders gain the operational
+
+awareness needed to distinguish real threats from operational noise and to take actions that protect both
+
+digital systems and the physical environments they control.
+
+Overall, succeeding in OT incident response is about being prepared to respond safely, deliberately, and
+
+with engineering knowledge when an industrial incident inevitably occurs. The Five ICS Cybersecurity
+
+Critical Controls, including the ICS dedicated response plan and related exercises, provide a practical
+
+foundation for achieving this safety-focused and engineering-informed outcome. [9]
+
+Together, they form an
+
+adaptable set of controls that aligns with an organization’s risk model. They also directly support an
+
+effective DAIR-based approach to OT threat detection, incident response, and recovery. Figure 199
+
+illustrates the five controls and their relationships.
+
+Figure 199 | The Five ICS Cybersecurity Critical Controls
+
+#1 ICS-Specific Incident Response
+
+The first and most critical control is OT-specific incident response. Effective OT incident response should
+
+be operations-informed and engineered for control system realities, not adapted after the fact from IT
+
+playbooks. This includes response plans that prioritize safety, process integrity, and controlled recovery
+
+over speed alone. OT incident response capabilities should assume that attacks may target engineering
+
+systems directly and may require responders to operate through an active incident while maintaining
+
+control and visibility. Exercises and simulations are essential, but they should reflect real industrial risk
+
+scenarios such as loss of view, manipulation of logic, and unauthorized remote access, not abstract cyber
+
+events. Without control system-specific preparation, response efforts will either be too aggressive or too
+
+slow, both of which introduce unacceptable risk.
+
+#2 Defensible Control System Network Architecture
+
+A defensible control system network architecture is the second pillar of success. Incident response is only
+
+as effective as the architecture in which it operates. Proper segmentation, well-defined trust boundaries,
+
+and industrial demilitarized zones enable responders to contain threats without unnecessarily disrupting
+
+operations. Architecture should support visibility into control system traffic, asset identification, log
+
+collection, and deterministic communication enforcement between systems. In poorly segmented
+
+environments, responders struggle to determine scope, trace lateral movement, or assess the blast radius,
+
+often leading to overly broad or disruptive response actions.
+
+#3 OT Network Visibility and Monitoring
+
+The third control, OT network visibility and monitoring, is foundational to nearly every phase of incident
+
+response discussed in this chapter. Because most OT assets cannot host endpoint agents, continuous,
+
+protocol-aware network monitoring becomes the primary source of forensic evidence. Visibility into
+
+industrial protocols and system-to-system interactions enables responders to verify incidents, identify
+
+affected assets and processes, and understand how adversaries interact with control systems. More
+
+importantly, it enables defenders to distinguish malicious behavior from legitimate engineering activity,
+
+reducing false positives and supporting safe response decisions.
+
+#4 Secure Remote Access
+
+Secure remote access forms the fourth control and represents one of the most frequently abused paths into
+
+OT environments. Winning in incident response requires knowing exactly how remote access is
+
+implemented, which users and vendors are authorized, and which systems can be reached. Secure designs
+
+rely on time-based controlled access, strong authentication, such as multi-factor authentication where
+
+feasible, and controlled jump hosts that provide both segmentation and monitoring. During incidents, these
+
+access paths often become critical choke points for containment and investigation, making prior visibility
+
+and governance essential.
+
+#5 Risk-Based Vulnerability Management
+
+The fifth OT cybersecurity critical control, risk-based vulnerability management, directly supports informed
+
+response and recovery decisions. In OT environments, vulnerability management is not about patching
+
+everything. It is about understanding which vulnerabilities matter, which systems can be safely updated,
+
+and which risks need to be mitigated through compensating controls or monitoring. During an incident,
+
+responders need to understand device operating conditions, existing safeguards, and potential exploit paths
+
+to decide whether remediation should occur immediately, be deferred, or be monitored. This risk-based
+
+approach ensures that response actions do not inadvertently compromise safety or reliability.
+
+Together, these five controls enable effective, repeatable, and defensible OT incident response. They align
+
+security operations with engineering realities discussed here, ensure that responders have the visibility and
+
+context needed to make safe decisions, and reduce the likelihood that response efforts themselves become
+
+a source of operational risk. When implemented cohesively, they transform incident response from an
+
+improvised reaction into a controlled, engineering-led capability, one that supports safety, resilience, and
+
+long-term operational trust.

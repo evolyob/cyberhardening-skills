@@ -1,6 +1,4 @@
-﻿# Chapter 9: Verify and Triage Activities: Severity Scoring
-
-> Source: PDF Pages 186-208 (Total Pages: 23)
+﻿﻿# Chapter 9: Verify and Triage Activities: Severity Scoring
 
 Step 1. Select and Combine Detection Methodologies
 
@@ -28,9 +26,7 @@ Step 2. Operate Detection Data Sources
 
 Representative activities include:
 
-• Review EDR telemetry for process injection, credential dumping, persistence, and suspicious parent-
-
-child process chains.
+• Review EDR telemetry for process injection, credential dumping, persistence, and suspicious parent-child process chains.
 
 • Analyze network monitoring data for C2 beaconing, lateral movement, and anomalous data volumes.
 
@@ -58,9 +54,7 @@ invocation patterns, unexpected outbound connections, unusual access to secrets 
 
 variables, and deviations from baseline execution characteristics.
 
-• Unify telemetry across on-premises, hybrid, and multi-cloud environments to enable cross-
-
-environment correlation.
+• Unify telemetry across on-premises, hybrid, and multi-cloud environments to enable cross-environment correlation.
 
 Step 4. Implement Data Reduction and Prioritization Strategies
 
@@ -152,8 +146,6 @@ Step 8. Continuously Improve Detection Capabilities
 
 This step captures phase-specific feedback only; broader organizational changes are handled in debrief Step
 
-Detect Activity | Chapter 8 | 163
-
 8.
 
 Representative activities include:
@@ -183,24 +175,6 @@ quality and avoiding contamination from mislabeled examples.
 • Surface staffing and sourcing decisions (analyst training investment, MSSP supplementation) to debrief
 
 Step 8 rather than acting on them within the detect activity.
-
-[1] MITRE ATT&CK, attack.mitre.org/
-
-[2] Rossouw, Faan, "Hunt What Hurts: The Pyramid of Pain," Active Countermeasures, November 2025,
-
-www.activecountermeasures.com/hunt-what-hurts-the-pyramid-of-pain/
-
-[3] Bianco, David, "The Pyramid of Pain," 2013, detect-respond.blogspot.com/2013/03/the-pyramid-of-pain.html
-
-[4] RITA (Real Intelligence Threat Analytics), github.com/activecm/rita
-
-[5] FoxIO, "JA4+ Network Fingerprinting," github.com/FoxIO-LLC/ja4
-
-[6] Krebs, Brian, "Conti Ransomware Group Diaries, Part III: Weaponry," Krebs on Security, March 2022, krebsonsecurity.com/2022/
-
-03/conti-ransomware-group-diaries-part-iii-weaponry/
-
-Detect Activity | Chapter 8 | 165
 
 9 Verify and Triage
 
@@ -266,31 +240,7 @@ VERIFICATION AS A GATING FUNCTION
 
 A student once asked why the verify and triage step precedes the response action loop:
 
-“Wouldn’t it be better to move from detection directly to response action, repeating the verify-and-
-
-triage activity as we do for the scope, contain, eradicate, and recover activities?
-
-The short answer is that verification serves as a gating function to ensure that the incident response
-
-team is not expending resources on a non-existent incident. By verifying the incident before
-
-engaging the broader incident response team and other company stakeholders and decision makers,
-
-we can ensure the response effort is appropriate for the risk as understood at the outset.
-
-When we move directly from detection to response action, we risk expending resources on incidents
-
-that are not real or that do not warrant the level of response being considered. This can lead to
-
-wasted effort, missed opportunities to focus on other critical responsibilities, and a loss of confidence
-
-in the incident response process among decision makers. This is not to exclude the possibility that
-
-verification and resource reallocation might be part of the response action loop itself, but rather to
-
-emphasize the importance of an initial verification step before engaging the broader team.
-
-Verify and Triage Activities | Chapter 9 | 167
+“Wouldn’t it be better to move from detection directly to response action, repeating the verify-and-triage activity as we do for the scope, contain, eradicate, and recover activities?
 
 VERIFICATION RESPONSE ACTIONS
 
@@ -392,18 +342,6 @@ take notes, you are just going too fast . Taking the time to document the incide
 
 investigation’s pace, ensuring that the team does not move so quickly that it misses important details.
 
-THE NEED FOR PRISTINE DOCUMENTATION
-
-Analysts should maintain the integrity of incident documentation throughout the incident response
-
-process. Contamination can compromise the validity of documentation as evidence in legal
-
-proceedings.
-
-In his classes, my mentor and friend Ed Skoudis emphasized the need for using an unused notebook
-
-Verify and Triage Activities | Chapter 9 | 169
-
 for incident response documentation. This recommendation came from his many years as an expert
 
 witness, during which he witnessed numerous cases in which opposing attorneys questioned the
@@ -472,7 +410,7 @@ For many organizations, though, the initial risk assessment is simply a classifi
 
 its perceived impact on the organization. This includes financial, operational, and reputational loss, as well
 
-as the potential regulatory impact. While these considerations will vary significantly among analysts within
+as the potential regulatory impact. While these considerations will vary substantially among analysts within
 
 the same organization, evaluating the perceived impact allows the analyst to classify the risk into broad
 
@@ -512,40 +450,6 @@ EOI Validation and Enrichment
 
 When analysts encounter suspicious Events of Interest (EOI) during verification, CTI platforms can provide
 
-additional context about whether those indicators are associated with known threats. Querying reputation
-
-databases, threat intelligence feeds, and community-sourced information provides insight that can help
-
-distinguish between confirmed malicious activity and benign behavior. This is especially important during
-
-the verification phase, where the goal is to quickly assess the validity of the incident without expending
-
-unnecessary resources.
-
-For example, using one or more CTI sources, analysts can query intelligence databases using technical
-
-indicators such as IP addresses, domain names, URLs, or file hashes observed in the environment. The CTI
-
-database may indicate whether those indicators have been previously associated with malware distribution,
-
-phishing campaigns, command-and-control infrastructure, or other malicious activity.  Platforms such as
-
-VirusTotal, AlienVault OTX, Shodan, and commercial threat intelligence feeds may even provide different
-
-perspectives on the same indicator, allowing analysts to cross-reference multiple sources to increase
-
-confidence in the assessment.
-
-For example, in an incident engagement, the IP address 147.45.44.131 was observed as a source for
-
-PowerShell script downloads in web proxy logs. While suspicious, this is not definitive proof of malicious
-
-activity. Cross-referencing this IP address against CTI sources, including VirusTotal and AlienVault OTX,
-
-provided additional context on malicious activity patterns, as shown in Figure 59 and Figure 60.
-
-Verify and Triage Activities | Chapter 9 | 171
-
 Figure 59 | CTI Insight for IP Address IOC from VirusTotal
 
 Figure 60 | CTI Insight for IP Address IOC from AlienVault OTX
@@ -571,10 +475,6 @@ Figure 61 | VirusTotal CTI for IPv6 Address Reveals Microsoft ASN
 Figure 62 | VirusTotal CTI for IPv6 Address Reveals Server Identity
 
 Build a local knowledge base of false positive sources specific to the organization’s
-
-environment. When CTI enrichment identifies a benign indicator that triggered an alert,
-
-Verify and Triage Activities | Chapter 9 | 173
 
 document the finding for future reference. Over time, this organizational memory reduces
 
@@ -608,9 +508,7 @@ indicators fall along a spectrum from circumstantial to behavioral:
 
 • Circumstantial indicators : Infrastructure observations common to both legitimate and malicious
 
-activity. Examples include domain registration through low-cost registrars (Namecheap, Porkbun), free-
-
-tier hosting and CDN services (Cloudflare free tier, GitHub Pages), and short-validity certificates from
+activity. Examples include domain registration through low-cost registrars (Namecheap, Porkbun), free-tier hosting and CDN services (Cloudflare free tier, GitHub Pages), and short-validity certificates from
 
 automated certificate authorities (Let’s Encrypt). These indicators are easily reproduced by any actor
 
@@ -644,25 +542,15 @@ data, which immediately raises suspicion.
 
 Listing 34 | Proxy Log Entries Showing Connections to Newly Registered Domain
 
-1734955847.284    127 172.16.42.108 TCP_MISS/200 0 CONNECT 198.51.100.47:443 -
+1734955847.284    127 172.16.42.108 TCP_MISS/200 0 CONNECT 198.51.100.47:443 - ORIGINAL_DST/198.51.100.47 -
 
-ORIGINAL_DST/198.51.100.47 -
+1734955847.412     94 172.16.42.108 TCP_MISS/200 4891 GET hxxps://secure-sendwise-portal[.]com/api/v2/status - ORIGINAL_DST/198.51.100.47 application/json 1
 
-1734955847.412     94 172.16.42.108 TCP_MISS/200 4891 GET https://secure-sendwise-
+1734955848.156    203 172.16.42.108 TCP_MISS/200 12847 GET hxxps://secure-sendwise-portal[.]com/assets/notify.js - ORIGINAL_DST/198.51.100.47 application/javascript
 
-portal.com/api/v2/status - ORIGINAL_DST/198.51.100.47 application/json 1
+1734955912.891    142 172.16.42.108 TCP_MISS/200 2156 POST hxxps://secure-sendwise-portal[.]com/api/v2/register - ORIGINAL_DST/198.51.100.47 application/json 2
 
-1734955848.156    203 172.16.42.108 TCP_MISS/200 12847 GET https://secure-sendwise-
-
-portal.com/assets/notify.js - ORIGINAL_DST/198.51.100.47 application/javascript
-
-1734955912.891    142 172.16.42.108 TCP_MISS/200 2156 POST https://secure-sendwise-
-
-portal.com/api/v2/register - ORIGINAL_DST/198.51.100.47 application/json 2
-
-1734956147.445     87 172.16.42.108 TCP_MISS/200 891 GET https://secure-sendwise-
-
-portal.com/api/v2/status - ORIGINAL_DST/198.51.100.47 application/json
+1734956147.445     87 172.16.42.108 TCP_MISS/200 891 GET hxxps://secure-sendwise-portal[.]com/api/v2/status - ORIGINAL_DST/198.51.100.47 application/json
 
 1 Initial API call to the newly registered domain.
 
@@ -678,9 +566,7 @@ Interpretation 1: Assessment Without CTI Enrichment
 
 The analyst investigates using available context. WHOIS shows the domain was registered thirty-six
 
-hours ago, but newly registered domains are common for SaaS vendors spinning up customer-
-
-specific infrastructure. The domain name secure-sendwise-portal.com follows a pattern consistent
+hours ago, but newly registered domains are common for SaaS vendors spinning up customer-specific infrastructure. The domain name secure-sendwise-portal.com follows a pattern consistent
 
 with legitimate secure document transfer services.
 
@@ -727,8 +613,6 @@ data were submitted through the portal.
 Both analysts examined the same proxy logs and applied reasonable judgment. The first analyst’s
 
 conclusion was defensible given the available context: the domain name looked legitimate, and the
-
-Verify and Triage Activities | Chapter 9 | 175
 
 user’s role explained the traffic pattern. Without CTI enrichment, the indicators were ambiguous.
 
@@ -856,8 +740,6 @@ Chrome/126.0.0.0 Safari/537.36"
 
 42.105.168.75 - - [30/Jun/2024:00:36:29 -0400] "GET /wp-includes/FkhDUPZ.php HTTP/1.1" 200
 
-Verify and Triage Activities | Chapter 9 | 177
-
 65046886 "" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
 
 Chrome/126.0.0.0 Safari/537.36"
@@ -972,13 +854,7 @@ Figure 64 | Suspicious Text Message
 
 daily overdue fee will be applied if it is not settled today.
 
-https://google.com/amp/rhodeislandturnpike.com
-
-Upon initial investigation, the IRT learned that the URL in the text message redirected to the
-
-rhodeislandturnpike.com, which in turn redirected to a longer URL, as shown in Figure 65.
-
-Verify and Triage Activities | Chapter 9 | 179
+hxxps://google[.]com/amp/rhodeislandturnpike.com
 
 Figure 65 | Unpaid Toll Redirect to "Rhode Island Turnpike" Website
 
@@ -1008,7 +884,7 @@ $ date -u
 
 Sun Feb 16 20:13:31 UTC 2025
 
-$ curl -svX HEAD https://rhodeislandturnpike.com/ 2>&1 | grep -A6 "Server certificate"
+$ curl -svX HEAD hxxps://rhodeislandturnpike[.]com/ 2>&1 | grep -A6 "Server certificate"
 
 * Server certificate:
 
@@ -1099,8 +975,6 @@ $ aws s3api get-bucket-policy --bucket ssptmsdata | jq '.Policy | fromjson'
 ],
 
 "Resource": [
-
-Verify and Triage Activities | Chapter 9 | 181
 
 "arn:aws:s3:::ssptmsdata",
 
@@ -1262,18 +1136,6 @@ We reported our findings to the customer, who insisted the system was compromise
 
 system’s unexpected behavior, the customer was convinced that the system was under the control of
 
-an adversary and that we had missed something in our investigation. We maintained our position,
-
-having spent sufficient time on our investigation, that their assessment was a false positive.
-
-Some incidents reveal clear indicators of compromise, while others resist verification despite
-
-persistent unexplained behavior. We should accept that sometimes the verification process will not
-
-reveal evidence of a compromise, even when system behavior suggests otherwise.
-
-Verify and Triage Activities | Chapter 9 | 183
-
 For this customer, we spent extra time showing them the evidence we collected and explaining why
 
 we believed the system was not compromised. Eventually, they rebuilt the system from scratch, and
@@ -1338,7 +1200,7 @@ As technical analysts, responders are responsible for helping decision makers un
 
 its potential impact on the organization. Using the insights gained from the verification activity and initial
 
-risk assessment, the analyst’s explanation of the incident significantly impacts how the risk is triaged and
+risk assessment, the analyst’s explanation of the incident substantially impacts how the risk is triaged and
 
 response actions taken.
 

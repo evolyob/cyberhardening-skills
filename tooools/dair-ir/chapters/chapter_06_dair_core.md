@@ -1,7 +1,5 @@
 ﻿# Chapter 6: DAIR: A Dynamic Approach to Incident Response
 
-> Source: PDF Pages 82-89 (Total Pages: 8)
-
 identified and addressed. The linear models do not provide sufficient guidance on this important aspect of
 
 the incident response process.
@@ -61,48 +59,6 @@ For example, consider an incident in which an organization is compromised due to
 critical system. While changing the weak password would address the exploited vulnerability, root cause
 
 analysis would indicate that several other considerations should also be addressed: password complexity
-
-policy, password auditing using cracking tools, remote access controls for the system, and more.
-
-Both NIST SP 800-61 and PICERL call for lessons learned analysis and post-incident activities, but neither
-
-model explicitly calls out the need for root cause analysis. Root cause analysis is an important element in
-
-understanding the nature of the vulnerabilities that led to the incident. Without it, teams often have an
-
-incomplete understanding of the incident and an ineffective response effort.
-
-THE NEED FOR A MODERN APPROACH
-
-The shortcomings identified in this chapter are not failures of the models themselves but reflections of how
-
-incident response has evolved since their introduction. Modern incidents are more complex, affecting
-
-multiple systems across diverse environments, and organizations face increasing pressure to respond
-
-quickly while managing limited resources.
-
-An effective incident response model should address these gaps directly. It should support an iterative
-
-process that accommodates the non-linear nature of real-world incidents. It should guide responders in
-
-scoping the breadth of an incident, verifying that an event warrants a response, and prioritizing resources in
-
-alignment with business objectives. It should also encourage root cause analysis as a standard part of the
-
-response effort.
-
-The next chapter introduces such a model, one designed to reflect the realities of modern incident response
-
-while building on the foundational concepts that existing models provide.
-
-Incident Response Models and Their Limitations | Chapter 5 | 59
-
-[1] "Responding to Computer Security Incidents: Guidelines for Incident Handling," UCRL-MA-106650
-
-[2] Incident Response Recommendations and Considerations for Cyber Risk Management, retrieved from nvlpubs.nist.gov/nistpubs/
-
-SpecialPublications/NIST.SP.800-61r3.pdf.
 
 PART 2: A DYNAMIC APPROACH TO INCIDENT RESPONSE
 
@@ -194,24 +150,6 @@ many things will happen at once). For example, the incident response team needs 
 
 before verifying it, but doesn’t stop everything because of an incident. Detection is an ongoing activity, and
 
-detecting an incident is just a waypoint in the process of incident response. Similarly, analyzing files on a file
-
-system as part of the eradicate step may reveal attacker tactics not previously known during the initial
-
-detect phase, requiring us to repeat earlier steps to better understand the systems affected. When we think
-
-of incident response in terms of steps, we artificially apply an arbitrary start and stop event for each
-
-element of the incident response process, as shown in Figure 23 . This can limit the effectiveness of the
-
-incident response process, hampering flexibility and agility in responding to incidents. When we think about
-
-process elements as waypoints, outcomes, and actions, we can better understand the dynamic nature of
-
-incident response, and how the actions are not linear, but recurring or continuous, as shown in Figure 24.
-
-A Dynamic Approach to Incident Response | Chapter 6 | 63
-
 Figure 23 | Stepped Approach to Incident Response
 
 Figure 24 | Incident Response Waypoints and Actions
@@ -289,25 +227,3 @@ operations over the next two weeks
 access to sensitive customer data, but do have access to internal financial records
 
 • Executive leadership prioritizes maintaining customer service continuity while accepting some delay in
-
-the quarterly close process if necessary
-
-Armed with this business context, the IRT adjusts their approach. They prioritize forensic collection from
-
-the production database servers using live response techniques that minimize service disruption,
-
-coordinating a brief maintenance window during low-traffic hours for containment actions. For the finance
-
-workstations, they implement network segmentation to contain the threat while allowing continued access
-
-to critical financial systems, scheduling more disruptive forensic analysis for after the quarterly close
-
-deadline.
-
-This decision-maker-informed approach achieves the security goals of containing the threat and
-
-conducting thorough investigation while respecting the operational realities and priorities of the business.
-
-Without this coordination, the IRT might have taken actions that were technically sound but
-
-A Dynamic Approach to Incident Response | Chapter 6 | 65

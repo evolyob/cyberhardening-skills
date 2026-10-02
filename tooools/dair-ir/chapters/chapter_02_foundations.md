@@ -1,7 +1,5 @@
 ﻿# Chapter 2: Introduction to Modern Incident Response
 
-> Source: PDF Pages 40-44 (Total Pages: 5)
-
 Identification
 
 Sam’s first step was to examine Jordan’s workstation. He connected remotely and checked for any running
@@ -149,9 +147,6 @@ Lessons Learned
 Sam closed the ticket with a professional summary. He documented the timeline, processes involved, ports
 
 used, and actions taken. His recommendations were reasonable:
-
-Case Study: Supply Chain Calamity | Chapter 1 | 17
-
 • Contact the Gilded Freight vendor about the suspicious SDK components
 
 • Review the SDK procurement process to include security review before installation
@@ -211,9 +206,6 @@ that assumption leads to an inadequate response. By the time Sam closed the tick
 had expanded well beyond the workstation where the investigation began and ended, and the organization
 
 was none the wiser.
-
-Case Study: Supply Chain Calamity | Chapter 1 | 19
-
 2 Introduction
 
 What makes incident response meaningful is not the tools we use or the novelty of a particular exploit. It’s
