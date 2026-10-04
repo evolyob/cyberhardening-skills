@@ -6,9 +6,10 @@ Empirical Before/After case studies for `senior_coding_laws.md`.
 
 ## 1. Step 1: Own the Boundary & Dict Lookups
 
-> **Action Mandate**: Prohibit string concatenation for file paths. Enforce `Path.resolve()` and `Path.is_relative_to()` to prevent directory traversal. Prohibit nested loops for collection matching; build hash maps for O(1) key lookups.
+### Case 1.1: Standard Library First (CSV Parsing)
+> **Concrete Flaw**: Imports heavy third-party dependency (`pandas`) merely to compute a sum from a CSV file (bloats dependencies, inflates container size, slows startup).
 
-### Before (Over-engineered dependency)
+#### Before (Over-engineered third-party dependency)
 ```python
 import pandas as pd
 
@@ -16,8 +17,7 @@ def sum_sales(path: str) -> float:
     df = pd.read_csv(path)
     return float(df["amount"].sum())
 ```
-
-### After (Standard Library First)
+#### After (Standard Library First)
 ```python
 import csv
 
@@ -26,7 +26,10 @@ def sum_sales(path: str) -> float:
         return sum(float(row["amount"]) for row in csv.DictReader(f))
 ```
 
-### Before (Brute-force nested loops O(N^2))
+### Case 1.2: Single-Pass Indexing
+> **Concrete Flaw**: Nested `for` loops perform $O(N \times M)$ pairwise scans (degrades to millions of iterations on moderate datasets instead of an $O(N+M)$ single-pass dictionary lookup).
+
+#### Before (Brute-force nested loops O(N*M))
 ```python
 def match_order_items(orders: list[dict], products: list[dict]) -> list[tuple]:
     matched = []
@@ -36,27 +39,28 @@ def match_order_items(orders: list[dict], products: list[dict]) -> list[tuple]:
                 matched.append((order, product))
     return matched
 ```
-
-### After (Single-pass hash map index O(N))
+#### After (Single-pass hash map index O(N+M))
 ```python
 def match_order_items(orders: list[dict], products: list[dict]) -> list[tuple]:
     product_map = {p["id"]: p for p in products}
     return [
         (order, product_map[order["product_id"]])
         for order in orders
-        if order["product_id"] in product_map
+        if order.get("product_id") in product_map
     ]
 ```
 
-### Before (Vulnerable path concatenation)
+### Case 1.3: Filesystem Traversal Prevention
+> **Concrete Flaw**: Constructs filesystem paths using raw string interpolation `f"uploads/{filename}"` without root containment checks (allows arbitrary file read via `../../etc/passwd`).
+
+#### Before (Vulnerable path concatenation)
 ```python
 def read_asset(filename: str) -> str:
     path = f"uploads/{filename}"
     with open(path, encoding="utf-8") as f:
         return f.read()
 ```
-
-### After (Standard library boundary validation with Path.is_relative_to)
+#### After (Boundary validation with Path.is_relative_to)
 ```python
 from pathlib import Path
 
@@ -72,19 +76,19 @@ def read_asset(filename: str, *, base_dir: Path = Path("uploads")) -> str:
 
 ## 2. Step 2: Pure Core & Constrained States
 
-> **Action Mandate**: Prohibit loose string status checks; enforce `StrEnum` for valid state representation. Strictly isolate I/O, database writes, and mutable default arguments from calculation logic.
+### Case 2.1: Functional Core & Imperative Shell
+> **Concrete Flaw**: Inlines database write calls inside a filtering loop and uses a mutable default argument `status_log=[]` (leaks state across invocations, couples business rules directly to I/O).
 
-### Before (Mixed side effects & mutable defaults)
+#### Before (Mixed side-effects & mutable default argument)
 ```python
 def process_orders(orders: list, status_log: list = []) -> list:
     for order in orders:
-        if order["status"] == "ok":
+        if order.get("status") == "completed":
             status_log.append(order["id"])
-            db.update_order(order["id"])  # Inline side effect inside pure calculation
+            db.update_order(order["id"])  # Side-effect inside calculation
     return status_log
 ```
-
-### After (Pure functional core & strict enum)
+#### After (Pure functional core separated from outer I/O shell)
 ```python
 from enum import StrEnum
 
@@ -92,73 +96,142 @@ class OrderStatus(StrEnum):
     PENDING = "pending"
     COMPLETED = "completed"
 
+# Pure Functional Core (deterministic, zero side-effects)
 def filter_completed_order_ids(orders: list[dict]) -> list[str]:
     return [o["id"] for o in orders if o.get("status") == OrderStatus.COMPLETED]
+
+# Imperative Shell (handles I/O at boundary)
+def sync_completed_orders(orders: list[dict], db) -> list[str]:
+    completed_ids = filter_completed_order_ids(orders)
+    for order_id in completed_ids:
+        db.update_order(order_id)
+    return completed_ids
+```
+
+### Case 2.2: Defensive Mathematical Clamping
+> **Concrete Flaw**: Performs unchecked subtraction on intervals or dimensions without a lower floor (risks producing negative timeouts, intervals, or geometry).
+
+#### Before (Unchecked arithmetic producing negative intervals)
+```python
+def calculate_next_interval(current_interval: int, backoff_reduction: int) -> int:
+    return current_interval - backoff_reduction
+```
+#### After (Clamped bounds guaranteeing valid geometry/timeout)
+```python
+MIN_INTERVAL_SEC = 1
+
+def calculate_next_interval(current_interval: int, backoff_reduction: int) -> int:
+    return max(MIN_INTERVAL_SEC, current_interval - backoff_reduction)
 ```
 
 ---
 
-## 3. Step 3: Flattened Flow & Keyword-Only Arguments
+## 3. Step 3: Flattened Flow & Intent Naming
 
-> **Action Mandate**: Use Guard Clauses for early returns to keep happy paths flat (nesting depth <= 2). Enforce keyword-only arguments (`*`) for boolean switches and optional configuration flags to eliminate boolean blindness.
+### Case 3.1: Guard Clauses & Keyword-Only Flags
+> **Concrete Flaw**: Deeply nested `if` blocks obscure the happy path, while unlabelled positional booleans (`force`) cause call-site ambiguity.
 
-### Before (Deep nesting & boolean blindness)
+#### Before (Deep nesting & boolean blindness)
 ```python
-def dispatch_task(task: dict, force: bool):
+def dispatch_task(task: dict | None, force: bool):
     if task:
         if task.get("ready"):
-            if force or task.get("priority") > 10:
+            if force or task.get("priority", 0) > 10:
                 execute(task)
 ```
-
-### After (Guard clauses & keyword-only flags)
+#### After (Guard clauses & keyword-only flags)
 ```python
 def dispatch_task(task: dict | None, *, force: bool = False) -> None:
     if not task or not task.get("ready"):
         return
-    if not (force or task.get("priority", 0) > 10):
+    if not force and task.get("priority", 0) <= 10:
         return
     execute(task)
 ```
 
----
+### Case 3.2: Structural Pattern Matching
+> **Concrete Flaw**: Long `elif` ladders check raw strings and perform manual dictionary key lookups (fragile against missing keys, verbosely unwraps nested payloads).
 
-## 4. Step 4: Useful Errors & Context Chaining
-
-> **Action Mandate**: Enforce exception chaining (`raise DomainError(...) from err`) when re-raising lower-level exceptions to retain the causal trace. Never use bare `except:` or silent `pass` blocks.
-
-### Before (Silent swallowing or uninformative generic exception)
+#### Before (Repeated elif string dispatch ladder)
 ```python
-try:
-    data = load_remote_config(url)
-except Exception:
-    pass  # Silently swallows error
+def handle_event(event: dict) -> None:
+    event_type = event.get("type")
+    if event_type == "click":
+        handle_click(event.get("x", 0), event.get("y", 0))
+    elif event_type == "keypress":
+        handle_key(event.get("key", ""))
+```
+#### After (Structural match...case dispatch)
+```python
+def handle_event(event: dict) -> None:
+    match event:
+        case {"type": "click", "x": int(x), "y": int(y)}:
+            handle_click(x, y)
+        case {"type": "keypress", "key": str(k)}:
+            handle_key(k)
+        case _:
+            pass
 ```
 
-### After (Explicit domain exception with causality chaining)
+---
+
+## 4. Step 4: Useful Errors & Observability
+
+### Case 4.1: Operational Context & Causality Chaining
+> **Concrete Flaw**: Catches broad `Exception` and returns empty strings (silently swallows root cause failures, making production incidents un-debuggable).
+
+#### Before (Silent error swallowing)
 ```python
-try:
-    data = load_remote_config(url)
-except urllib.error.URLError as err:
-    raise ConfigLoadError(f"Failed to fetch config from {url}") from err
+import urllib.request
+
+def load_remote_config(url: str) -> str:
+    try:
+        with urllib.request.urlopen(url) as response:
+            return response.read().decode("utf-8")
+    except Exception:
+        return ""
+```
+#### After (Contextual message with exception chaining)
+```python
+import urllib.error
+import urllib.request
+
+def load_remote_config(url: str, *, retry_count: int = 0) -> str:
+    try:
+        with urllib.request.urlopen(url, timeout=5) as response:
+            return response.read().decode("utf-8")
+    except urllib.error.URLError as err:
+        raise RuntimeError(
+            f"Config fetch failed: url='{url}', retry_count={retry_count}"
+        ) from err
 ```
 
 ---
 
-## 5. Step 5: Delete-List & Subtractive Engineering
+## 5. Step 5: Contract Closure & Delete-List
 
-> **Action Mandate**: Invoke native standard library functions directly. Reject single-caller wrapper classes or trivial factory layers. Optimize every diff for net-negative line counts (Deletions > Additions).
+### Case 5.1: Subtractive Engineering (Direct Root Invocation)
+> **Concrete Flaw**: Introduces multi-tier factory and wrapper classes for a single consumer (inflates cognitive overhead and creates speculative boilerplate).
 
-### Before (Sprawling wrapper layers)
+#### Before (Sprawling single-caller wrappers and factories)
 ```python
 class TextSanitizerFactory:
-    def create_sanitizer(self): ...
-class TextSanitizerWrapper:
-    def sanitize(self, text): ...
-```
+    def create_sanitizer(self):
+        return TextSanitizerWrapper()
 
-### After (Direct root invocation: net negative lines)
+class TextSanitizerWrapper:
+    def sanitize(self, text: str) -> str:
+        return text.strip().replace("\r\n", "\n")
+
+sanitizer = TextSanitizerFactory().create_sanitizer()
+cleaned = sanitizer.sanitize(raw_text)
+```
+#### After (Direct root invocation: net negative lines)
 ```python
 def sanitize_text(text: str) -> str:
     return text.strip().replace("\r\n", "\n")
+
+cleaned = sanitize_text(raw_text)
 ```
+
+
