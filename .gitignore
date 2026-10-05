@@ -3,3 +3,8 @@ __pycache__/
 *$py.class
 *.Zone.Identifier
 .DS_Store
+
+# Local Generated and Memory Indexes
+examples/memory/core.md
+examples/memory/topics/skills_routing.md
+SKILLS.md
