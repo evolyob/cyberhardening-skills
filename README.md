@@ -15,7 +15,7 @@ A collection of production-ready cybersecurity, system hardening, threat intelli
 | **[`env-audit`](env-audit/)** | Host Hardening & OS Audit | Multi-platform (Linux/macOS) binary, package EOL, and CVE audit engine with automated upstream target synchronization. | Python Stdlib, EndOfLife API, Regex |
 | **[`sec-intel`](sec-intel/)** | Security & Threat Intel | Authoritative, evidence-based intelligence lookup for IPs, ASNs, Domains, and CVEs via ICANN RDAP, real DNS resolution, and dual-engine EUVD/OSV. | ICANN RDAP, `dnspython`, EUVD, OSV |
 | **[`asset-risk`](asset-risk/)** | Security & Risk Assessment | Intelligently categorize information assets and select diverse, causally linked threats and vulnerabilities without repetitive monotony. | Python Stdlib, Anti-Monotony Round-Robin |
-| **[`deep-grill`](deep-grill/)** | Strategic Decision-Making | Socratic interview protocol designed to challenge proposed plans, designs, and architectures to surface hidden risks and assumptions one question at a time. | Socratic Interview Heuristics |
+| **[`deep-grill`](deep-grill/)** | Architectural Alignment | Radar-guided architectural interviews, defensive specification contracts (No-Spec-No-Code), tracer-bullet DAG decomposition, and isolated subagent dispatch proposals. | Socratic Interview, Directed Acyclic Graph (DAG) |
 
 ---
 
