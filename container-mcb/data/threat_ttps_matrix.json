@@ -1,0 +1,18 @@
+{
+  "ttps": [
+    {"id": "T1036.005", "tactic": "Defense Evasion", "name": "Masquerading: Match Legitimate Resource Name", "detection": "Detect container/pod names mimicking system daemonsets like kube-proxy or coredns.", "cwpp_category": "Runtime Anomaly"},
+    {"id": "T1053.007", "tactic": "Execution / Persistence", "name": "Scheduled Task/Job: Container Cronjob", "detection": "Audit Kubernetes CronJobs executing unauthorized curl/wget/bash commands.", "cwpp_category": "Orchestration Audit"},
+    {"id": "T1059.004", "tactic": "Execution", "name": "Command and Scripting Interpreter: Unix Shell", "detection": "Alert on interactive /bin/sh or /bin/bash execution inside production workload pods.", "cwpp_category": "Runtime Behavioral"},
+    {"id": "T1068", "tactic": "Privilege Escalation", "name": "Exploitation for Privilege Escalation", "detection": "Kernel privilege escalation attempts via dirty COW, eBPF, or cgroup v1 escape.", "cwpp_category": "Kernel Exploit"},
+    {"id": "T1078.004", "tactic": "Initial Access / Persistence", "name": "Valid Accounts: Cloud Accounts", "detection": "Anomalous IAM credential usage originating from pod IP addresses.", "cwpp_category": "Cloud Audit"},
+    {"id": "T1496", "tactic": "Impact", "name": "Resource Hijacking (Cryptomining)", "detection": "Stratum protocol DNS queries and sustained 100% CPU thread utilization.", "cwpp_category": "Network & Compute"},
+    {"id": "T1526", "tactic": "Discovery", "name": "Cloud Service Discovery", "detection": "Reconnaissance against AWS metadata (169.254.169.254) or Azure IMDS endpoints.", "cwpp_category": "Network & IAM"},
+    {"id": "T1552.001", "tactic": "Credential Access", "name": "Unsecured Credentials: Credentials In Files", "detection": "Reading serviceaccount tokens (/var/run/secrets/kubernetes.io/serviceaccount/token).", "cwpp_category": "Filesystem Audit"},
+    {"id": "T1552.007", "tactic": "Credential Access", "name": "Unsecured Credentials: Container API", "detection": "Direct queries to Kubelet read-only port (10255) or unauthenticated API endpoints.", "cwpp_category": "API Telemetry"},
+    {"id": "T1609", "tactic": "Execution", "name": "Container Administration Command", "detection": "kubectl exec or docker exec commands executed by non-admin identities.", "cwpp_category": "Audit Log"},
+    {"id": "T1610", "tactic": "Execution / Defense Evasion", "name": "Deploy Container", "detection": "Unauthorized container deployment bypassing CI/CD admission controllers.", "cwpp_category": "Admission Control"},
+    {"id": "T1611", "tactic": "Privilege Escalation", "name": "Escape to Host", "detection": "Container breakout via nsenter, privileged flags, or hostPath volume access.", "cwpp_category": "Runtime & Host"},
+    {"id": "T1612", "tactic": "Persistence", "name": "Build Image on Host", "detection": "Invoking docker build or nerdctl build inside host worker node shells.", "cwpp_category": "Host Behavioral"},
+    {"id": "T1613", "tactic": "Discovery", "name": "Container and Resource Discovery", "detection": "Listing all namespaces, secrets, and cluster roles via mounted service accounts.", "cwpp_category": "API Audit"}
+  ]
+}

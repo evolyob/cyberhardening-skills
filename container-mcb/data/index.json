@@ -1,0 +1,12 @@
+{
+  "total_chapters": 7,
+  "chapters": [
+    {"index": 1, "id": "01_general_framework", "title": "General Framework, Detection as Code & Telemetry Taxonomy", "file": "01_general_framework.md", "est_tokens": 4200},
+    {"index": 2, "id": "02_threat_ttps_matrix", "title": "Container Threat Behaviors & MITRE ATT&CK Mapping", "file": "02_threat_ttps_matrix.md", "est_tokens": 5500},
+    {"index": 3, "id": "03_aws_container_baseline", "title": "AWS Container Security Monitoring & Configuration Baseline", "file": "03_aws_container_baseline.md", "est_tokens": 4800},
+    {"index": 4, "id": "04_azure_container_baseline", "title": "Microsoft Azure Container Security Monitoring & Configuration Baseline", "file": "04_azure_container_baseline.md", "est_tokens": 4500},
+    {"index": 5, "id": "05_gcp_container_baseline", "title": "Google Cloud Container Security Monitoring & Configuration Baseline", "file": "05_gcp_container_baseline.md", "est_tokens": 4200},
+    {"index": 6, "id": "06_ibm_redhat_baseline", "title": "IBM Cloud & Red Hat OpenShift Security Monitoring Baseline", "file": "06_ibm_redhat_baseline.md", "est_tokens": 4600},
+    {"index": 7, "id": "07_self_checklist_p0_p3", "title": "P0-P3 Compliance Checklist, Self-Assessment & SIEM Activation", "file": "07_self_checklist_p0_p3.md", "est_tokens": 5200}
+  ]
+}
