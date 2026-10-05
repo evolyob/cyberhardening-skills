@@ -1,21 +1,21 @@
 # Cyber Hardening Skills
 
-A collection of production-ready cybersecurity, system hardening, threat intelligence, strategic governance, and lifecycle automation configurations for Google Antigravity (AGY).
+A collection of production-ready cybersecurity, system hardening, threat intelligence, statutory privacy compliance, and dynamic incident response configurations for Google Antigravity (AGY).
 
 ---
 
 ## 1. Skills Catalog & Capabilities Matrix
 
+The following skills are available in this repository:
+
 | Skill | Category | Primary Mission & Scope | Core Tools & Technologies |
 | :--- | :--- | :--- | :--- |
-| **[`cross-map`](cross-map/)** | Architecture & Routing | Sub-feature scanner, AST lexical readiness validator, and 4-facet multi-skill scenario router with Exit Gates. | Python Stdlib, AST Inspection, JSON Schema |
-| **[`deep-mod`](deep-mod/)** | Deep Research & Skill Extraction | Universal interactive deep research, architecture visualization, and surgical skill extraction pipeline with TOC guard and Map-Reduce subagents. | Python Stdlib, pypdf, Map-Reduce Pipeline |
-| **[`noai-note`](noai-note/)** | Executive Briefs & Meeting Notes | Two-phase executive assistant tool with Shift-Left Anti-AI filtering, 25-page/6500-token circuit breaker, and 1-pager visual blueprints. | Python Stdlib, Deterministic Anti-AI Gate |
+| **[`asset-risk`](asset-risk/)** | Security & Risk Assessment | Categorize information assets, assign canonical threat-vulnerability pairs, and generate 8-step DR drill plans. | Python Stdlib, Anti-Monotony Round-Robin |
 | **[`audit-skill`](audit-skill/)** | Governance & Quality | 23-Gate automated AST static code, skill, and frontend web asset auditor (<20ms). Enforces 3-step workflow, dynamic line budgets, and security guardrails. | Python AST, DOMPurify XSS, Static Analysis |
 | **[`env-audit`](env-audit/)** | Host Hardening & OS Audit | Multi-platform (Linux/macOS) binary, package EOL, and CVE audit engine with automated upstream target synchronization. | Python Stdlib, EndOfLife API, Regex |
 | **[`sec-intel`](sec-intel/)** | Security & Threat Intel | Authoritative, evidence-based intelligence lookup for IPs, ASNs, Domains, and CVEs via ICANN RDAP, real DNS resolution, and dual-engine EUVD/OSV. | ICANN RDAP, `dnspython`, EUVD, OSV |
-| **[`asset-risk`](asset-risk/)** | Security & Risk Assessment | Intelligently categorize information assets and select diverse, causally linked threats and vulnerabilities without repetitive monotony. | Python Stdlib, Anti-Monotony Round-Robin |
-| **[`deep-grill`](deep-grill/)** | Architectural Alignment | Radar-guided architectural interviews, defensive specification contracts (No-Spec-No-Code), tracer-bullet DAG decomposition, and isolated subagent dispatch proposals. | Socratic Interview, Directed Acyclic Graph (DAG) |
+| **[`dair-ir`](tooools/dair-ir/)** | Incident Response | Guide dynamic cybersecurity incident response across 8 operational stages and specialized playbooks (ransomware, cloud exfiltration, OT/ICS). | Structured Playbook DAG, Incident Protocols |
+| **[`pii-tw`](tooools/pii-tw/)** | Statutory Privacy & Compliance | Taiwan Personal Data Protection Act (PDPA) compliance and privacy engineering framework (Art 12 TOMs, DPIA, 8-Domain technical controls). | Statutory Mapping, PDPA Technical Checklist |
 
 ---
 
