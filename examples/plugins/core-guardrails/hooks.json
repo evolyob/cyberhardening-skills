@@ -6,49 +6,21 @@
         "hooks": [
           {
             "type": "command",
-            "command": "sh -c 'if grep -Eqi \"(rm\\s+-[a-zA-Z]*r[a-zA-Z]*f|rm\\s+-[a-zA-Z]*f[a-zA-Z]*r|kubectl\\s+delete|drop\\s+database)\"; then echo \"{\\\"decision\\\": \\\"force_ask\\\", \\\"reason\\\": \\\"Destructive command detected. Manual confirmation required.\\\"}\"; else echo \"{\\\"decision\\\": \\\"allow\\\"}\"; fi'",
+            "command": "python3 ./scripts/system_survival_guard.py",
             "timeout": 2
           }
         ]
       }
     ]
   },
-  "secret-leak-guard": {
+  "pre-write-guard": {
     "PreToolUse": [
       {
         "matcher": "write_to_file|replace_file_content",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ./scripts/secret_leak_guard.py",
-            "timeout": 2
-          }
-        ]
-      }
-    ]
-  },
-  "anti-blind-mutation-guard": {
-    "PreToolUse": [
-      {
-        "matcher": "write_to_file|replace_file_content",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ./scripts/anti_blind_mutation.py",
-            "timeout": 2
-          }
-        ]
-      }
-    ]
-  },
-  "noai-gate": {
-    "PreToolUse": [
-      {
-        "matcher": "write_to_file|replace_file_content",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ./scripts/noai_gate.py",
+            "command": "python3 ./scripts/pre_write_guard.py",
             "timeout": 2
           }
         ]

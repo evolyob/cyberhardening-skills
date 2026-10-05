@@ -43,14 +43,11 @@ plugins/core-guardrails/
 │   ├── AGENTS.md               # Source-level rules (Security, Portability, Anti-AI Voice)
 │   └── security_guardrails.md  # Core security & credential boundaries
 └── scripts/                      # Guardrail scripts (Python stdlib)
-    ├── noai_gate.py            # PreToolUse Anti-AI & Mainland term gate
-    ├── rules_gate.json         # High-frequency buzzword dictionary
-    ├── chapter_rules.json      # Structured chapter guidelines
-    ├── ingest.py               # Document ingestion & unwrapping engine
-    ├── secret_leak_guard.py    # PreToolUse API key & private key leak blocker
-    ├── anti_blind_mutation.py  # PreToolUse circuit breaker preventing unaligned code edits
-    ├── view_file_safety.py     # PreToolUse binary blocker & large file batch reader
-    └── post_tool_quality_guard.py # PostToolUse hardcoded path scan & syntax checks
+    ├── system_survival_guard.py # PreToolUse destructive shell command guard
+    ├── pre_write_guard.py       # PreToolUse consolidated write guard (Secrets, Anti-AI, Mutation)
+    ├── rules_gate.json          # High-frequency buzzword dictionary
+    ├── view_file_safety.py      # PreToolUse binary blocker & large file batch reader
+    └── post_tool_quality_guard.py # PostToolUse Markdown code-fence & Mermaid diagnostics
 
 ```
 

@@ -199,8 +199,12 @@ def audit_path(target, flags: set = None) -> bool:
                 if f.suffix == ".json": import json; json.loads(raw)
                 elif f.suffix in (".xml", ".xsd"): import xml.etree.ElementTree as ET; ET.fromstring(raw)
                 elif f.suffix in [".yaml", ".yml"]:
-                    try: import yaml; yaml.safe_load(raw)
-                    except ImportError:
+                    try:
+                        import importlib
+                        if importlib.util.find_spec("yaml"):
+                            importlib.import_module("yaml").safe_load(raw)
+                        elif "\t" in raw: raise ValueError("YAML files must not contain tabs.")
+                    except Exception as yerr:
                         if "\t" in raw: raise ValueError("YAML files must not contain tabs.")
                 elif f.suffix == ".csv": import csv, io; list(csv.reader(io.StringIO(raw)))
                 print(f"[✓] PASS {f.name} (Valid syntax & UTF-8 encoding)")
