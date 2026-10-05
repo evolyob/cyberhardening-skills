@@ -60,7 +60,7 @@ The memory system decouples lean index routing from deep governance and concrete
 ```text
 examples/memory/
 ├── README.md                    # Architecture overview and hierarchy guide
-├── core.md                      # Lean index & routing table (< 35 lines)
+├── core.example.md              # Lean index & routing table template (< 35 lines)
 ├── topics/                      # Authoritative execution SOPs & task architecture
 │   ├── system_governance.md     # Pre-delivery machine verification SOP
 │   ├── agent_skill_architecture.md # Python/LLM division of labor & skill build guide
@@ -85,7 +85,7 @@ mkdir -p ~/.gemini/memory/topics ~/.gemini/memory/templates
 ### Step 2: Deploy Scaffolds
 ```bash
 # Copy core index sample
-cp examples/memory/core.md ~/.gemini/memory/core.md
+cp examples/memory/core.example.md ~/.gemini/memory/core.md
 
 # Copy topics
 cp examples/memory/topics/*.md ~/.gemini/memory/topics/

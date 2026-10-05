@@ -45,6 +45,8 @@ plugins/core-guardrails/
 └── scripts/                      # Guardrail scripts (Python stdlib)
     ├── noai_gate.py            # PreToolUse Anti-AI & Mainland term gate
     ├── rules_gate.json         # High-frequency buzzword dictionary
+    ├── chapter_rules.json      # Structured chapter guidelines
+    ├── ingest.py               # Document ingestion & unwrapping engine
     ├── secret_leak_guard.py    # PreToolUse API key & private key leak blocker
     ├── anti_blind_mutation.py  # PreToolUse circuit breaker preventing unaligned code edits
     ├── view_file_safety.py     # PreToolUse binary blocker & large file batch reader
