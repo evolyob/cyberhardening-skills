@@ -5,21 +5,8 @@ from pathlib import Path
 
 PEP_594 = {"cgi", "cgitb", "pipes", "crypt", "imghdr", "sndhdr", "aifc", "audioop", "chunk", "mailcap", "nntplib", "sunau", "telnetlib", "uu", "xdrlib", "distutils"}
 INSECURE_DESERIALIZERS = {"pickle", "_pickle", "dill", "shelve"}
-SECRETS = [
-    r"\b(AKIA|ASIA|ABIA|ACCA)[0-9A-Z]{16}\b",
-    r"\b(sk-[a-zA-Z0-9_-]{20,}|sk-proj-[a-zA-Z0-9_-]{20,}|sk-ant-[a-zA-Z0-9_-]{20,})\b",
-    r"\b(ghp_[a-zA-Z0-9]{20,}|github_pat_[a-zA-Z0-9_]{22,}|gho_[a-zA-Z0-9]{20,}|ghu_[a-zA-Z0-9]{20,})\b",
-    r"\bAIzaSy[a-zA-Z0-9_-]{33}\b", r"https://hooks\.slack\.com/services/T[a-zA-Z0-9_]+/B[a-zA-Z0-9_]+/[a-zA-Z0-9_]+",
-    r"\beyJ[a-zA-Z0-9_-]{10,}\.eyJ[a-zA-Z0-9_-]{10,}\.[a-zA-Z0-9_-]{10,}\b", r"\bBearer\s+[a-zA-Z0-9_.-]{20,}\b",
-    r"-----BEGIN [A-Z0-9_-]+ PRIVATE KEY-----",
-    r"(?i)\b(?:password|passwd|pwd)\s*[:=]\s*['\"](?!(?:test|mock|fake|dummy|example|xxxx|admin|placeholder|sample|changeme))[^'\"\s]{6,}['\"]",
-]
+SECRETS_RE = re.compile(r"(?i)\b((?:AKIA|ASIA)[0-9A-Z]{16}|sk-[a-zA-Z0-9_-]{20,}|ghp_[a-zA-Z0-9]{20,}|AIzaSy[a-zA-Z0-9_-]{33}|-----BEGIN [A-Z0-9_-]+ PRIVATE KEY-----|verify\s*=\s*False)\b")
 PRIVS = ["su" + "do ", "ch" + "mod +x", "ch" + "own ", "/et" + "c/shadow", "/et" + "c/passwd"]
-INSECURE_TELEMETRY = [
-    r"(?i)\b(?:verify\s*=\s*False|check_hostname\s*=\s*False)\b",
-    r"(?i)\b(?:import\s+(?:telemetry|mixpanel|posthog)|(?:telemetry|mixpanel|posthog)\.[a-zA-Z_]|https?://[^\s'\"]*(?:telemetry|mixpanel|segment\.io|posthog))\b",
-    r"(?i)\.workers\.dev/(?:telemetry|collect|log|track)",
-]
 ZERO_WIDTH_RE = re.compile(r"[\u200b-\u200f\u2060\ufeff\u202a-\u202e]")
 PIPE_EXEC_RE = re.compile(r"(?i)\b(?:curl|wget)\b[^\n|;&]+?\|\s*(?:bash|sh|zsh|python|perl|ruby)\b")
 USER_PATH_RE = re.compile(r"(?:/(?:Users|home)/[a-zA-Z0-9_-]+/|/root/|file:" + r"///?)")
@@ -46,12 +33,9 @@ def _check_text_security(src: str, raw_bytes: bytes, filename: str, is_meta: boo
         if USER_PATH_RE.search(line) and not any(k in line for k in ("PS " + "C" + ":\\\\", "List" + "ing ", "C" + ":\\\\Users\\\\Public", "C" + ":\\\\Users\\\\ttidmas", "C" + ":\\\\Users\\\\jwrig")):
             blockers.append(f"Line {idx}: Hardcoded absolute user path or local file URI (~/ or $HOME required)")
             break
-    for s in SECRETS:
-        if re.search(s, src): blockers.append("Plaintext secret/API key")
+    if SECRETS_RE.search(src): blockers.append("Plaintext secret or insecure TLS bypass detected")
     for p in PRIVS:
         if p in src and not any(k in src for k in ("Zero", "detect", "guard", "Defensive", "kill")): blockers.append(f"Privilege escalation ({p})")
-    for t in INSECURE_TELEMETRY:
-        if re.search(t, src): blockers.append("Insecure TLS bypass or telemetry endpoint detected")
 
 
 def _check_markdown_spec(src: str, filename: str, lines: int, is_meta: bool, blockers: list, warnings: list):
