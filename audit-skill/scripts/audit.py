@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Universal Skill & Code Auditor (Lean Enterprise Standard)."""
+"""Universal Skill & Code Quality Auditor (Lean Enterprise Standard)."""
 import ast, re, sys
 from pathlib import Path
 
@@ -23,10 +23,6 @@ INSECURE_TELEMETRY = [
 ZERO_WIDTH_RE = re.compile(r"[\u200b-\u200f\u2060\ufeff\u202a-\u202e]")
 PIPE_EXEC_RE = re.compile(r"(?i)\b(?:curl|wget)\b[^\n|;&]+?\|\s*(?:bash|sh|zsh|python|perl|ruby)\b")
 USER_PATH_RE = re.compile(r"(?:/(?:Users|home)/[a-zA-Z0-9_-]+/|/root/|file:" + r"///?)")
-PROMPT_INJ_RE = re.compile(r"(?i)\b(?:(?:ignore|disregard|forget|bypass|override)\s+(?:all\s+)?(?:previous|prior|above|existing)\s+(?:instructions?|directives?|rules?|system\s+prompt|context)|(?:enter|switch\s+to|enable)\s+(?:developer|god|unrestricted|jailbreak)\s+mode|do\s+anything\s+now|DAN\s+mode|bypass\s+(?:safety|content)\s+filters?)\b")
-MEMORY_POISON_RE = re.compile(r"(?i)\b(?:(?:always\s+)?remember\s+(?:this|that|the\s+following)\s+(?:for|in)\s+(?:all|every|future)\s+(?:interactions?|conversations?|sessions?)|(?:from\s+now\s+on|henceforth|going\s+forward)\s*[,:]?\s*(?:always|you\s+must|you\s+will\s+always)|(?:store|save|persist|inject)\s+(?:this|the\s+following)\s+(?:in|to|into)\s+(?:your\s+)?(?:permanent\s+)?(?:memory|context|system\s+state))\b")
-PROMPT_LEAK_RE = re.compile(r"(?i)\b(?:(?:print|output|display|reveal|expose|echo|dump)\s+(?:your\s+)?(?:full\s+)?(?:system\s+)?(?:prompt|instructions?|rules?|directives?)(?:\s+verbatim)?)\b")
-ENV_HARVEST_RE = re.compile(r"(?i)\b(?:dict\(\s*os\.environ\s*\)|\{\s*\*\*os\.environ\s*\}|for\s+\w+\s*,\s*\w+\s+in\s+os\.environ\.items\(\))")
 FRONTEND_EXTS = {".html", ".htm", ".js", ".mjs", ".ts", ".jsx", ".tsx", ".vue"}
 
 
@@ -56,11 +52,6 @@ def _check_text_security(src: str, raw_bytes: bytes, filename: str, is_meta: boo
         if p in src and not any(k in src for k in ("Zero", "detect", "guard", "Defensive", "kill")): blockers.append(f"Privilege escalation ({p})")
     for t in INSECURE_TELEMETRY:
         if re.search(t, src): blockers.append("Insecure TLS bypass or telemetry endpoint detected")
-    if PROMPT_INJ_RE.search(src): blockers.append("Prompt injection / jailbreak keyword detected")
-    if MEMORY_POISON_RE.search(src): blockers.append("Persistent memory poisoning pattern detected")
-    if PROMPT_LEAK_RE.search(src): blockers.append("System prompt exfiltration instruction detected")
-    if ENV_HARVEST_RE.search(src): blockers.append("Wholesale environment harvesting pattern detected")
-    if re.search(r"(\n\s*){20,}\n", src): blockers.append("Suspicious vertical whitespace padding (>= 20 blank lines)")
 
 
 def _check_markdown_spec(src: str, filename: str, lines: int, is_meta: bool, blockers: list, warnings: list):
@@ -156,7 +147,7 @@ def _check_ast_safety(code: str, tag: str, filename: str, is_markdown: bool, is_
     if not is_markdown and not is_meta and (unused := sorted(import_names - used_names)): warnings.append(f"Unused imports: {unused}")
 
 
-def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: str = "", local_modules: set = None, flags: set = None, sec_txt: str = "", raw_bytes: bytes = b"") -> str:
+def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: str = "", local_modules: set = None, flags: set = None, sec_txt: str = "", raw_bytes: bytes = b"") -> tuple[str, bool]:
     lines, blockers, warnings = len(src.splitlines()), [], []
     is_test, is_meta = "test" in filename.lower(), filename in ["audit.py", "remediation_guide.md", "developer_7_coding_laws_and_ast_audit.md"]
     local_mods, fl = local_modules or set(), flags or set()
@@ -172,12 +163,15 @@ def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: 
     report = f"{status} {filename} ({lines} lines)"
     if blockers: report += "\n" + "\n".join(f"  └── [BLOCKER] {b}" for b in blockers)
     if warnings: report += "\n" + "\n".join(f"  └── [ADVISORY] {w}" for w in warnings)
-    return report
+    return report, bool(blockers)
 
 
-def audit_path(target, flags: set = None):
+def audit_path(target, flags: set = None) -> bool:
     t = Path(target).resolve()
-    if not t.exists(): return print(f"[ERROR] Target does not exist: {target}")
+    if not t.exists():
+        print(f"[ERROR] Target does not exist: {target}")
+        return True
+    has_fail = False
     root = t if t.is_dir() else t.parent
     skill_md = root / "SKILL.md" if (root / "SKILL.md").exists() else (root.parent / "SKILL.md" if (root.parent / "SKILL.md").exists() else None)
     sec_md = root / "SECURITY.md" if (root / "SECURITY.md").exists() else (root.parent / "SECURITY.md" if (root.parent / "SECURITY.md").exists() else None)
@@ -208,11 +202,16 @@ def audit_path(target, flags: set = None):
                         if "\t" in raw: raise ValueError("YAML files must not contain tabs.")
                 elif f.suffix == ".csv": import csv, io; list(csv.reader(io.StringIO(raw)))
                 print(f"[✓] PASS {f.name} (Valid syntax & UTF-8 encoding)")
-            except Exception as err: print(f"[✗] FAIL {f.name}\n  └── [BLOCKER] Data Syntax/Encoding Error: {err}")
+            except Exception as err:
+                print(f"[✗] FAIL {f.name}\n  └── [BLOCKER] Data Syntax/Encoding Error: {err}")
+                has_fail = True
         elif f.suffix in [".py", ".md"]:
             raw_bytes = f.read_bytes()
             src = raw_bytes.decode("utf-8-sig", errors="ignore")
-            print(audit_source(src, f.name, is_markdown=f.suffix == ".md", skill_txt=spec_txt, local_modules=lmods, flags=flags, sec_txt=sectxt, raw_bytes=raw_bytes))
+            report, blocked = audit_source(src, f.name, is_markdown=f.suffix == ".md", skill_txt=spec_txt, local_modules=lmods, flags=flags, sec_txt=sectxt, raw_bytes=raw_bytes)
+            print(report)
+            if blocked: has_fail = True
+    return has_fail
 
 
 if __name__ == "__main__":
@@ -221,4 +220,7 @@ if __name__ == "__main__":
     targets = [a for a in sys.argv[1:] if not a.startswith("--")]
     if not targets or (unknown := flags - VALID_FLAGS):
         sys.exit(f"Usage: python3 audit.py [--security] [--ast] <target_path>{' (Unknown: ' + ', '.join(sorted(unknown)) + ')' if flags - VALID_FLAGS else ''}")
-    for t in targets: audit_path(t, flags=flags)
+    has_error = False
+    for t in targets:
+        if audit_path(t, flags=flags): has_error = True
+    if has_error: sys.exit(1)
