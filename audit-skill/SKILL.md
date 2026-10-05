@@ -15,7 +15,7 @@ Provide automated quality, defensive bounds, and security guardrail auditing for
 
 | Component | Type | Responsibility |
 |---|---|---|
-| `scripts/audit.py` | Executable Engine | One-shot single-pass 28-Gate inspection (<20ms) for Skills, Markdown, Python AST, and Security |
+| `scripts/audit.py` | Executable Engine | One-shot single-pass 23-Gate inspection (<20ms) for Skills, Markdown, Python AST, and Security |
 | `scripts/audit_frontend.py` | Executable Engine | Specialized security, syntax, and dependency discovery auditor for JS/TS/Vue scripts |
 | `references/remediation_guide.md` | Reference Guide | Standard refactoring templates and patterns for non-compliant skills |
 

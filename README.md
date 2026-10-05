@@ -11,7 +11,7 @@ The following skills are available in this repository:
 | Skill | Category | Primary Mission & Scope | Core Tools & Technologies |
 | :--- | :--- | :--- | :--- |
 | **[`asset-risk`](asset-risk/)** | Security & Risk Assessment | Categorize information assets, assign canonical threat-vulnerability pairs, and generate 8-step DR drill plans. | Python Stdlib, Anti-Monotony Round-Robin |
-| **[`audit-skill`](audit-skill/)** | Governance & Quality | 28-Gate automated AST static code, skill, and frontend web asset auditor (<20ms). Enforces 3-step workflow, dynamic line budgets, and security guardrails. | Python AST, DOMPurify XSS, Static Analysis |
+| **[`audit-skill`](audit-skill/)** | Governance & Quality | 23-Gate automated AST static code, skill, and frontend web asset auditor (<20ms). Enforces 3-step workflow, dynamic line budgets, and security guardrails. | Python AST, DOMPurify XSS, Static Analysis |
 | **[`env-audit`](env-audit/)** | Host Hardening & OS Audit | Multi-platform (Linux/macOS) binary, package EOL, and CVE audit engine with automated upstream target synchronization. | Python Stdlib, EndOfLife API, Regex |
 | **[`sec-intel`](sec-intel/)** | Security & Threat Intel | Authoritative, evidence-based intelligence lookup for IPs, ASNs, Domains, and CVEs via ICANN RDAP, real DNS resolution, and dual-engine EUVD/OSV. | ICANN RDAP, `dnspython`, EUVD, OSV |
 | **[`dair-ir`](tooools/dair-ir/)** | Incident Response | Guide dynamic cybersecurity incident response across 8 operational stages and specialized playbooks (ransomware, cloud exfiltration, OT/ICS). | Structured Playbook DAG, Incident Protocols |
