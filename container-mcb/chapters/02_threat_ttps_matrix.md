@@ -4,7 +4,7 @@
 
 ### 1.1 Architecture & Governance Alignment
 
-Financial container platforms operate under stringent regulatory mandates demanding defense-in-depth, immutable telemetry trails, and continuous behavioral inspection. Regulatory baselines including the Financial Supervisory Commission (FSC) Cloud & Container Security Framework, ISO/IEC 27001:2022 Controls A.8.20 (Network Security), A.8.24 (Use of Cryptography), and A.8.28 (Secure Coding), NIST SP 800-190 (Application Container Security Guide), and Center for Internet Security (CIS) Benchmarks for Docker and Kubernetes mandate that containerized workloads enforce hardware-isolated boundaries, verified provenance, and real-time behavioral tracing.
+Financial container platforms operate under regulatory mandates demanding defense-in-depth, immutable telemetry trails, and continuous behavioral inspection. Regulatory baselines including the Financial Supervisory Commission (FSC) Cloud & Container Security Framework, ISO/IEC 27001:2022 Controls A.8.20 (Network Security), A.8.24 (Use of Cryptography), and A.8.28 (Secure Coding), NIST SP 800-190 (Application Container Security Guide), and Center for Internet Security (CIS) Benchmarks for Docker and Kubernetes mandate that containerized workloads enforce hardware-isolated boundaries, verified provenance, and real-time behavioral tracing.
 
 Container runtime environments introduce distinct architectural failure modes absent in traditional virtual machines. Shared host kernels, dynamic overlay networks, short container lifecycles, and automated orchestration APIs broaden the attack surface. Threat actors exploit misconfigurations, excessive Linux capabilities, and leaked service account tokens to execute lateral movement and host breakouts. To mitigate these risks deterministically, financial engineering standards require quantitative telemetry verification across four core metrics:
 
@@ -118,28 +118,28 @@ A critical production security incident occurred within a Tier-1 core financial 
 The attack chain progressed through five distinct operational phases:
 
 ```
-+---------------------------------------------------------------------------------------------------+
-|                                  ATTACK PROGRESSION SEQUENCE                                      |
-+---------------------------------------------------------------------------------------------------+
-|  1. Initial Access & Ingress Exploitation                                                        |
-|     Attacker -> Exploits Spring4Shell (CVE-2022-22965) in Payment Gateway Pod (T1190)             |
-|                                         |                                                         |
-|  2. Local Reconnaissance & Credential Theft                                                      |
-|     Interactive Web Shell Spawned -> Enumerates Pod Environment & Mounts (T1613)                  |
-|     Dumps Mounted ServiceAccount Token at /var/run/secrets/kubernetes.io/serviceaccount (T1552.001)|
-|                                         |                                                         |
-|  3. Privilege Escalation & RBAC Tampering                                                         |
-|     Queries API Server -> Exploits Over-Permissive RBAC Configuration                            |
-|     Creates ClusterRoleBinding Granting cluster-admin Privileges to ServiceAccount (T1098.006)    |
-|                                         |                                                         |
-|  4. Persistent Workload Deployment                                                               |
-|     Deploys Rogue DaemonSet ("aws-telemetry-sync") Bypassing GitOps Controller (T1610, T1036.005)|
-|     Configures Privileged Flag (privileged: true) and hostPath Mount pointing to / (T1611)       |
-|                                         |                                                         |
-|  5. Host Breakout & Impact Execution                                                              |
-|     Executes nsenter into Host PID 1 -> Drops XMRig Cryptominer to /usr/local/bin (T1496.001)     |
-|     Attempts Log Truncation (/var/log/messages) -> Initiates Stratum C2 Traffic (T1070, T1496.002)|
-+---------------------------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------+
+|                           ATTACK PROGRESSION SEQUENCE                           |
++---------------------------------------------------------------------------------+
+| 1. Initial Access & Ingress Exploitation                                        |
+|    Attacker -> Exploits Spring4Shell (CVE-2022-22965) in Payment Gateway (T1190)|
+|                                      |                                          |
+| 2. Local Reconnaissance & Credential Theft                                      |
+|    Interactive Shell -> Enumerates Pod Environment & Mounts (T1613)             |
+|    Dumps ServiceAccount Token at /var/run/secrets/kubernetes.io (T1552.001)     |
+|                                      |                                          |
+| 3. Privilege Escalation & RBAC Tampering                                        |
+|    Queries API Server -> Exploits Over-Permissive RBAC Configuration            |
+|    Creates ClusterRoleBinding Granting cluster-admin Privileges (T1098.006)     |
+|                                      |                                          |
+| 4. Persistent Workload Deployment                                               |
+|    Deploys Rogue DaemonSet ("aws-telemetry-sync") Bypassing GitOps (T1610)      |
+|    Configures Privileged Flag (privileged: true) & hostPath: / (T1611)          |
+|                                      |                                          |
+| 5. Host Breakout & Impact Execution                                             |
+|    Executes nsenter into Host PID 1 -> Drops XMRig Cryptominer (T1496.001)      |
+|    Attempts Log Truncation -> Initiates Stratum C2 Traffic (T1070, T1496.002)   |
++---------------------------------------------------------------------------------+
 ```
 
 Phase 1 (Initial Access): The threat actor identified an unpatched payment gateway microservice vulnerable to Remote Code Execution via CVE-2022-22965 (Spring4Shell). By submitting a crafted HTTP request with serialized class loader parameters, the attacker achieved remote command execution inside the container.
@@ -167,33 +167,33 @@ Forensic analysis conducted following cluster isolation revealed five foundation
 To eliminate the systemic vulnerabilities identified during forensics, the engineering team executed a defense-in-depth remediation architecture across four functional layers:
 
 ```
-+---------------------------------------------------------------------------------------------------+
-|                        FOUR-LAYER DEFENSE-IN-DEPTH REMEDIATION ARCHITECTURE                       |
-+---------------------------------------------------------------------------------------------------+
-| LAYER 1: PREVENTATIVE ADMISSION CONTROLS                                                         |
-| - Kyverno / Gatekeeper: Enforce Pod Security Standards "Restricted" profile across namespaces.    |
-| - Block privileged: true, hostPID: true, hostNetwork: true, and sensitive hostPath mounts.        |
-| - Enforce automountServiceAccountToken: false on all workload specifications.                     |
-| - Validate container image cryptographic signatures using Sigstore Cosign.                        |
-+---------------------------------------------------------------------------------------------------+
-| LAYER 2: RUNTIME BEHAVIORAL PROFILING & eBPF ENFORCEMENT                                          |
-| - Deploy CWPP runtime daemonsets (Falco & AWS GuardDuty Runtime Monitoring).                      |
-| - Hook kernel execve(), openat(), and setns() syscalls to profile process trees.                  |
-| - Enforce read-only root filesystems (readOnlyRootFilesystem: true) and drop all Linux caps.      |
-| - Automatically terminate containers executing unexpected shells or reading /var/run/secrets.     |
-+---------------------------------------------------------------------------------------------------+
-| LAYER 3: NETWORK MICROSEGMENTATION & IDENTITY HARDENING                                           |
-| - Calico / Cilium CNI: Enforce default-deny egress network policies across all namespaces.        |
-| - Restrict outbound egress strictly to declared internal microservices and external payment APIs. |
-| - Deploy IMDSv2 with hop limit = 1 to prevent pods from accessing node metadata credentials.      |
-| - Migrate all workload identities to AWS IAM Roles for Service Accounts (IRSA).                   |
-+---------------------------------------------------------------------------------------------------+
-| LAYER 4: SIEM TELEMETRY CORRELATION & AUTOMATED INCIDENT RESPONSE                                 |
-| - Stream Kubernetes API audit logs and CWPP alerts to Microsoft Sentinel via Kinesis Firehose.    |
-| - Deploy real-time correlation rules linking anomalous RBAC mutations with runtime alerts.       |
-| - Automated SOAR playbook: Automatically cordon and drain compromised nodes within 60 seconds.    |
-| - Immediate automated revocation of tainted ServiceAccount tokens and IAM sessions.               |
-+---------------------------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------+
+|               FOUR-LAYER DEFENSE-IN-DEPTH REMEDIATION ARCHITECTURE              |
++---------------------------------------------------------------------------------+
+| LAYER 1: PREVENTATIVE ADMISSION CONTROLS                                        |
+| - Kyverno / Gatekeeper: Enforce Pod Security Standards "Restricted" profile.    |
+| - Block privileged: true, hostPID: true, hostNetwork: true, & hostPath mounts.  |
+| - Enforce automountServiceAccountToken: false on all workload specifications.   |
+| - Validate container image cryptographic signatures using Sigstore Cosign.      |
++---------------------------------------------------------------------------------+
+| LAYER 2: RUNTIME BEHAVIORAL PROFILING & eBPF ENFORCEMENT                        |
+| - Deploy CWPP runtime daemonsets (Falco & AWS GuardDuty Runtime Monitoring).    |
+| - Hook kernel execve(), openat(), and setns() syscalls to profile process trees.|
+| - Enforce readOnlyRootFilesystem: true and drop all default Linux capabilities. |
+| - Automatically kill containers executing unexpected shells or token dumps.     |
++---------------------------------------------------------------------------------+
+| LAYER 3: NETWORK MICROSEGMENTATION & IDENTITY HARDENING                         |
+| - Calico / Cilium CNI: Enforce default-deny egress policies across namespaces.  |
+| - Restrict outbound egress strictly to declared internal microservices and APIs.|
+| - Deploy IMDSv2 with hop limit = 1 to block container access to node metadata.  |
+| - Migrate workload identities to AWS IAM Roles for Service Accounts (IRSA).     |
++---------------------------------------------------------------------------------+
+| LAYER 4: SIEM TELEMETRY CORRELATION & AUTOMATED INCIDENT RESPONSE               |
+| - Stream Kubernetes audit logs and CWPP alerts to Microsoft Sentinel.           |
+| - Deploy real-time correlation rules linking RBAC mutations with alerts.        |
+| - Automated SOAR playbook: Automatically cordon and drain nodes in 60 seconds.  |
+| - Immediate automated revocation of tainted ServiceAccount tokens and sessions. |
++---------------------------------------------------------------------------------+
 ```
 
 Layer 1 (Preventative Admission Control): Deployed Kyverno admission controllers configured with the Pod Security Standards "Restricted" profile. Admission webhooks inspect every incoming manifest, rejecting any workload requesting `privileged: true`, host namespaces, or writable root filesystems. Furthermore, an admission mutation rule injects `automountServiceAccountToken: false` onto all service accounts and pod templates unless explicitly exempted via signed exception metadata. Image verification webhooks reject any container image whose cryptographic signature does not validate against the internal enterprise private key.

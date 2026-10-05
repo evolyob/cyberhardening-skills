@@ -113,8 +113,8 @@ def main() -> None:
         rows = [[c["id"], c["level"], c["category"], c["name"], c["requirement"]] for c in result["checklist"]]
         out.append("### Assessment Dimension Controls\n" + format_markdown_table(["ID", "Level", "Category", "Control Name", "Requirement"], rows))
     if "ttps" in result:
-        rows = [[t["id"], t["tactic"], t["name"], t["cwpp_category"], t["detection"]] for t in result["ttps"]]
-        out.append("### MITRE ATT&CK for Containers Detection Mappings\n" + format_markdown_table(["TTP ID", "Tactic", "Technique Name", "Category", "Detection Logic"], rows))
+        rows = [[t["id"], t.get("tier", "N/A"), t.get("tactic", ""), t.get("name", ""), t.get("cwpp_rule", t.get("cwpp_category", "")), t.get("detection_logic", t.get("detection", ""))] for t in result["ttps"]]
+        out.append("### MITRE ATT&CK for Containers Detection Mappings\n" + format_markdown_table(["TTP ID", "Tier", "Tactic", "Technique Name", "CWPP Rule / Category", "Detection Logic"], rows))
     if "siem_rules" in result:
         rows = [[r["id"], r["name"], r["severity"], ", ".join(r["platform"]), r["ttp"], f"`{r['query_logic']}`"] for r in result["siem_rules"]]
         out.append("### SIEM Detection Rules\n" + format_markdown_table(["Rule ID", "Rule Name", "Severity", "Platforms", "TTP", "Query Logic"], rows))
