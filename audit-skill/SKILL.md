@@ -1,7 +1,7 @@
 ---
 name: audit-skill
 description: Audits skills, Python code, and frontend web assets against quantitative context-efficiency, security boundaries, and Lazy Senior engineering standards.
-dependencies: []
+dependencies: ["pyyaml"]
 ---
 
 # Universal Skill & Code Auditor

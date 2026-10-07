@@ -11,7 +11,7 @@ The following skills are available in this repository:
 | Skill | Category | Primary Mission & Scope | Core Tools & Technologies |
 | :--- | :--- | :--- | :--- |
 | **[`asset-risk`](asset-risk/)** | Security & Risk Assessment | Categorize information assets, assign canonical threat-vulnerability pairs, and generate 8-step DR drill plans. | Python Stdlib, Anti-Monotony Round-Robin |
-| **[`container-mcb`](container-mcb/)** | Container & Cloud Security | Financial container security monitoring and configuration baselines across 6 platforms (AWS, Azure, GCP, IBM, Red Hat, VMware), MITRE ATT&CK for Containers, and P0-P3 checklists. | Python Stdlib, Detection as Code, Sigma Rules |
+| **[`cntr-mcb`](tooools/cntr-mcb/)** | Container & Cloud Security | Financial container security monitoring and configuration baselines across 6 platforms (AWS, Azure, GCP, IBM, Red Hat, VMware), MITRE ATT&CK for Containers, and P0-P3 checklists. | Python Stdlib, Detection as Code, Sigma Rules |
 | **[`audit-skill`](audit-skill/)** | Governance & Quality | 23-Gate automated AST static code, skill, and frontend web asset auditor (<20ms). Enforces 3-step workflow, dynamic line budgets, and security guardrails. | Python AST, DOMPurify XSS, Static Analysis |
 | **[`env-audit`](env-audit/)** | Host Hardening & OS Audit | Multi-platform (Linux/macOS) binary, package EOL, and CVE audit engine with automated upstream target synchronization. | Python Stdlib, EndOfLife API, Regex |
 | **[`sec-intel`](sec-intel/)** | Security & Threat Intel | Authoritative, evidence-based intelligence lookup for IPs, ASNs, Domains, and CVEs via ICANN RDAP, real DNS resolution, and dual-engine EUVD/OSV. | ICANN RDAP, `dnspython`, EUVD, OSV |

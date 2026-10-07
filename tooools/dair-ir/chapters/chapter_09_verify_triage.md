@@ -1,4 +1,4 @@
-﻿﻿# Chapter 9: Verify and Triage Activities: Severity Scoring
+# Chapter 9: Verify and Triage Activities: Severity Scoring
 
 Step 1. Select and Combine Detection Methodologies
 

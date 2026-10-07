@@ -1,0 +1,49 @@
+{
+  "rules": [
+    {
+      "id": "SIEM-001",
+      "name": "Kubernetes Anonymous User Request",
+      "severity": "High",
+      "platform": ["Splunk", "Sentinel", "ArcSight"],
+      "query_logic": "verb in ('create', 'update', 'delete', 'patch') AND user.username='system:anonymous'",
+      "ttp": "T1078.004",
+      "p_level": "P0"
+    },
+    {
+      "id": "SIEM-002",
+      "name": "Privileged Pod Creation Alert",
+      "severity": "Critical",
+      "platform": ["Splunk", "Sentinel", "ArcSight"],
+      "query_logic": "requestObject.spec.containers{}.securityContext.privileged=true",
+      "ttp": "T1611",
+      "p_level": "P1"
+    },
+    {
+      "id": "SIEM-003",
+      "name": "Sensitive HostPath Volume Mount",
+      "severity": "Critical",
+      "platform": ["Splunk", "Sentinel", "ArcSight"],
+      "query_logic": "requestObject.spec.volumes{}.hostPath.path in ('/', '/etc', '/var/run/docker.sock', '/proc', '/sys')",
+      "ttp": "T1611",
+      "p_level": "P1"
+    },
+    {
+      "id": "SIEM-004",
+      "name": "Interactive Shell in Container Workload",
+      "severity": "Medium",
+      "platform": ["Splunk", "Sentinel", "QRadar"],
+      "query_logic": "verb='create' AND objectRef.subresource='exec' AND requestObject.command IN ('/bin/sh', '/bin/bash', 'sh', 'bash')",
+      "ttp": "T1059.004",
+      "p_level": "P1"
+    },
+    {
+      "id": "SIEM-005",
+      "name": "Cryptomining Outbound Connection",
+      "severity": "High",
+      "platform": ["Splunk", "Sentinel", "QRadar"],
+      "query_logic": "dest_port IN (3333, 4444, 5555, 7777, 9001) OR dest_domain LIKE '%pool.supportxmr.com%' OR dest_domain LIKE '%stratum%'",
+      "ttp": "T1496",
+      "p_level": "P2"
+    }
+  ]
+}

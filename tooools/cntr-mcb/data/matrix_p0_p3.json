@@ -1,0 +1,41 @@
+{
+  "levels": {
+    "P0": {
+      "name": "Foundational Telemetry & Traceability (Critical)",
+      "scope": "Mandatory foundational logs required for audit trails and incident reconstruction.",
+      "items": [
+        {"id": "P0-01", "name": "Kubernetes Audit Logs Enabled", "category": "Orchestration", "requirement": "API server audit logging stream active and retained for 1+ year."},
+        {"id": "P0-02", "name": "Container Runtime Event Logging", "category": "Runtime", "requirement": "Container start, stop, kill, and exec syscall logs recorded."},
+        {"id": "P0-03", "name": "Host Authentication & Access Logs", "category": "Host", "requirement": "Node SSH, sudo, and IAM credential assumption telemetry captured."},
+        {"id": "P0-04", "name": "Network Flow & Ingress/Egress Logs", "category": "Network", "requirement": "VPC/CNI network flow logs enabled for container subnets."}
+      ]
+    },
+    "P1": {
+      "name": "Threat Defense & Hardening (High)",
+      "scope": "High-priority runtime container threat detection and hardening policies.",
+      "items": [
+        {"id": "P1-01", "name": "Container Privilege Escalation Detection", "category": "Runtime", "requirement": "Block/alert on privileged container launch and CAP_SYS_ADMIN capabilities."},
+        {"id": "P1-02", "name": "Container Escape & Mount Abuse Alert", "category": "Runtime", "requirement": "Detect hostpath volume mounts to /etc, /var/run/docker.sock, or /proc."},
+        {"id": "P1-03", "name": "Suspicious Exec & Interactive Shells", "category": "Behavior", "requirement": "Alert on interactive bash/sh execution inside production workloads."},
+        {"id": "P1-04", "name": "Unsecured Credentials in Memory/Files", "category": "Credential", "requirement": "Scan for hardcoded tokens, mounted service account token abuse, or Kubelet API dumping."}
+      ]
+    },
+    "P2": {
+      "name": "Environmental Adaptive Defense (Medium)",
+      "scope": "Adaptive anomaly detection, image drift, and policy enforcement.",
+      "items": [
+        {"id": "P2-01", "name": "Immutable Root Filesystem Enforcement", "category": "Configuration", "requirement": "Enforce read-only root filesystems and alert on post-deployment binary writes."},
+        {"id": "P2-02", "name": "Cryptomining & Port Scanning Behavioral Alerts", "category": "Anomaly", "requirement": "Detect high CPU anomalies, Stratum protocol, and cluster-internal scanning."},
+        {"id": "P2-03", "name": "Untrusted Registry Image Blocker", "category": "Admission", "requirement": "Admission controller blocking images from unauthorized external registries."}
+      ]
+    },
+    "P3": {
+      "name": "Operational Observability & Collaboration (Low)",
+      "scope": "SIEM correlation, continuous posture benchmarking, and multi-cloud normalization.",
+      "items": [
+        {"id": "P3-01", "name": "SIEM Unified Telemetry Pipeline", "category": "SIEM", "requirement": "Forward normalized ECS/EKS/AKS/GKE logs into enterprise SIEM."},
+        {"id": "P3-02", "name": "Automated CIS Benchmark Scanning", "category": "CSPM", "requirement": "Scheduled weekly CIS Kubernetes benchmark assessment with automated scoring."}
+      ]
+    }
+  }
+}

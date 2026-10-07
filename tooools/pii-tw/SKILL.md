@@ -1,4 +1,4 @@
-﻿---
+---
 name: pii-tw
 description: Taiwan Personal Data Protection Act (PDPA) statutory compliance and Industry Standards Privacy Engineering privacy engineering framework. Provides statutory mapping, Enforcement Rules Art 12 technical controls, PIA/DPIA checklists, and 8-domain engineering guides.
 dependencies: []

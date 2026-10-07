@@ -12,7 +12,7 @@
 All skills must partition content to keep idle Context consumption at zero:
 
 | Level | File Targets | Loading Timing | Token Budget Cap | Primary Responsibility |
-| :---: | :--- | :--- | :--- | :--- |
+| :---: | :--- | :--- | :---: | :--- |
 | **Level 1** | `SKILL.md` | Session Start (Always Loaded) | **$\le$ 4,000 tokens** | Mental models, command routing table, and chapter/module catalog. |
 | **Level 2** | `patterns.md`<br>`cheatsheet.md`<br>`glossary.md` | On Cross-Cutting Decision | **$\le$ 2,000 tokens** | Design patterns, anti-patterns, decision matrices, and exact terminology. |
 | **Level 3** | `modules/*.md`<br>`chapters/*.md` | On-Demand Explicit Query | **$\le$ 1,560 tokens / file** | Deep domain payloads. Loaded only when user targets a specific sub-topic. |
