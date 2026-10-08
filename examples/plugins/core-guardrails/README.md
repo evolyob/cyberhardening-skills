@@ -19,7 +19,7 @@ graph TD
 
     subgraph Core Guardrails Plugin
         AgentsRule["rules/AGENTS.md (Injected into System Context)"]
-        PreHook["scripts/ (noai_gate, secret_leak, anti_blind_mutation)"]
+        PreHook["scripts/ (system_survival_guard, pre_write_guard, view_file_safety)"]
         PostHook["scripts/ (post_tool_quality_guard)"]
     end
 

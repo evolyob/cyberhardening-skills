@@ -52,6 +52,7 @@ The memory system decouples lean index routing from deep governance and concrete
 | **Clean Code Examples** | [`senior_coding_examples.md`](templates/senior_coding_examples.md) | **Before/After Case Studies**: Practical empirical code snippets demonstrating the 5-step engineering radar. |
 | **Skill Data Standards** | [`SKILL_DATA_SPEC.md`](templates/SKILL_DATA_SPEC.md) | **Data & Indexing Rules**: Pattern A (flat list) universal default, thresholded in-memory inverted index ($N > 20$, $O(1)$ lookup), zero envelope tax. |
 | **Security Boundary Policy** | [`security_boundary.template.md`](templates/security_boundary.template.md) | **Security Boundary Scaffold**: Declares execution scope, network boundaries, and package dependency constraints. |
+| **Subagent Topologies** | [`subagent_topologies.json`](templates/subagent_topologies.json) | **Subagent Dispatch Topologies**: Canonical multi-agent orchestration patterns, worker circuit breakers, and verification constraints. |
 
 ---
 
@@ -70,7 +71,8 @@ examples/memory/
     ├── senior_coding_laws.md    # Clean code 5-step engineering radar
     ├── senior_coding_examples.md # Empirical Before/After code patterns
     ├── SKILL_DATA_SPEC.md       # Pattern A flat list vs Pattern B grouped taxonomy
-    └── security_boundary.template.md # Security policy boundary scaffold
+    ├── security_boundary.template.md # Security policy boundary scaffold
+    └── subagent_topologies.json # Multi-agent topologies & worker circuit breakers
 ```
 
 ---
@@ -91,5 +93,6 @@ cp examples/memory/core.example.md ~/.gemini/memory/core.md
 cp examples/memory/topics/*.md ~/.gemini/memory/topics/
 
 # Copy production templates
-cp examples/memory/templates/*.md ~/.gemini/memory/templates/
+cp examples/memory/templates/* ~/.gemini/memory/templates/
 ```
+
