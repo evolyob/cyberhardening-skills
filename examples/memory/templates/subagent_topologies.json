@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": "1.1.0",
-  "description": "Deterministic Decision Matrix and Dispatch Registry for 12 AGY Subagent Topologies",
+  "version": "1.2.0",
+  "description": "Deterministic Decision Matrix and Dispatch Registry for AGY Subagent Topologies",
   "topologies": {
     "pipeline": {
       "id": "pipeline",
@@ -64,6 +64,34 @@
             "Model": "flash",
             "Workspace": "inherit",
             "Prompt": "Audit Module B under /src/module_b with exclusive write scope. Execute verification EXACTLY ONCE per dispatch; if it fails, report raw error logs immediately without probing out-of-scope files."
+          }
+        ]
+      }
+    },
+    "parallel_translation": {
+      "id": "parallel_translation",
+      "category": "fan_out",
+      "decision_rules": {
+        "task_dependencies": "independent",
+        "execution_mode": "single_phase_1to1_translation",
+        "file_conflicts": "mutually_exclusive_paths",
+        "prohibited_actions": [
+          "content_reauthoring",
+          "multi_stage_audit",
+          "post_hoc_compression_probing"
+        ],
+        "target_metric": "minimum_latency"
+      },
+      "workspace_mode": "inherit",
+      "recommended_model": "flash",
+      "dispatch_payload": {
+        "Subagents": [
+          {
+            "TypeName": "self",
+            "Role": "Chapter Translator",
+            "Model": "flash",
+            "Workspace": "inherit",
+            "Prompt": "Translate assigned source chapter directly to English and write to designated output path. Strictly maintain 1:1 structure, heading levels, and table row counts. DO NOT add filler preambles or puffery adjectives. Keep output strictly under 45 KB without writing ad-hoc measurement scripts."
           }
         ]
       }
