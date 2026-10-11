@@ -1,0 +1,545 @@
+﻿{
+  "standard": "ISO/IEC 42001:2023 (CNS 42001:2026) vs ISO/IEC 27002:2022",
+  "total_chapters": 7,
+  "chapters": [
+    {
+      "index": 1,
+      "id": "chapter_01",
+      "title": "Clause 4-10 Alignment & Annex A.2-A.3 Governance Crosswalk",
+      "title_zh": "管理架構 Clause 4-10 對齊與附錄 A.2-A.3 治理控制措施映射",
+      "file": "chapters/chapter_01_clauses_and_annex_a_mapping.md",
+      "est_tokens": 4200
+    },
+    {
+      "index": 2,
+      "id": "chapter_02",
+      "title": "Annex A.4 (Resources) & Annex A.5 (AI Impact Assessment) Crosswalk",
+      "title_zh": "附錄 A.4 (AI 資源) 與 A.5 (AI 系統衝擊評鑑) 對照實務",
+      "file": "chapters/chapter_02_resources_and_impact_assessment.md",
+      "est_tokens": 4300
+    },
+    {
+      "index": 3,
+      "id": "chapter_03",
+      "title": "Annex A.6 (AI Lifecycle, MLOps, Verification & Validation) Controls",
+      "title_zh": "附錄 A.6 (AI 系統生命週期、MLOps 開發與驗證) 控制項",
+      "file": "chapters/chapter_03_ai_lifecycle_and_development.md",
+      "est_tokens": 4400
+    },
+    {
+      "index": 4,
+      "id": "chapter_04",
+      "title": "Annex A.7 (Data Governance & Poisoning Defense) & A.8 (Transparency) Controls",
+      "title_zh": "附錄 A.7 (資料治理與資料投毒防護) 及 A.8 (透明度與可解釋性) 控制項",
+      "file": "chapters/chapter_04_data_governance_and_transparency.md",
+      "est_tokens": 4500
+    },
+    {
+      "index": 5,
+      "id": "chapter_05",
+      "title": "Annex B Part 1 Implementation Guidance (B.2 - B.6: Governance, AIA & Lifecycle)",
+      "title_zh": "附錄 B 實施指引篇 (一)：B.2-B.6 治理、衝擊評鑑與生命週期實務指南",
+      "file": "chapters/chapter_05_annex_b_part1_governance_and_lifecycle.md",
+      "est_tokens": 4400
+    },
+    {
+      "index": 6,
+      "id": "chapter_06",
+      "title": "Annex B Part 2 Implementation Guidance (B.7 - B.10: Data, Transparency & Supply Chain)",
+      "title_zh": "附錄 B 實施指引篇 (二)：B.7-B.10 資料操作、透明度、供應鏈與營運實務",
+      "file": "chapters/chapter_06_annex_b_part2_data_supply_chain_and_ops.md",
+      "est_tokens": 4500
+    },
+    {
+      "index": 7,
+      "id": "chapter_07",
+      "title": "Annex C AI Risk Taxonomy, Annex D Multi-Standard Integration & Unified SoA Blueprint",
+      "title_zh": "附錄 C 專屬風險分類、附錄 D 跨標準整合與雙軌 SoA 合併藍圖",
+      "file": "chapters/chapter_07_annex_c_risks_and_annex_d_integration.md",
+      "est_tokens": 4600
+    }
+  ],
+  "controls": [
+    {
+      "id": "A.2.1",
+      "cns_ref": "CNS 42001 A.2.1",
+      "title": "Policies for AI (Objective)",
+      "iso27002_ref": "5.1 Policies for information security",
+      "integration_type": "Governance Baseline",
+      "summary": "Define overarching top-level mandates directing responsible, safe, and ethical development and deployment of AI across the entire organization.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Governance Charter / 治理方針與組織權責]"
+    },
+    {
+      "id": "A.2.2",
+      "cns_ref": "CNS 42001 A.2.2",
+      "title": "AI Policy",
+      "iso27002_ref": "5.1 Policies for information security",
+      "integration_type": "Existing Extension",
+      "summary": "Augment the primary Information Security Policy with an enterprise Responsible AI Charter. Codify acceptable use of Generative AI, ban unauthorized public LLMs, and enforce intellectual property protection rules.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Policy & Roles Manifest / 政策規章與職責清冊]"
+    },
+    {
+      "id": "A.2.3",
+      "cns_ref": "CNS 42001 A.2.3",
+      "title": "Alignment with Other Organizational Policies",
+      "iso27002_ref": "5.1 Policies for information security",
+      "integration_type": "Cross-System Harmonization",
+      "summary": "Reconcile AI policies with Privacy Policies (GDPR/ISO 27701), Data Classification (ISO 27002 5.12), Data Protection (8.12), and IP/Copyright compliance. Eliminate policy conflicts regarding automated data ingest.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Policy & Roles Manifest / 政策規章與職責清冊]"
+    },
+    {
+      "id": "A.2.4",
+      "cns_ref": "CNS 42001 A.2.4",
+      "title": "Review of the AI Policy",
+      "iso27002_ref": "5.1 Policies for information security",
+      "integration_type": "Existing Extension",
+      "summary": "Establish periodic and event-triggered policy reviews driven by major regulatory changes (such as EU AI Act enforcement), critical security incidents, or adoption of disruptive foundation models.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Policy & Roles Manifest / 政策規章與職責清冊]"
+    },
+    {
+      "id": "A.3.1",
+      "cns_ref": "CNS 42001 A.3.1",
+      "title": "Internal Organization (Objective)",
+      "iso27002_ref": "5.2 Information security roles and responsibilities, 5.3 Segregation of duties",
+      "integration_type": "Governance Baseline",
+      "summary": "Establish organizational infrastructure and governance bodies responsible for assigning, executing, and validating AI accountability.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Governance Charter / 治理方針與組織權責]"
+    },
+    {
+      "id": "A.3.2",
+      "cns_ref": "CNS 42001 A.3.2",
+      "title": "AI Roles and Responsibilities",
+      "iso27002_ref": "5.2 Roles and responsibilities, 5.3 Segregation of duties, 6.1 Screening",
+      "integration_type": "Existing Extension",
+      "summary": "Delineate roles among AI System Owner, Lead Data Scientist, MLOps Engineer, Model Auditor, and Business Consumer. Enforce strict separation between algorithmic development access and production deployment rights.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Policy & Roles Manifest / 政策規章與職責清冊]"
+    },
+    {
+      "id": "A.3.3",
+      "cns_ref": "CNS 42001 A.3.3",
+      "title": "Reporting Concerns",
+      "iso27002_ref": "6.8 Information security event reporting",
+      "integration_type": "Existing Extension",
+      "summary": "Expand existing incident response whistleblowing and helpdesk channels to enable all staff and external users to report model hallucinations, biased decisions, toxic outputs, or data leakage concerns.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Policy & Roles Manifest / 政策規章與職責清冊]"
+    },
+    {
+      "id": "A.4.1",
+      "cns_ref": "CNS 42001 A.4.1",
+      "title": "Resources for AI Systems (Objective)",
+      "iso27002_ref": "7.1 Physical security perimeters, 8.1 User endpoint devices",
+      "integration_type": "Governance Baseline",
+      "summary": "Establish organizational processes to define, procure, track, and manage data, tooling, compute infrastructure, and skilled personnel across all AI lifecycle stages.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Governance Charter / 治理方針與組織權責]"
+    },
+    {
+      "id": "A.4.2",
+      "cns_ref": "CNS 42001 A.4.2",
+      "title": "Documentation of Resources",
+      "iso27002_ref": "5.9 Inventory of assets, 5.37 Documented operating procedures",
+      "integration_type": "Existing Extension",
+      "summary": "Maintain a dedicated AI Asset Inventory tracking training datasets, feature repositories, model weight checkpoints, training scripts, hyperparameter configurations, and software dependency manifests (SBOM).",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Resource & Asset Inventory / 資產清冊與算力清單]"
+    },
+    {
+      "id": "A.4.3",
+      "cns_ref": "CNS 42001 A.4.3",
+      "title": "Data Resources",
+      "iso27002_ref": "8.10 Information deletion, 8.12 Data leakage prevention, 8.33 Test information",
+      "integration_type": "AI-Specific Deepening",
+      "summary": "Verify training and validation data provenance, licensing scope, and labeling integrity. Enforce spectral anomaly filtering to prevent data poisoning. Mask PII in test and training splits. Compute SHA-256 digests for dataset integrity.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Resource & Asset Inventory / 資產清冊與算力清單]"
+    },
+    {
+      "id": "A.4.4",
+      "cns_ref": "CNS 42001 A.4.4",
+      "title": "Tooling Resources",
+      "iso27002_ref": "8.25 Secure development life cycle, 8.30 Outsoourced development",
+      "integration_type": "AI-Specific Deepening",
+      "summary": "Control access and configuration baselines for MLOps toolchains (e.g., MLflow, Kubeflow, feature stores, data labeling platforms). Audit third-party labeling vendors for security posture and data transit security.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Resource & Asset Inventory / 資產清冊與算力清單]"
+    },
+    {
+      "id": "A.4.5",
+      "cns_ref": "CNS 42001 A.4.5",
+      "title": "System and Computing Resources",
+      "iso27002_ref": "7.1 Physical security perimeters, 8.1 User endpoint devices, 8.6 Capacity management",
+      "integration_type": "Existing Extension",
+      "summary": "Telemetry monitoring for GPU/TPU clusters, high-bandwidth memory, and distributed training interconnects. Implement strict network isolation between training sandboxes and production inference enclaves.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Resource & Asset Inventory / 資產清冊與算力清單]"
+    },
+    {
+      "id": "A.4.6",
+      "cns_ref": "CNS 42001 A.4.6",
+      "title": "Human Resources",
+      "iso27002_ref": "6.1 Screening, 6.3 Information security awareness",
+      "integration_type": "Existing Extension",
+      "summary": "Conduct technical and background screening for data labelers and ML engineers. Deliver semi-annual training on prompt injection mitigation, algorithmic bias identification, and data protection compliance.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Resource & Asset Inventory / 資產清冊與算力清單]"
+    },
+    {
+      "id": "A.5.1",
+      "cns_ref": "CNS 42001 A.5.1",
+      "title": "Assessing Impacts of AI Systems (Objective)",
+      "iso27002_ref": "5.7 Threat intelligence, 8.25 Secure development life cycle",
+      "integration_type": "Governance Baseline",
+      "summary": "Ensure the organization establishes and executes systematic assessment procedures to evaluate potential consequences of AI systems on individuals, groups, and society.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Governance Charter / 治理方針與組織權責]"
+    },
+    {
+      "id": "A.5.2",
+      "cns_ref": "CNS 42001 A.5.2",
+      "title": "AI System Impact Assessment Process",
+      "iso27002_ref": "5.7 Threat intelligence, 8.8 Technical vulnerability management",
+      "integration_type": "AIMS Unique",
+      "summary": "Define dynamic event-triggered assessment triggers: trigger re-assessments upon new model scope, ingestion of new data classes, algorithm architectural shifts, or expanded deployment contexts.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[AI Impact Assessment Sign-off / 衝擊評鑑報告]"
+    },
+    {
+      "id": "A.5.3",
+      "cns_ref": "CNS 42001 A.5.3",
+      "title": "Documentation of AI System Impact Assessments",
+      "iso27002_ref": "5.37 Documented operating procedures",
+      "integration_type": "AIMS Unique",
+      "summary": "Produce formal AI System Impact Assessment (AIA) Reports documenting stakeholder registries, harm severity rankings, likelihood scores, residual risk treatments, and sign-offs.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[AI Impact Assessment Sign-off / 衝擊評鑑報告]"
+    },
+    {
+      "id": "A.5.4",
+      "cns_ref": "CNS 42001 A.5.4",
+      "title": "Assessing Impact on Individuals or Groups",
+      "iso27002_ref": "5.34 Privacy and protection of PII, *(Extended to ISO/IEC 27701)*",
+      "integration_type": "AIMS Unique",
+      "summary": "Quantify algorithmic bias and disparity across demographic groups using Disparate Impact Ratio (DIR) and Equalized Odds difference metrics. Evaluate impacts on consumer rights, physical safety, and personal autonomy.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[AI Impact Assessment Sign-off / 衝擊評鑑報告]"
+    },
+    {
+      "id": "A.5.5",
+      "cns_ref": "CNS 42001 A.5.5",
+      "title": "Assessing Societal Impacts of AI Systems",
+      "iso27002_ref": "5.5 Contact with authorities, 5.30 ICT readiness for business continuity",
+      "integration_type": "AIMS Unique",
+      "summary": "Analyze broad macroeconomic consequences, labor displacement, systemic public infrastructure dependencies, and carbon footprint from compute cycles. Enforce fallback protocols to prevent societal disruption.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[AI Impact Assessment Sign-off / 衝擊評鑑報告]"
+    },
+    {
+      "id": "A.6.1.1",
+      "cns_ref": "CNS 42001 A.6.1.1",
+      "title": "Management Guidance for AI Systems (Objective)",
+      "iso27002_ref": "8.25 Secure development life cycle",
+      "integration_type": "Governance Baseline",
+      "summary": "Establish organizational governance policies and engineering guidelines ensuring responsible and trustworthy AI design throughout all lifecycle phases.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Governance Charter / 治理方針與組織權責]"
+    },
+    {
+      "id": "A.6.1.2",
+      "cns_ref": "CNS 42001 A.6.1.2",
+      "title": "Objectives for Responsible AI System Development",
+      "iso27002_ref": "8.26 Application security requirements",
+      "integration_type": "AI-Specific Deepening",
+      "summary": "Formulate operational objectives for fairness, transparency, explainability, safety, privacy, and accountability during project inception; document anticipated benefits and misuse threat models.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Governance Charter / 治理方針與組織權責]"
+    },
+    {
+      "id": "A.6.1.3",
+      "cns_ref": "CNS 42001 A.6.1.3",
+      "title": "Processes for Responsible AI Design and Development",
+      "iso27002_ref": "8.25 Secure development life cycle, 8.27 Secure system architecture",
+      "integration_type": "AI-Specific Deepening",
+      "summary": "Embed trust criteria (fault tolerance, defensive distillation, model interpretability frameworks, human-in-the-loop overrides) into corporate software engineering baselines.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[MLOps Gate & V&V Report / 驗證與模型卡紀錄]"
+    },
+    {
+      "id": "A.6.2.1",
+      "cns_ref": "CNS 42001 A.6.2.1",
+      "title": "AI System Development Lifecycle (Objective)",
+      "iso27002_ref": "8.25 Secure development life cycle",
+      "integration_type": "Governance Baseline",
+      "summary": "Ensure every development stage (specification, data engineering, model design, verification, deployment, operation, decommissioning) follows formal verification gates.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Governance Charter / 治理方針與組織權責]"
+    },
+    {
+      "id": "A.6.2.2",
+      "cns_ref": "CNS 42001 A.6.2.2",
+      "title": "AI System Requirements and Specification",
+      "iso27002_ref": "8.26 Application security requirements",
+      "integration_type": "AI-Specific Deepening",
+      "summary": "Specify technical requirements for accuracy, inference latency, explainability (SHAP/LIME), bias tolerances (DIR 0.80 - 1.25), data drift thresholds (PSI < 0.10), and differential privacy budgets.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[MLOps Gate & V&V Report / 驗證與模型卡紀錄]"
+    },
+    {
+      "id": "A.6.2.3",
+      "cns_ref": "CNS 42001 A.6.2.3",
+      "title": "AI System Design and Development Documentation",
+      "iso27002_ref": "8.28 Secure coding, 8.30 Outsourced development",
+      "integration_type": "AI-Specific Deepening",
+      "summary": "Maintain end-to-end provenance linking training scripts, dataset digests, hyperparameters, and resulting model weight checkpoints. Require Cosign digital signatures on container images and weights.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[MLOps Gate & V&V Report / 驗證與模型卡紀錄]"
+    },
+    {
+      "id": "A.6.2.4",
+      "cns_ref": "CNS 42001 A.6.2.4",
+      "title": "AI System Verification and Validation (V&V)",
+      "iso27002_ref": "8.29 Security testing, 8.31 Separation of development, test and production",
+      "integration_type": "Existing Extension",
+      "summary": "Execute dual-track evaluation: Verification (conformance to algorithmic specifications) and Validation (fitness for intended purpose). Execute adversarial red-teaming, evasion testing, and out-of-distribution stress testing.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[MLOps Gate & V&V Report / 驗證與模型卡紀錄]"
+    },
+    {
+      "id": "A.6.2.5",
+      "cns_ref": "CNS 42001 A.6.2.5",
+      "title": "AI System Deployment",
+      "iso27002_ref": "8.25 Secure development life cycle, 8.32 Change management",
+      "integration_type": "Existing Extension",
+      "summary": "Enforce canary releases, shadow mode deployments, and blue-green traffic splits with automated rollback switches triggered when live error or drift thresholds breach tolerances.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[MLOps Gate & V&V Report / 驗證與模型卡紀錄]"
+    },
+    {
+      "id": "A.6.2.6",
+      "cns_ref": "CNS 42001 A.6.2.6",
+      "title": "AI System Operation and Monitoring",
+      "iso27002_ref": "8.8 Technical vulnerability management, 8.16 Monitoring activities",
+      "integration_type": "AI-Specific Deepening",
+      "summary": "Implement continuous telemetry measuring data drift (Wasserstein Distance, PSI), concept drift, prediction confidence decay, and anomalous query payloads. Trigger automated alerts and retraining workflows.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[MLOps Gate & V&V Report / 驗證與模型卡紀錄]"
+    },
+    {
+      "id": "A.6.2.7",
+      "cns_ref": "CNS 42001 A.6.2.7",
+      "title": "Technical Documentation of AI Systems",
+      "iso27002_ref": "5.37 Documented operating procedures, 8.27 Secure system architecture",
+      "integration_type": "AI-Specific Deepening",
+      "summary": "Author standardized Model Cards, Data Sheets, operating manuals, graceful degradation guidelines, manual override SOPs, and dependency bills of materials (SBOM).",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[MLOps Gate & V&V Report / 驗證與模型卡紀錄]"
+    },
+    {
+      "id": "A.6.2.8",
+      "cns_ref": "CNS 42001 A.6.2.8",
+      "title": "AI System Event Logging",
+      "iso27002_ref": "8.12 Data leakage prevention, 8.15 Logging",
+      "integration_type": "Existing Extension",
+      "summary": "Record inference input tokens/features, predicted probabilities, operator override interventions, and runtime exceptions. Store logs in tamper-evident, append-only repositories while masking PII.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[MLOps Gate & V&V Report / 驗證與模型卡紀錄]"
+    },
+    {
+      "id": "A.7.1",
+      "cns_ref": "CNS 42001 A.7.1",
+      "title": "Data for AI systems",
+      "iso27002_ref": "8.12 Data leakage prevention",
+      "integration_type": "Governance Baseline",
+      "summary": "Mandate end-to-end governance policies for all datasets applied across training, fine-tuning, validation, and testing pipelines.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Data Lineage & Masking Log / 資料血統與品質報告]"
+    },
+    {
+      "id": "A.7.2",
+      "cns_ref": "CNS 42001 A.7.2",
+      "title": "Data for development and enhancement of AI systems",
+      "iso27002_ref": "8.28 Secure coding, 8.12 Data leakage prevention",
+      "integration_type": "AI-Specific Deepening",
+      "summary": "Implement automated data preprocessing, synthetic data generation, pseudonymization, and differential privacy ($\\epsilon, \\delta$ budgets) to protect training corpuses.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Data Lineage & Masking Log / 資料血統與品質報告]"
+    },
+    {
+      "id": "A.7.3",
+      "cns_ref": "CNS 42001 A.7.3",
+      "title": "Acquisition of data",
+      "iso27002_ref": "5.20 Addressing information security within supplier agreements, 5.36 Compliance with policies",
+      "integration_type": "Existing Extension",
+      "summary": "Enforce copyright, intellectual property, and licensing validation for web-scraped and commercial datasets; audit consent and regulatory authorizations prior to ingestion.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Data Lineage & Masking Log / 資料血統與品質報告]"
+    },
+    {
+      "id": "A.7.4",
+      "cns_ref": "CNS 42001 A.7.4",
+      "title": "Data quality for AI systems",
+      "iso27002_ref": "8.16 Monitoring activities, 8.8 Management of technical vulnerabilities",
+      "integration_type": "AI-Specific Deepening",
+      "summary": "Continuous telemetry tracking statistical completeness, representativeness, label noise, and covariate shift; automated alerts for Population Stability Index (PSI).",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Data Lineage & Masking Log / 資料血統與品質報告]"
+    },
+    {
+      "id": "A.7.5",
+      "cns_ref": "CNS 42001 A.7.5",
+      "title": "Provenance of data",
+      "iso27002_ref": "8.15 Logging, 8.24 Use of cryptography",
+      "integration_type": "AI-Specific Deepening",
+      "summary": "Deploy Data Version Control (DVC) and AI Software Bill of Materials (AIBOM); bind every dataset commit to immutable SHA-256 cryptographic hashes and lineage graphs.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Data Lineage & Masking Log / 資料血統與品質報告]"
+    },
+    {
+      "id": "A.7.6",
+      "cns_ref": "CNS 42001 A.7.6",
+      "title": "Data preparation",
+      "iso27002_ref": "8.31 Separation of environments, 8.28 Secure coding",
+      "integration_type": "AI-Specific Deepening",
+      "summary": "Secure access to centralized Feature Stores; strictly isolate training, validation, and test splits; execute automated tests to detect target leakage and temporal leakage.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Data Lineage & Masking Log / 資料血統與品質報告]"
+    },
+    {
+      "id": "A.8.1",
+      "cns_ref": "CNS 42001 A.8.1",
+      "title": "Information for interested parties",
+      "iso27002_ref": "5.37 Documented operating procedures",
+      "integration_type": "Governance Baseline",
+      "summary": "Establish organizational protocols to communicate system capabilities, operational constraints, residual risks, and intended use to all internal and external stakeholders.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Model Card & User Notice / 模型卡與揭露標記]"
+    },
+    {
+      "id": "A.8.2",
+      "cns_ref": "CNS 42001 A.8.2",
+      "title": "System documentation and specifications",
+      "iso27002_ref": "5.37 Documented operating procedures, 8.25 Secure development life cycle",
+      "integration_type": "ISO 42001 Exclusive",
+      "summary": "Publish standardized, version-controlled Model Cards and Data Cards detailing model architecture, performance baselines, known limitations, and bias evaluation benchmarks.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Model Card & User Notice / 模型卡與揭露標記]"
+    },
+    {
+      "id": "A.8.3",
+      "cns_ref": "CNS 42001 A.8.3",
+      "title": "Understandability of information",
+      "iso27002_ref": "5.37 Documented operating procedures",
+      "integration_type": "ISO 42001 Exclusive",
+      "summary": "Embed user-facing Explainable AI (XAI) outputs (e.g., local feature attribution, SHAP values, counterfactual explanations); deploy unambiguous synthetic media / AI disclosure badges.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Model Card & User Notice / 模型卡與揭露標記]"
+    },
+    {
+      "id": "A.8.4",
+      "cns_ref": "CNS 42001 A.8.4",
+      "title": "External reporting",
+      "iso27002_ref": "6.8 Information security event reporting, 5.36 Compliance with policies",
+      "integration_type": "Existing Extension",
+      "summary": "Implement automated escalation runbooks to notify statutory authorities and affected subjects of critical algorithmic failures, privacy breaches, or systemic bias within 72 hours.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Model Card & User Notice / 模型卡與揭露標記]"
+    },
+    {
+      "id": "A.8.5",
+      "cns_ref": "CNS 42001 A.8.5",
+      "title": "Communication of incidents",
+      "iso27002_ref": "6.8 Information security event reporting, 8.15 Logging",
+      "integration_type": "Existing Extension",
+      "summary": "Deploy public status portals and user notifications communicating real-time model degradation, anomalous inference spikes, maintenance windows, and mitigation advisories. **MTTD/MTTR**: Public incident notification issued in < 60 minutes from severity-1 confirmation.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Model Card & User Notice / 模型卡與揭露標記]"
+    },
+    {
+      "id": "A.9.1",
+      "cns_ref": "CNS 42001 A.9.1",
+      "title": "Use of AI systems",
+      "iso27002_ref": "5.10 Acceptable use of information and other assets",
+      "integration_type": "Governance Baseline",
+      "summary": "Guarantee that deployed AI systems operate strictly within validated operational boundaries and risk thresholds, mitigating misuse and downstream harms.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Guardrail & HITL Sign-off / 護欄與人為覆寫審查]"
+    },
+    {
+      "id": "A.9.2",
+      "cns_ref": "CNS 42001 A.9.2",
+      "title": "Processes for responsible use of AI systems",
+      "iso27002_ref": "5.36 Compliance with policies, 6.3 Information security awareness",
+      "integration_type": "Existing Extension",
+      "summary": "Implement role-based access control, dual-custody verification, and mandatory Human-in-the-Loop (HITL) review protocols for all high-impact automated inferences.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Guardrail & HITL Sign-off / 護欄與人為覆寫審查]"
+    },
+    {
+      "id": "A.9.3",
+      "cns_ref": "CNS 42001 A.9.3",
+      "title": "Objectives for responsible use of AI systems",
+      "iso27002_ref": "5.1 Policies for information security",
+      "integration_type": "Existing Extension",
+      "summary": "Establish balanced scorecard metrics aligning corporate algorithmic revenue targets with safety constraints, fairness thresholds, and error tolerances.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Governance Charter / 治理方針與組織權責]"
+    },
+    {
+      "id": "A.9.4",
+      "cns_ref": "CNS 42001 A.9.4",
+      "title": "Intended use of AI systems",
+      "iso27002_ref": "8.1 User endpoint devices, 8.27 Secure architecture principles",
+      "integration_type": "Existing Extension",
+      "summary": "Enforce multi-tier input/output guardrails, semantic classifiers, and prompt-filtering middleware to block prompt injection, jailbreaks, and out-of-scope system interactions.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Guardrail & HITL Sign-off / 護欄與人為覆寫審查]"
+    },
+    {
+      "id": "A.10.1",
+      "cns_ref": "CNS 42001 A.10.1",
+      "title": "Third-party relationships",
+      "iso27002_ref": "5.19 Information security in supplier relationships",
+      "integration_type": "Governance Baseline",
+      "summary": "Define, enforce, and govern organizational and legal responsibilities across all external AI suppliers, foundational model providers, data vendors, and consumers.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Supplier SLA & Vendor Assessment / 供應商評鑑與條款]"
+    },
+    {
+      "id": "A.10.2",
+      "cns_ref": "CNS 42001 A.10.2",
+      "title": "Allocation of responsibilities",
+      "iso27002_ref": "5.2 Division of responsibilities, 5.20 Supplier agreements",
+      "integration_type": "Existing Extension",
+      "summary": "Formalize shared responsibility matrices across contracts, identifying legal liabilities for Foundation Model Providers, Model Fine-Tuners, and System Deployers.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Supplier SLA & Vendor Assessment / 供應商評鑑與條款]"
+    },
+    {
+      "id": "A.10.3",
+      "cns_ref": "CNS 42001 A.10.3",
+      "title": "Suppliers",
+      "iso27002_ref": "5.21 Managing ICT supply chain, 5.22 Monitoring cloud services",
+      "integration_type": "AI-Specific Deepening",
+      "summary": "Conduct AI-specific supplier assessments auditing training data provenance, vulnerability management, API SLAs, data retention, and fine-tuning privacy assurances.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Supplier SLA & Vendor Assessment / 供應商評鑑與條款]"
+    },
+    {
+      "id": "A.10.4",
+      "cns_ref": "CNS 42001 A.10.4",
+      "title": "Customers",
+      "iso27002_ref": "5.20 Supplier agreements, 5.37 Documented procedures",
+      "integration_type": "Existing Extension",
+      "summary": "Supply client onboarding documentation, API security guardrails, acceptable use policies, and integration manuals specifying the boundaries of safe operational use.",
+      "default_justification": "Mandatory operational governance control aligned with organizational AIMS baseline.",
+      "artifact": "[Supplier SLA & Vendor Assessment / 供應商評鑑與條款]"
+    }
+  ],
+  "total_controls": 48
+}

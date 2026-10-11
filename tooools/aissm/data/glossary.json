@@ -1,0 +1,136 @@
+{
+  "terms": [
+    {
+      "term": "Artificial Intelligence Management System (AIMS)",
+      "term_zh": "人工智慧管理系統",
+      "definition": "Part of the overall management system that establishes, implements, maintains, and continually improves an organization's policies, objectives, and processes regarding AI.",
+      "definition_zh": "整體管理系統之一部分，用以建立、實作、維護及持續改善組織關於 AI 之政策、目標及過程。",
+      "iso_ref": "ISO/IEC 42001:2023 Clause 3.4 / Scope",
+      "chapters": [
+        "chapter_01",
+        "chapter_05",
+        "chapter_07"
+      ]
+    },
+    {
+      "term": "Statement of Applicability (SoA)",
+      "term_zh": "適用性聲明書",
+      "definition": "Documented statement detailing the necessary controls, justification for inclusions and exclusions from Annex A, and implementation status.",
+      "definition_zh": "詳細列明必要控制措施、納入與排除附錄 A 之合理理由及實作狀態的登載資訊聲明書。",
+      "iso_ref": "ISO/IEC 42001:2023 Clause 6.1.3",
+      "chapters": [
+        "chapter_01",
+        "chapter_07"
+      ]
+    },
+    {
+      "term": "AI System Impact Assessment",
+      "term_zh": "AI 系統衝擊評鑑",
+      "definition": "Systematic evaluation of potential negative and positive consequences of an AI system on individuals, groups, and society.",
+      "definition_zh": "針對 AI 系統對個人、群體或社會產生之潛在正向與負向後果進行系統化評估之過程。",
+      "iso_ref": "ISO/IEC 42001:2023 Clause 3.25 / Control A.5.2 / B.5",
+      "chapters": [
+        "chapter_01",
+        "chapter_02",
+        "chapter_05",
+        "chapter_07"
+      ]
+    },
+    {
+      "term": "Data Poisoning",
+      "term_zh": "資料下毒 / 資料投毒",
+      "definition": "Adversarial attack involving unauthorized manipulation of training, validation, or testing datasets to compromise model integrity or introduce backdoors.",
+      "definition_zh": "未經授權竄改訓練、驗證或測試資料集，以破壞模型完整性或植入後門的對抗式攻擊手段。",
+      "iso_ref": "ISO/IEC 42001:2023 Annex C.3.7 / Control B.6.2.3",
+      "chapters": [
+        "chapter_02",
+        "chapter_04",
+        "chapter_06",
+        "chapter_07"
+      ]
+    },
+    {
+      "term": "Model Inversion Attack",
+      "term_zh": "模型逆向攻擊",
+      "definition": "Privacy attack that reconstructs sensitive input training data or personal identifiable information (PII) by querying model output probabilities.",
+      "definition_zh": "透過查詢模型輸出機率逆向重構訓練資料集內機敏資訊或個人身分識別資料之隱私攻擊。",
+      "iso_ref": "ISO/IEC 42001:2023 Control B.6.2.3 / Control B.6.2.6",
+      "chapters": [
+        "chapter_02",
+        "chapter_07"
+      ]
+    },
+    {
+      "term": "Explainability & Transparency",
+      "term_zh": "可解釋性與透明度",
+      "definition": "Property of an AI system that allows stakeholders to understand how algorithmic outputs and decisions are generated.",
+      "definition_zh": "使關注方能理解演算法如何產出決策與預測結果之系統特性。",
+      "iso_ref": "ISO/IEC 42001:2023 Control A.8.2 / Control B.8.2",
+      "chapters": [
+        "chapter_02"
+      ]
+    },
+    {
+      "term": "Model Drift",
+      "term_zh": "模型漂移 (概念漂移/資料漂移)",
+      "definition": "Degradation of machine learning model predictive performance over time due to changes in input data distribution or environmental dynamics.",
+      "definition_zh": "由於輸入資料分佈變化或環境演變，導致機器學習模型預測準確度隨時間劣化的現象。",
+      "iso_ref": "ISO/IEC 42001:2023 Control A.9.3 / Control B.9.3 / Control B.6.2.6",
+      "chapters": [
+        "chapter_03",
+        "chapter_04",
+        "chapter_06",
+        "chapter_07"
+      ]
+    },
+    {
+      "term": "Algorithmic Bias",
+      "term_zh": "演算法偏頗 / 偏見",
+      "definition": "Systematic and repeatable errors in an AI system that create unfair outcomes or privilege certain groups over others.",
+      "definition_zh": "AI 系統產生系統性、可重複的偏差，對特定個人或群體造成不公平待遇之現象。",
+      "iso_ref": "ISO/IEC 42001:2023 Control A.7.4 / Control B.7.4",
+      "chapters": [
+        "chapter_02",
+        "chapter_04"
+      ]
+    },
+    {
+      "term": "AI System (人工智慧系統)",
+      "term_zh": "人工智慧系統",
+      "definition": "An engineered or machine-based system that can, for a given set of explicit or implicit objectives, generate output such as predictions, recommendations, or decisions influencing physical or virtual environments.",
+      "definition_zh": "一種工程建構或機器架構系統，能針對明確或隱含目標，從接收之輸入推論如何產生影響實體或虛擬環境之輸出（如預測、內容、建議或決策）。",
+      "iso_ref": "ISO/IEC 42001:2023 Clause 3.1 / ISO/IEC 22989:2022 Clause 3.1.4",
+      "chapters": [
+        "chapter_01",
+        "chapter_02",
+        "chapter_03",
+        "chapter_04",
+        "chapter_05",
+        "chapter_06",
+        "chapter_07"
+      ]
+    },
+    {
+      "term": "Robustness (強韌性)",
+      "term_zh": "強韌性",
+      "definition": "Ability of an AI system to maintain its level of performance under unexpected conditions, adversarial inputs, or environmental perturbations.",
+      "definition_zh": "AI 系統在面對異常輸入、對抗性擾動或非預期環境干擾時，仍能維持其既定效能水準之能力。",
+      "iso_ref": "ISO/IEC 42001:2023 Annex C.2.5 / Table C.1 / ISO/IEC 22989:2022 Clause 3.1.30",
+      "chapters": [
+        "chapter_03",
+        "chapter_05",
+        "chapter_07"
+      ]
+    },
+    {
+      "term": "Conformity Assessment & Mutual Recognition (符合性評鑑與證書互認)",
+      "term_zh": "符合性評鑑與證書互認",
+      "definition": "AIMS third-party certification under ISO/IEC 17021-1 and product/process certification under ISO/IEC 17065, enabling mutual recognition and eliminating duplicated conformity audits.",
+      "definition_zh": "AIMS 第三方驗證依據 ISO/IEC 17021-1 執行；產品與流程驗證依據 ISO/IEC 17065 執行，具備證書互認機制以避免跨領域重複評鑑。",
+      "iso_ref": "ISO/IEC 42001:2023 Annex D.3 / ISO/IEC 17021-1 / ISO/IEC 17065",
+      "chapters": [
+        "chapter_07"
+      ]
+    }
+  ]
+}
