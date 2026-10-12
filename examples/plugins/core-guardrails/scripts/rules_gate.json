@@ -1,4 +1,22 @@
 {
+  "path_pattern": "(?:/(?:Users|home)/[a-zA-Z0-9_-]+/|/root/|(?<![a-zA-Z0-9])[a-zA-Z]:[\\\\/]|\\\\\\\\[a-zA-Z0-9_.-]+\\\\[a-zA-Z0-9_.-]+|file:/{3,})",
+  "secret_patterns": [
+    {"name": "AWS Access Key ID", "regex": "\\b(AKIA|ASIA|ABIA|ACCA)[0-9A-Z]{16}\\b"},
+    {"name": "Google Cloud API Key", "regex": "\\bAIzaSy[a-zA-Z0-9_-]{33}\\b"},
+    {"name": "OpenAI / Anthropic API Key", "regex": "\\b(sk-[a-zA-Z0-9_-]{20,}|sk-proj-[a-zA-Z0-9_-]{20,}|sk-ant-[a-zA-Z0-9_-]{20,})\\b"},
+    {"name": "GitHub Token", "regex": "\\b(ghp_[a-zA-Z0-9]{20,}|github_pat_[a-zA-Z0-9_]{22,}|gho_[a-zA-Z0-9]{20,}|ghu_[a-zA-Z0-9]{20,})\\b"},
+    {"name": "Slack Webhook", "regex": "https://hooks\\.slack\\.com/services/T[a-zA-Z0-9_]+/B[a-zA-Z0-9_]+/[a-zA-Z0-9_]+"},
+    {"name": "JSON Web Token (JWT)", "regex": "\\beyJ[a-zA-Z0-9_-]{10,}\\.eyJ[a-zA-Z0-9_-]{10,}\\.[a-zA-Z0-9_-]{10,}\\b"},
+    {"name": "Bearer Secret Token", "regex": "(?i)\\bBearer\\s+[a-zA-Z0-9_.-]{20,}\\b"},
+    {"name": "Private Key Header", "regex": "-----BEGIN[ A-Z0-9_-]+PRIVATE KEY-----"}
+  ],
+  "ingress_patterns": [
+    {"name": "Wholesale Environment Harvesting", "regex": "(?i)\\b(?:dict\\(\\s*os\\.environ\\s*\\)|\\{\\s*\\*\\*os\\.environ\\s*\\}|for\\s+\\w+\\s*,\\s*\\w+\\s+in\\s+os\\.environ\\.items\\(\\))"}
+  ],
+  "dummy_substrings": [
+    "example", "dummy", "sample", "mock", "placeholder", "fake", "test",
+    "xxxx", "0000", "1234567890", "abcdefgh"
+  ],
   "hard_buzzwords_zh": [
     "落地",
     "賦能",

@@ -13,9 +13,28 @@
 ## 2. Skill Build & Pre-Delivery Machine Verification (5-Step Flow)
 1. **Pre-Build Triage**: First principles question necessity; risk checklist isolates blast radius and breaking points.
 2. **Spec First** (`spec_template.md` - Scope Boundary): Freeze Goal, Non-Goals, Whitelist Paths, Zero-EOL Dependencies, and Acceptance Criteria; data stored flat with zero envelope nesting.
-3. **Data Structure** (`SKILL_DATA_SPEC.md` - Resource Boundary): Flat list default (Pattern A), zero envelope tax. Build in-memory inverted index when items > 20 (O(1) lookup). Data schema and documented counts MUST match physical assets exactly.
+3. **Data Structure** (Progressive Disclosure & Resource Boundary): Flat list default (Pattern A), zero envelope tax. Build in-memory inverted index when items > 20 (O(1) lookup). Data schema and documented counts MUST match physical assets exactly.
 4. **Core Script & Tool Integrity** (`senior_coding_laws.md` - Runtime Boundary): Python stdlib prioritized (`scripts/<module>.py`), one-shot execution via structured flags (`--format markdown`, `--json`), max block nesting depth <= 2. All scripts referenced in `SKILL.md` MUST physically exist in `scripts/` (zero ghost tools; zero prompt-script contradictions).
 5. **Semantic Test Anchors** (`tests/` - Verification Boundary): Lock edge cases and naming collisions with unit tests (100% pass). When input matches multiple categories equally, return candidate choices (`["A", "B"]`) for clarification rather than guessing.
+
+### 2.1 Skill Data Architecture & Progressive Disclosure Laws
+- **Token Budget Hierarchy**:
+  - **Level 1** (`SKILL.md`): Session start (always loaded), <= 4,000 tokens (mental models, command routing, module catalogs).
+  - **Level 2** (`patterns.md` / `cheatsheet.md`): On cross-cutting decision, <= 2,000 tokens (decision matrices, terminology).
+  - **Level 3** (`modules/*.md`): On-demand explicit query, <= 1,560 tokens / file (deep payloads).
+- **Storage Patterns & Zero Envelope Tax**:
+  - **Pattern A (Flat List, Default)**: `[ { "id": "...", "tags": [...] } ]`. Top-level attributes directly on items; zero arbitrary wrapping (`payload: {...}`).
+  - **Pattern B (Grouped Taxonomy, Exception)**: `{ "categories": { "group": [...] } }` only for deep hierarchical taxonomies.
+- **Thresholded Inverted Index ($N > 20$)**:
+  - $N \le 20$: Linear scan allowed.
+  - $N > 20$: Build in-memory inverted index on tags for $O(1)$ query:
+    ```python
+    tag_index = {}
+    if len(records) > 20:
+        for r in records:
+            for tag in r.get("tags", []):
+                tag_index.setdefault(tag.strip().lower(), []).append(r)
+    ```
 
 ---
 
