@@ -10,8 +10,58 @@ import subprocess
 import json
 import re
 
+import struct
+
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 TARGETS_FILE = os.path.join(SCRIPT_DIR, "targets.json")
+
+def inspect_binary_header(path):
+    try:
+        with open(path, "rb") as f:
+            hdr = f.read(64)
+    except Exception:
+        return {"format": "unknown", "arch": "unknown", "script_wrapper": False}
+
+    if len(hdr) < 2:
+        return {"format": "unknown", "arch": "unknown", "script_wrapper": False}
+
+    if hdr.startswith(b"#!"):
+        line = hdr.split(b"\n")[0][2:].decode("utf-8", errors="ignore").strip()
+        parts = line.split()
+        interp = parts[0].split("/")[-1] if parts else "unknown"
+        if interp == "env" and len(parts) > 1:
+            interp = parts[1]
+        return {
+            "format": "Script",
+            "arch": "script",
+            "script_wrapper": True,
+            "wrapper": interp
+        }
+
+    if len(hdr) >= 8:
+        magic = hdr[:4]
+        cputype_map = {
+            7: "x86",
+            0x01000007: "x86_64",
+            12: "arm",
+            0x0100000c: "aarch64"
+        }
+        if magic in (b"\xfe\xed\xfa\xce", b"\xce\xfa\xed\xfe"):
+            endian = "<" if magic == b"\xce\xfa\xed\xfe" else ">"
+            cputype = struct.unpack_from(f"{endian}I", hdr, 4)[0]
+            arch = cputype_map.get(cputype, f"cpu_0x{cputype:x}")
+            return {"format": "Mach-O 32-bit", "arch": arch, "script_wrapper": False}
+
+        if magic in (b"\xfe\xed\xfa\xcf", b"\xcf\xfa\xed\xfe"):
+            endian = "<" if magic == b"\xcf\xfa\xed\xfe" else ">"
+            cputype = struct.unpack_from(f"{endian}I", hdr, 4)[0]
+            arch = cputype_map.get(cputype, f"cpu_0x{cputype:x}")
+            return {"format": "Mach-O 64-bit", "arch": arch, "script_wrapper": False}
+
+        if magic in (b"\xca\xfe\xba\xbe", b"\xbe\xba\xfe\xca", b"\xca\xfe\xba\xbf", b"\xbf\xba\xfe\xca"):
+            return {"format": "Mach-O Fat Binary", "arch": "universal", "script_wrapper": False}
+
+    return {"format": "unknown", "arch": "unknown", "script_wrapper": False}
 
 def get_os_info():
     arch = platform.machine()
@@ -28,6 +78,8 @@ def get_tool_version(tool_item):
     if not path or path.startswith("/Volumes/") or path.startswith("/mnt/"):
         return None
     
+    bin_info = inspect_binary_header(path)
+
     env = dict(os.environ, DISPLAY="", WAYLAND_DISPLAY="", SUDO_ASKPASS="/bin/false", SUDO_NONINTERACTIVE="true")
     ver = "Installed"
     flags = tool_item.get("flags", ["--version", "-v", "version"])
@@ -55,10 +107,15 @@ def get_tool_version(tool_item):
     res = {
         "path": path,
         "version": ver,
+        "format": bin_info["format"],
+        "arch": bin_info["arch"],
+        "script_wrapper": bin_info["script_wrapper"],
         "category": tool_item.get("category", "General"),
         "recommended_lts": lts,
         "is_eol": is_eol
     }
+    if bin_info["script_wrapper"]:
+        res["wrapper"] = bin_info["wrapper"]
     if tool_item["name"] == "ssh":
         out = subprocess.run([path, "-G", "localhost"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True).stdout.lower()
         ciphers = next((l for l in out.splitlines() if l.startswith("ciphers ")), "")

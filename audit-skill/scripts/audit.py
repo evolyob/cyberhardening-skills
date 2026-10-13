@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Universal Skill & Code Quality Auditor (Lean Enterprise Standard)."""
-import ast, re, sys
+import ast, json, re, sys
 from pathlib import Path
 
 PEP_594 = {"cgi", "cgitb", "pipes", "crypt", "imghdr", "sndhdr", "aifc", "audioop", "chunk", "mailcap", "nntplib", "sunau", "telnetlib", "uu", "xdrlib", "distutils"}
@@ -74,7 +74,7 @@ def _check_markdown_spec(src: str, filename: str, lines: int, is_meta: bool, blo
     if stack: blockers.append("Unclosed code fence / Broken 4-backtick nesting")
 
 
-def _check_ast_safety(code: str, tag: str, filename: str, is_markdown: bool, is_meta: bool, is_test: bool, lines: int, spec_txt: str, local_mods: set, blockers: list, warnings: list):
+def _check_ast_safety(code: str, tag: str, filename: str, is_markdown: bool, is_meta: bool, is_test: bool, lines: int, spec_txt: str, local_mods: set, blockers: list, warnings: list, unknowns: list):
     if not is_markdown and not is_meta and any(re.search(r"\bopen\(", l) and "encoding=" not in l and "wb" not in l and "rb" not in l for l in code.splitlines()): warnings.append("Unencoded open() call")
     if re.search(r'f["\x27]<[a-zA-Z]+', code) and not re.search(r"(escape|clean_text|sanitize|&amp;)", code): warnings.append(f"{tag} unescaped dynamic markup template")
     try: tree = ast.parse(code)
@@ -108,6 +108,13 @@ def _check_ast_safety(code: str, tag: str, filename: str, is_markdown: bool, is_
             if func_id in ("eval", "exec") and not val_name: blockers.append(f"{tag} arbitrary execution ({func_id})")
             elif func_id == "system" and val_name == "os": blockers.append(f"{tag} os.system() execution")
             elif func_id == "unsafe_load" and val_name in ("yaml", "ruamel_yaml"): blockers.append(f"{tag} insecure yaml.unsafe_load() execution")
+            elif func_id in ("getattr", "setattr") and not is_meta:
+                unknowns.append(f"Line {n.lineno}: dynamic reflection '{func_id}()' target unresolved statically")
+            elif func_id == "__import__" and not is_meta:
+                unknowns.append(f"Line {n.lineno}: dynamic module import '__import__()' target unresolved statically")
+            elif func_id in ("Popen", "run", "call", "check_output") and val_name in ("subprocess", "") and not is_meta:
+                if n.args and not (isinstance(n.args[0], ast.Constant) or (isinstance(n.args[0], ast.List) and all(isinstance(elt, ast.Constant) for elt in n.args[0].elts))):
+                    unknowns.append(f"Line {n.lineno}: subprocess invocation argument is dynamic variable, untrusted input boundary")
             if any(k.arg == "shell" and (getattr(k.value, "value", None) is True or getattr(k.value, "id", None) == "True") for k in n.keywords):
                 blockers.append(f"{tag} subprocess with shell=True prohibited")
         elif isinstance(n, (ast.Import, ast.ImportFrom)):
@@ -149,8 +156,8 @@ def _check_ast_safety(code: str, tag: str, filename: str, is_markdown: bool, is_
     if not is_markdown and not is_meta and (unused := sorted(import_names - used_names)): warnings.append(f"Unused imports: {unused}")
 
 
-def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: str = "", local_modules: set = None, flags: set = None, sec_txt: str = "", raw_bytes: bytes = b"") -> tuple[str, bool]:
-    lines, blockers, warnings = len(src.splitlines()), [], []
+def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: str = "", local_modules: set = None, flags: set = None, sec_txt: str = "", raw_bytes: bytes = b"") -> tuple[str, bool, list, list, list]:
+    lines, blockers, warnings, unknowns = len(src.splitlines()), [], [], []
     is_test, is_meta = "test" in filename.lower(), filename in ["audit.py", "remediation_guide.md", "developer_7_coding_laws_and_ast_audit.md"]
     local_mods, fl = local_modules or set(), flags or set()
 
@@ -159,19 +166,21 @@ def audit_source(src: str, filename: str, is_markdown: bool = False, skill_txt: 
     if "--security" not in fl:
         py_blocks = (re.findall(r"```python[^\n]*\n(.*?)\n```", src, re.DOTALL) if is_markdown else [src])
         for idx, code in enumerate(py_blocks):
-            _check_ast_safety(code, f"Snippet #{idx+1}" if is_markdown else "Script", filename, is_markdown, is_meta, is_test, lines, skill_txt, local_mods, blockers, warnings)
+            _check_ast_safety(code, f"Snippet #{idx+1}" if is_markdown else "Script", filename, is_markdown, is_meta, is_test, lines, skill_txt, local_mods, blockers, warnings, unknowns)
 
-    status = "[✗] FAIL" if blockers else ("[!] WARN" if warnings else "[✓] PASS")
+    status = "[✗] FAIL" if blockers else ("[!] WARN" if (warnings or unknowns) else "[✓] PASS")
     report = f"{status} {filename} ({lines} lines)"
-    if blockers: report += "\n" + "\n".join(f"  └── [BLOCKER] {b}" for b in blockers)
-    if warnings: report += "\n" + "\n".join(f"  └── [ADVISORY] {w}" for w in warnings)
-    return report, bool(blockers)
+    if blockers: report += "\n" + "\n".join(f"  └── [EVIDENCE: BLOCKER] {b}" for b in blockers)
+    if warnings: report += "\n" + "\n".join(f"  └── [EVIDENCE: ADVISORY] {w}" for w in warnings)
+    if unknowns: report += "\n" + "\n".join(f"  └── [UNKNOWN] {u}" for u in unknowns)
+    return report, bool(blockers), blockers, warnings, unknowns
 
 
-def audit_path(target, flags: set = None) -> bool:
+def audit_path(target, flags: set = None, collected: dict = None) -> bool:
     t = Path(target).resolve()
     if not t.exists():
-        print(f"[ERROR] Target does not exist: {target}")
+        if collected is not None: collected["observed_blockers"].append(f"Target does not exist: {target}")
+        else: print(f"[ERROR] Target does not exist: {target}")
         return True
     has_fail = False
     root = t if t.is_dir() else t.parent
@@ -184,19 +193,23 @@ def audit_path(target, flags: set = None) -> bool:
     lmods = {p.stem for p in ctx_root.glob("**/*.py")} | {p.name for p in ctx_root.glob("**/*") if p.is_dir()}
 
     files = [t] if t.is_file() else sorted(p for p in t.glob("**/*") if p.is_file())
-    if t.is_dir(): print(f"\n[SKILL AUDIT] -> {t}\n" + "=" * 55)
-    if skill_md and not sec_md: print("[!] WARN SECURITY.md (Missing)\n  └── [ADVISORY] Skill missing recommended file: 'SECURITY.md'")
+    if collected is None and t.is_dir(): print(f"\n[SKILL AUDIT] -> {t}\n" + "=" * 55)
+    if skill_md and not sec_md:
+        if collected is not None: collected["advisories"].append("SECURITY.md (Missing): Skill missing recommended file: 'SECURITY.md'")
+        else: print("[!] WARN SECURITY.md (Missing)\n  └── [ADVISORY] Skill missing recommended file: 'SECURITY.md'")
 
     for f in files:
         if f.name.endswith((".pyc", ".png", ".jpg", ".ico", ".woff", ".woff2", ".ttf")): continue
         if f.suffix.lower() in FRONTEND_EXTS:
             try:
-                import audit_frontend; audit_frontend.audit_target(str(f))
-            except ImportError: print(f"[✓] PASS {f.name} (Frontend asset)")
+                import audit_frontend
+                if collected is None: audit_frontend.audit_target(str(f))
+            except ImportError:
+                if collected is None: print(f"[✓] PASS {f.name} (Frontend asset)")
         elif f.suffix in [".json", ".xml", ".yaml", ".yml", ".csv", ".txt", ".xsd"]:
             try:
                 raw = f.read_text(encoding="utf-8-sig")
-                if f.suffix == ".json": import json; json.loads(raw)
+                if f.suffix == ".json": json.loads(raw)
                 elif f.suffix in (".xml", ".xsd"): import xml.etree.ElementTree as ET; ET.fromstring(raw)
                 elif f.suffix in [".yaml", ".yml"]:
                     try:
@@ -207,26 +220,39 @@ def audit_path(target, flags: set = None) -> bool:
                     except Exception as yerr:
                         if "\t" in raw: raise ValueError("YAML files must not contain tabs.")
                 elif f.suffix == ".csv": import csv, io; list(csv.reader(io.StringIO(raw)))
-                print(f"[✓] PASS {f.name} (Valid syntax & UTF-8 encoding)")
+                if collected is None: print(f"[✓] PASS {f.name} (Valid syntax & UTF-8 encoding)")
             except Exception as err:
-                print(f"[✗] FAIL {f.name}\n  └── [BLOCKER] Data Syntax/Encoding Error: {err}")
+                msg = f"{f.name}: Data Syntax/Encoding Error: {err}"
+                if collected is not None: collected["observed_blockers"].append(msg)
+                else: print(f"[✗] FAIL {f.name}\n  └── [BLOCKER] Data Syntax/Encoding Error: {err}")
                 has_fail = True
         elif f.suffix in [".py", ".md"]:
             raw_bytes = f.read_bytes()
             src = raw_bytes.decode("utf-8-sig", errors="ignore")
-            report, blocked = audit_source(src, f.name, is_markdown=f.suffix == ".md", skill_txt=spec_txt, local_modules=lmods, flags=flags, sec_txt=sectxt, raw_bytes=raw_bytes)
-            print(report)
-            if blocked: has_fail = True
+            report, blocked, blk, adv, unk = audit_source(src, f.name, is_markdown=f.suffix == ".md", skill_txt=spec_txt, local_modules=lmods, flags=flags, sec_txt=sectxt, raw_bytes=raw_bytes)
+            if collected is not None:
+                collected["observed_blockers"].extend(f"{f.name}: {b}" for b in blk)
+                collected["advisories"].extend(f"{f.name}: {a}" for a in adv)
+                collected["unknowns"].extend(f"{f.name}: {u}" for u in unk)
+            else: print(report)
+            if blocked or ("--strict" in (flags or set()) and unk): has_fail = True
     return has_fail
 
 
 if __name__ == "__main__":
-    VALID_FLAGS = {"--security", "--ast"}
+    VALID_FLAGS = {"--security", "--ast", "--json", "--strict"}
     flags = {a for a in sys.argv[1:] if a.startswith("--")}
     targets = [a for a in sys.argv[1:] if not a.startswith("--")]
     if not targets or (unknown := flags - VALID_FLAGS):
-        sys.exit(f"Usage: python3 audit.py [--security] [--ast] <target_path>{' (Unknown: ' + ', '.join(sorted(unknown)) + ')' if flags - VALID_FLAGS else ''}")
+        sys.exit(f"Usage: python3 audit.py [--security] [--ast] [--json] [--strict] <target_path>{' (Unknown: ' + ', '.join(sorted(unknown)) + ')' if flags - VALID_FLAGS else ''}")
+    is_json, is_strict = "--json" in flags, "--strict" in flags
+    collected = {"observed_blockers": [], "advisories": [], "unknowns": []} if is_json else None
     has_error = False
     for t in targets:
-        if audit_path(t, flags=flags): has_error = True
+        if audit_path(t, flags=flags, collected=collected): has_error = True
+    if is_json:
+        status = "FAIL" if (collected["observed_blockers"] or (is_strict and collected["unknowns"])) else ("WARN" if (collected["advisories"] or collected["unknowns"]) else "PASS")
+        output = {"status": status, "observed_blockers": collected["observed_blockers"], "advisories": collected["advisories"], "unknowns": collected["unknowns"]}
+        print(json.dumps(output, indent=2))
+        has_error = bool(collected["observed_blockers"] or (is_strict and collected["unknowns"]))
     if has_error: sys.exit(1)

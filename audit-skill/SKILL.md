@@ -32,11 +32,12 @@ Provide automated quality, defensive bounds, and security guardrail auditing for
   - **Markdown & Layout**: 4-backtick nesting, code fence balance, path purity, embedded snippet validation.
   - **Security Guardrails**: Zero plaintext secrets, zero privilege escalation, zero dynamic execution, zero prompt injections, zero insecure telemetry / TLS bypass, DOMPurify XSS defenses.
 
-### Step 2: Fact-Based Findings Report
-- **Action**: Summarize audit output using the **1-2-3 Fact-Based format**:
-  1. `Finding`: The factual condition observed (`PASS`, `WARN`, or `FAIL`).
-  2. `Objective Evidence`: Exact line numbers, files, and metrics from the audit output.
-  3. `Requirement`: The explicit rule or threshold.
+### Step 2: Fact-Based Findings Report (Evidence + Unknowns)
+- **Action**: Summarize audit output using the **Evidence-Based Contract**:
+  1. `Finding`: Overall status (`PASS`, `WARN`, or `FAIL`).
+  2. `Objective Evidence`: Deterministic findings with line numbers, files, metrics, and AST node tags.
+  3. `Unknowns & Blindspots`: Dynamic calls unresolved at static time (`getattr`, `__import__`, dynamic `Popen`).
+  4. `Requirement`: Explicit rule, dynamic limit, or security boundary threshold violated.
 
 ### Step 3: User Gate & Remediation
 - **Action**: If blockers or advisories exist and the user requests fixes, consult `references/remediation_guide.md` to propose concrete diffs.
