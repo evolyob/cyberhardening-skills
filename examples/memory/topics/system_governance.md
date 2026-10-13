@@ -23,12 +23,12 @@ Eliminate fragmented keyword blacklists and iterative patch-work by enforcing st
 
 ---
 
-## 3. Deterministic REPL Probing Protocol (Large-Input Handling)
+## 3. Deterministic Analysis View Protocol (Large-Input & Facet Slicing)
 
-For documents exceeding 3,000 lines (or ~50k tokens), full-context reading via `view_file` is strictly prohibited:
-1. **TOC & Heading Discovery**: Run `grep -n` or `ripgrep` to locate heading line numbers with minimal token expenditure (< 200 tokens).
-2. **Windowed Sampling**: Use `sed -n 'X,Yp'` or sliced tool ranges to inspect specific section content.
-3. **Chunked Pipeline Output**: Slice and output directly to disk (`chapters/ch*.md`) without ever buffering the entire document in model reasoning context.
+For documents or code exceeding 800 lines (or > 40 KB), unconstrained full-context reading via `view_file` is strictly prohibited:
+1. **Summary-First Discovery (< 10 KB)**: Run `grep -n`, `ripgrep`, or AST symbol discovery to extract TOC, headings, classes, and exported functions before reading bodies (< 200 tokens).
+2. **Facet-Slicing & Windowed Sampling**: Inspect target logic via exact sliced tool ranges (`StartLine`/`EndLine` <= 200 lines) or `sed -n 'X,Yp'`. Never dump caller/callee surroundings unprompted.
+3. **Disk-Partitioned Output**: Offload oversized generated deliverables directly to target disk files or sub-modules without buffering the entire payload in model reasoning context.
 
 ---
 
