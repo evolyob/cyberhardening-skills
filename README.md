@@ -17,6 +17,7 @@ The following skills are available in this repository:
 | **[`sec-intel`](sec-intel/)** | Security & Threat Intel | Authoritative, evidence-based intelligence lookup for IPs, ASNs, Domains, and CVEs via ICANN RDAP, real DNS resolution, and dual-engine EUVD/OSV. | ICANN RDAP, `dnspython`, EUVD, OSV |
 | **[`dair-ir`](tooools/dair-ir/)** | Incident Response | Guide dynamic cybersecurity incident response across 8 operational stages and specialized playbooks (ransomware, cloud exfiltration, OT/ICS). | Structured Playbook DAG, Incident Protocols |
 | **[`pii-tw`](tooools/pii-tw/)** | Statutory Privacy & Compliance | Taiwan Personal Data Protection Act (PDPA) compliance and privacy engineering framework (Art 12 TOMs, DPIA, 8-Domain technical controls). | Statutory Mapping, PDPA Technical Checklist |
+| **[`deep-base`](deep-base/)** | Knowledge Architecture | Local-first compounding personal knowledge base engine. Operates strictly at `~/wiki/`, enforces SHA-256 deduplication, atomic cache writes, <=45 KB single-file budgets, exact quote verification (`--verify-quotes`), and in-memory SQLite FTS5 query. | Python Stdlib (`sqlite3`, `hashlib`, `re`), In-memory FTS5, Plaintext Markdown |
 
 ---
 
