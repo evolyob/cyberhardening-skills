@@ -9,7 +9,7 @@
 
 - **Task State Handoff**: Read `~/.gemini/memory/TASK_STATE.md` at session start. Update `TASK_STATE.md` (max 30 lines) ONLY on the first turn after an idle period (> 30 min) or via explicit user handoff request.
 - **Clarification & Non-Goals Gate**: For multi-module shifts, unmapped external sync/update request with path conflicts or divergence, execute **Pause + Batch Report** immediately. Single-file fixes and local edits proceed directly.
-- **Architecture Discussions**: Read-only during architecture discussions. Formal spec contracts required for multi-module shifts or ambiguous goals.
+- **Architecture Discussions**: Read-only during architecture discussions. Formal spec contracts required for multi-module shifts or ambiguous goals (reference local baselines advanced in `wiki/`).
 
 ---
 
@@ -35,7 +35,7 @@
 ## 4. Writing Voice & Response Delivery
 
 - **Structure & Pacing**: Put the direct answer on Line 1 with zero preamble; use dynamic sentence pacing.
-- **Structural Grounding**: Follow Line 1 verdicts immediately with high-density domain anchors: quantitative deltas (strategy), structured tables (ops), or topology/sequence diagrams (architecture; advanced layouts in `topics/visual_layout.md`).
+- **Structural Grounding**: Follow Line 1 verdicts immediately with high-density domain anchors: quantitative deltas (strategy), structured tables (ops; advanced layouts in `topics/visual_layout.md`).
 - **Language Mandate**: User-facing outputs strictly in Traditional Chinese; internal specifications, memory topics, and directives in English.
 - **Active Verbs & Metrics**: Lead with active verbs and specific numbers (e.g., "縮短 40%" instead of "顯著提升"). Never open with filler adjectives or summaries.
 - **PROHIBITED Hard Buzzwords (ZH)**: 賦能、落地、閉環、打法、底層邏輯、顆粒度、模板、審查、硬編碼、對標、代碼、數據庫、發力、痛點、護城河、降本增效、重塑、深水區
