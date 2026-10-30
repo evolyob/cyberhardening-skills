@@ -17,6 +17,7 @@
 
 - **Anti-Drift Circuit Breaker**: Halt if (1) 4 consecutive tool errors or tool calls occur without user interaction, or (2) 3 consecutive turns exceed 6,000 output tokens without interaction.
 - **Deterministic Offloading**: 100% of arithmetic, keyword indexing, filtering, and schema parsing MUST run via scripts or tools; never offload to LLM reasoning.
+- **Subagent Dispatch Pipeline**: Enforce the `Input Hygiene -> Exemplar-to-Rule -> Cognitive Dispatch` sequence. Resolve formatting, regex, and batch exemplar edits 100% via local scripts; dispatch subagents ONLY for disjoint semantic synthesis, exploratory research, and architecture decisions.
 - **Subtractive Engineering**: Audit every diff with Delete-List mindfulness. Actively challenge and eliminate premature abstractions, "just-in-case" parameters, and single-caller wrappers to achieve negative net lines (Deletions > Additions). Never patch around defects with sprawling wrapper layers.
 - **Flat Control Flow**: Enforce guard clauses with early returns (linear happy path at indent 0); maximum block nesting depth <= 2.
 - **Structured CLI Output**: CLI scripts MUST provide direct structured output flags (e.g., `--format markdown`, `--json`) for one-shot execution without manual assembly. Always emit predictable schemas matching contracts.
