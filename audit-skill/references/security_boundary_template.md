@@ -9,4 +9,10 @@ This skill is a [local tool / network egress tool]. It [reads/writes target file
 - Zero silent background installations: package installs require explicit user confirmation.
 
 ## Execution
-Single-shot ephemeral CLI (< 2s). [Read-only / explicit output writing] in-memory execution with zero background daemons.
+Single-shot ephemeral CLI (< 2s) with zero background daemons.
+
+| Command / Flag | Purpose & Boundary |
+|---|---|
+| `scripts/<main>.py <arg>` | [Primary action summary; memory/disk boundary] |
+| `--<flag> <val>` | [Purpose explanation; path perimeter, safe defaults, no root/env access] |
+| `--format [md\|json]` | [Serialization boundary; structured output without filesystem writes] |

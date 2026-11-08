@@ -9,7 +9,10 @@ This skill is a local-first code auditing tool. It performs read-only static ana
 - Zero silent background installations: package installs require explicit user confirmation.
 
 ## Execution
-Single-shot ephemeral CLI (< 50ms). Read-only in-memory analysis with zero filesystem mutations and zero background daemons.
-- Validated execution flags:
-  - `--security`: Text security, credential leak, and payload scan only.
-  - `--ast`: Python AST syntax, shallow nesting (<= 2), and dependency boundary scan only.
+Single-shot ephemeral CLI (< 50ms) with zero background daemons.
+
+| Command / Flag | Purpose & Boundary |
+|---|---|
+| `scripts/audit.py <path>` | Full 23-Gate audit (Read-only, default mode) |
+| `--security` | Restrict execution to Category 1 (Text & Security Gate only) |
+| `--ast` | Restrict execution to Category 3 (Python AST & quality checks only) |

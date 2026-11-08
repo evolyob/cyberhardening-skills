@@ -36,9 +36,13 @@ When an audit alert fires, evaluate solutions top-to-bottom and stop at the firs
 
 ### 1. Python Removed Standard Libraries (`Zero-EOL: removed stdlib module`)
 * **Remediation**: Align with PEP 594 using modern standard library alternatives (Python 3.13+):
-  * `cgi` -> `urllib.parse`
-  * `pipes` -> `shlex`
-  * `distutils` -> `setuptools` or `sys`
+  * `cgi` / `cgitb` -> `urllib.parse` / `email.message`
+  * `pipes` -> `shlex` / `subprocess`
+  * `crypt` / `spwd` -> `hashlib` / `secrets`
+  * `imghdr` / `sndhdr` -> `filetype` / third-party / headers
+  * `telnetlib` / `nntplib` -> modern protocols / `socket` / `urllib`
+  * `distutils` / `lib2to3` -> `setuptools` / `sys`
+  * `getopt` / `optparse` -> `argparse` (Python 3.13 soft-deprecation)
 
 ### 2. Frontend Deprecated Syntax & DOM Operations (`Legacy syntax`)
 * **Remediation**: Upgrade to modern Web standards:

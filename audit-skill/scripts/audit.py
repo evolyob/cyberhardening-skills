@@ -3,7 +3,12 @@
 import ast, json, re, sys
 from pathlib import Path
 
-PEP_594 = {"cgi", "cgitb", "pipes", "crypt", "imghdr", "sndhdr", "aifc", "audioop", "chunk", "mailcap", "nntplib", "sunau", "telnetlib", "uu", "xdrlib", "distutils"}
+PEP_594 = {
+    "cgi", "cgitb", "pipes", "crypt", "imghdr", "sndhdr", "aifc", "audioop", "chunk",
+    "mailcap", "nntplib", "sunau", "telnetlib", "uu", "xdrlib", "distutils",
+    "nis", "spwd", "ossaudiodev", "msilib", "lib2to3"
+}
+DEPRECATED_313 = {"getopt", "optparse"}
 INSECURE_DESERIALIZERS = {"pickle", "_pickle", "dill", "shelve"}
 SECRETS = [
     r"\b(AKIA|ASIA|ABIA|ACCA)[0-9A-Z]{16}\b",
@@ -108,11 +113,11 @@ def _check_ast_safety(code: str, tag: str, filename: str, is_markdown: bool, is_
             if func_id in ("eval", "exec") and not val_name: blockers.append(f"{tag} arbitrary execution ({func_id})")
             elif func_id == "system" and val_name == "os": blockers.append(f"{tag} os.system() execution")
             elif func_id == "unsafe_load" and val_name in ("yaml", "ruamel_yaml"): blockers.append(f"{tag} insecure yaml.unsafe_load() execution")
-            elif func_id in ("getattr", "setattr") and not is_meta:
+            elif func_id in ("getattr", "setattr") and not is_meta and not is_test:
                 unknowns.append(f"Line {n.lineno}: dynamic reflection '{func_id}()' target unresolved statically")
-            elif func_id == "__import__" and not is_meta:
+            elif func_id == "__import__" and not is_meta and not is_test:
                 unknowns.append(f"Line {n.lineno}: dynamic module import '__import__()' target unresolved statically")
-            elif func_id in ("Popen", "run", "call", "check_output") and val_name in ("subprocess", "") and not is_meta:
+            elif func_id in ("Popen", "run", "call", "check_output") and val_name in ("subprocess", "") and not is_meta and not is_test:
                 if n.args and not (isinstance(n.args[0], ast.Constant) or (isinstance(n.args[0], ast.List) and all(isinstance(elt, ast.Constant) for elt in n.args[0].elts))):
                     unknowns.append(f"Line {n.lineno}: subprocess invocation argument is dynamic variable, untrusted input boundary")
             if any(k.arg == "shell" and (getattr(k.value, "value", None) is True or getattr(k.value, "id", None) == "True") for k in n.keywords):
@@ -148,6 +153,7 @@ def _check_ast_safety(code: str, tag: str, filename: str, is_markdown: bool, is_
         py_limit = base + (n_defs * x_rate) + dict_lines
         if lines > py_limit: warnings.append(f"Lines {lines} > dynamic limit {py_limit} (Base {base} + {n_defs} defs × {x_rate} + {dict_lines} dict lines)")
     for dead in sorted(imported_mods & PEP_594): blockers.append(f"{tag} Zero-EOL: removed stdlib module '{dead}' in Python >= 3.13 (PEP 594)")
+    for dep in sorted(imported_mods & DEPRECATED_313): warnings.append(f"{tag} Python 3.13 soft-deprecated module '{dep}' (use 'argparse' instead)")
     third_party = {m for m in (imported_mods - soft_imports) if m not in sys.stdlib_module_names and m not in local_mods and not m.startswith("_")}
     if spec_txt and third_party:
         for dep in sorted(third_party):
@@ -243,7 +249,8 @@ if __name__ == "__main__":
     VALID_FLAGS = {"--security", "--ast", "--json", "--strict"}
     flags = {a for a in sys.argv[1:] if a.startswith("--")}
     targets = [a for a in sys.argv[1:] if not a.startswith("--")]
-    if not targets or (unknown := flags - VALID_FLAGS):
+    unknown = flags - VALID_FLAGS
+    if not targets or unknown:
         sys.exit(f"Usage: python3 audit.py [--security] [--ast] [--json] [--strict] <target_path>{' (Unknown: ' + ', '.join(sorted(unknown)) + ')' if flags - VALID_FLAGS else ''}")
     is_json, is_strict = "--json" in flags, "--strict" in flags
     collected = {"observed_blockers": [], "advisories": [], "unknowns": []} if is_json else None
