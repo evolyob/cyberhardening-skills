@@ -1,10 +1,10 @@
-﻿# Security Policy: env-audit
+# Security Policy: env-audit
 
 ## Scope
 This skill provides audit os binaries, cves, eol risks, upstream versions, and generate upgrade commands. It operates on local files or declared network targets provided via arguments. It does not collect telemetry, run silent daemons, or mutate unauthorized paths.
 
 ## Dependencies
-- Standard library prioritized (Python >= 3.13).
+- Standard library prioritized (Python >= 3.14).
 - Declared dependencies: `[]`.
 - Zero silent background installations: package installs require explicit user confirmation.
 

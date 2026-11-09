@@ -42,7 +42,7 @@
 - **Approved Primitives**: Use ONLY proven cryptographic primitives: `AES-GCM`, `Ed25519`, `TLS 1.3`, `SHA-256+` via platform KMS/libraries. NEVER roll custom crypto.
 - **Security Standards Reference**: Design aligned with CIS Benchmarks, OWASP (Web 2025, API 2023, LLM 2025+), and ASVS v5.0.0 threat models. Never bypass input validation or security controls.
 - **Zero-EOL & Dependency Hygiene**:
-  - Enforce modern runtimes: Python >= 3.13, Node.js >= 24 (LTS), Go >= 1.26.
+  - Enforce modern runtimes: Python >= 3.14, Node.js >= 24 (LTS), Go >= 1.26.
   - Prohibit PEP 594 removed modules (`cgi`, `pipes`, `crypt`, `distutils`, `chunk`, `telnetlib`, `sndhdr`, `imghdr`, `nntplib`, `xdrlib`).
   - Declare dependencies via PEP 723 (inline script metadata) or PEP 621 (`pyproject.toml`).
 - **Frontend & Web Standards**:

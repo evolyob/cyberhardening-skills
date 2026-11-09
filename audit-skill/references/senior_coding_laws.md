@@ -7,7 +7,7 @@ Practical engineering awareness standards for clean code architecture and resili
 
 ## 1. Step 1: Own the Boundary & Dict Lookups
 - **Mandates (MUST)**:
-  - MUST prioritize Python 3.13+ standard library (`pathlib`, `urllib`, `json`) over third-party dependencies declared in `spec.md`.
+  - MUST prioritize Python 3.14+ standard library (`pathlib`, `urllib`, `json`) over third-party dependencies declared in `spec.md`.
   - MUST isolate volatile third-party SDKs behind structural protocols (`typing.Protocol`) or adapters.
   - MUST treat static JSON assets as SSOT lookup dictionaries; consume them via targeted key-indexing, structured mapping, or generator queries in Python 3, never by brute-force loops or whole-file prompt dumps.
 - **Prohibitions (MUST NOT)**:

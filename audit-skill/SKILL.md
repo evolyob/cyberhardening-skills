@@ -28,7 +28,7 @@ Provide automated quality, defensive bounds, and security guardrail auditing for
   - **Skills, Python & Markdown**: `python3 <skill_dir>/scripts/audit.py <target_path>`
   - **Frontend Assets (JS/TS/Vue/HTML)**: `python3 <skill_dir>/scripts/audit_frontend.py <target_path>`
 - **Core Automated Gates**:
-  - **Quality & Bounds**: Zero-EOL (Python >= 3.13, Node >= 24 LTS), single-pass AST bounds, explicit dependency declarations, stdlib priority, clean imports, encoding safety, dynamic line budget.
+  - **Quality & Bounds**: Zero-EOL (Python >= 3.14, Node >= 24 LTS), single-pass AST bounds, explicit dependency declarations, stdlib priority, clean imports, encoding safety, dynamic line budget.
   - **Markdown & Layout**: 4-backtick nesting, code fence balance, path purity, embedded snippet validation.
   - **Security Guardrails**: Zero plaintext secrets, zero privilege escalation, zero dynamic execution, zero prompt injections, zero insecure telemetry / TLS bypass, DOMPurify XSS defenses.
 

@@ -25,7 +25,7 @@ Modifications outside this perimeter are strictly prohibited:
 ---
 
 ## 3. Declared Dependencies & Zero-EOL Runtime
-- **Target Runtime**: Python >= 3.13 (LTS) / Node.js >= 24 (LTS)
+- **Target Runtime**: Python >= 3.14 (LTS) / Node.js >= 24 (LTS)
 - **Permitted Packages**: Standard Library Only (`pathlib`, `json`, `re`, `argparse`, `sys`, `unicodedata`)
 - **Prohibition**: Zero unapproved third-party packages; zero EOL libraries.
 

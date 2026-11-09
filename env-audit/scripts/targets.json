@@ -13,8 +13,8 @@
         "--version",
         "-v"
       ],
-      "brew_formula": "python@3.13",
-      "brew_latest": "3.13.18"
+      "brew_formula": "python@3.14",
+      "brew_latest": "3.14.10"
     },
     {
       "name": "node",

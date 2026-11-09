@@ -4,7 +4,7 @@
 This skill provides Taiwan Personal Data Protection Act (PDPA) and Privacy Engineering engineering compliance analysis. It operates exclusively on local reference files and JSON datasets without network access, telemetry, or file system modifications.
 
 ## Dependencies
-- Standard library prioritized (Python >= 3.13).
+- Standard library prioritized (Python >= 3.14).
 - Declared dependencies: `[]`.
 - Zero external package installations.
 

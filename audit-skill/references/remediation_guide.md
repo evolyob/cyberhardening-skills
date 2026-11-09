@@ -35,7 +35,7 @@ When an audit alert fires, evaluate solutions top-to-bottom and stop at the firs
 ## 2. Modernization & Anti-Legacy Standards
 
 ### 1. Python Removed Standard Libraries (`Zero-EOL: removed stdlib module`)
-* **Remediation**: Align with PEP 594 using modern standard library alternatives (Python 3.13+):
+* **Remediation**: Align with PEP 594 using modern standard library alternatives (Python 3.14+):
   * `cgi` / `cgitb` -> `urllib.parse` / `email.message`
   * `pipes` -> `shlex` / `subprocess`
   * `crypt` / `spwd` -> `hashlib` / `secrets`
