@@ -14,7 +14,7 @@
         "-v"
       ],
       "brew_formula": "python@3.13",
-      "brew_latest": "3.13.17"
+      "brew_latest": "3.13.18"
     },
     {
       "name": "node",
@@ -33,7 +33,7 @@
         "nodejs"
       ],
       "brew_formula": "node",
-      "brew_latest": "26.12.1"
+      "brew_latest": "26.13.0"
     },
     {
       "name": "go",
@@ -206,7 +206,7 @@
         "-v"
       ],
       "brew_formula": "gh",
-      "brew_latest": "2.103.1"
+      "brew_latest": "2.103.3"
     },
     {
       "name": "jq",
@@ -262,7 +262,7 @@
         "--version"
       ],
       "brew_formula": "openssh",
-      "brew_latest": "10.6p1",
+      "brew_latest": "10.6p2",
       "cipher_policy": {
         "warn_kex": [
           "diffie-hellman"
@@ -286,7 +286,7 @@
         "-v"
       ],
       "brew_formula": "rsync",
-      "brew_latest": "3.5.1"
+      "brew_latest": "3.5.2"
     },
     {
       "name": "gitlab-runner",
@@ -409,7 +409,7 @@
       ],
       "lts": "8.10 / 8.8",
       "brew_formula": "redis",
-      "brew_latest": "8.10.2"
+      "brew_latest": "8.10.3"
     },
     {
       "name": "psql",
@@ -449,7 +449,7 @@
         "--version"
       ],
       "brew_formula": "pipx",
-      "brew_latest": "1.18.4"
+      "brew_latest": "1.18.16"
     },
     {
       "name": "npm",
@@ -488,7 +488,7 @@
         "-v"
       ],
       "brew_formula": "docker",
-      "brew_latest": "29.9.2"
+      "brew_latest": "29.9.3"
     }
   ],
   "system_guards": [
