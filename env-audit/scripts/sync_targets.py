@@ -6,7 +6,7 @@ import os
 import json
 import re
 import datetime
-import urllib.request
+from urllib.request import Request, urlopen
 from concurrent.futures import ThreadPoolExecutor
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -18,18 +18,18 @@ def parse_cycle_version(cycle_str):
 
 def fetch_slug_data(slug):
     url = f"https://endoflife.date/api/{slug}.json"
-    req = urllib.request.Request(url, headers={"User-Agent": "env-audit/1.0"})
+    req = Request(url, headers={"User-Agent": "env-audit/1.0"})
     try:
-        with urllib.request.urlopen(req, timeout=5) as resp:
+        with urlopen(req, timeout=5) as resp:
             return slug, json.loads(resp.read().decode())
     except Exception:
         return slug, None
 
 def fetch_brew_data(formula):
     url = f"https://formulae.brew.sh/api/formula/{formula}.json"
-    req = urllib.request.Request(url, headers={"User-Agent": "env-audit/1.0"})
+    req = Request(url, headers={"User-Agent": "env-audit/1.0"})
     try:
-        with urllib.request.urlopen(req, timeout=5) as resp:
+        with urlopen(req, timeout=5) as resp:
             data = json.loads(resp.read().decode())
             return formula, data.get("versions", {}).get("stable")
     except Exception:
