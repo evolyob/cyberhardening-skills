@@ -47,6 +47,15 @@ python3 <skill_dir>/scripts/euvd_lookup.py OpenSSL --min-score 9.0 --min-epss 50
 python3 <skill_dir>/scripts/web_monitor.py https://example.com
 ```
 
+### 1.6 Port & Weak-Cipher Verification (`nmap` CLI)
+```bash
+# Verify weak TLS ciphers (e.g., 3DES/RC4/TLSv1.0)
+nmap -Pn -p 443 --script ssl-enum-ciphers <TARGET>
+
+# Verify open ports & service versions
+nmap -Pn -sT -sV -p 21,22,23,25,80,443,445,1433,3306,3389,5432,6379,8080,8443 <TARGET>
+```
+
 ---
 
 ## 2. Router CLI Options (`intel_router.py`)

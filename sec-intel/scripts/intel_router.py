@@ -128,27 +128,18 @@ def main():
 
     # 3. Comprehensive check for domain or IP
     if args.all_checks:
-        print("=" * 60)
-        print("【1. ICANN RDAP 註冊資訊】")
+        print("=" * 60 + "\n【1. ICANN RDAP 註冊資訊】")
         if is_ip_addr(target):
-            rdap_data = fetch_rdap("ip", target)
-            print(format_ip_summary(rdap_data, target))
-            print("\n" + "=" * 60)
-            print("【2. DNSBL 黑名單信譽與反解】")
-            dnsbl_data = check_ip_blacklist(target)
-            print(format_mxtoolbox_report(dnsbl_data))
+            print(format_ip_summary(fetch_rdap("ip", target), target))
+            print("\n" + "=" * 60 + "\n【2. DNSBL 黑名單信譽與反解】")
+            print(format_mxtoolbox_report(check_ip_blacklist(target)))
         else:
             cleaned = re.sub(r'^https?://', '', target).split('/')[0].split(':')[0]
-            rdap_data = fetch_rdap("domain", cleaned)
-            print(format_domain_summary(rdap_data, cleaned))
-            print("\n" + "=" * 60)
-            print("【2. Real DNS & 郵件安全審計 (SPF/DMARC/DKIM/DNSSEC)】")
-            dns_data = check_domain_email_sec(cleaned)
-            print(format_dns_audit_report(dns_data))
-            print("\n" + "=" * 60)
-            print("【3. Web 端點與 Two-Pass TLS 審計】")
-            web_snap = capture_snapshot(target)
-            print(format_markdown_report(web_snap))
+            print(format_domain_summary(fetch_rdap("domain", cleaned), cleaned))
+            print("\n" + "=" * 60 + "\n【2. Real DNS & 郵件安全審計 (SPF/DMARC/DKIM/DNSSEC)】")
+            print(format_dns_audit_report(check_domain_email_sec(cleaned)))
+            print("\n" + "=" * 60 + "\n【3. Web 端點與 Two-Pass TLS 審計】")
+            print(format_markdown_report(capture_snapshot(target)))
         return
 
     # 4. Dispatch IP -> ICANN RDAP
