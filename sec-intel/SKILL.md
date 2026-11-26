@@ -25,7 +25,7 @@ description: Authoritative, evidence-based intelligence lookup for IPs, ASNs, Do
 
 ## CLI Entrypoint
 ```bash
-python3 <skill_dir>/scripts/intel_router.py <TARGET> [--web] [--dns] [--all] [--no-tls] [--vuln]
+python3 <skill_dir>/scripts/intel_router.py <TARGET> [--web] [--dns] [--all] [--no-tls] [--vuln] [--urgent] [--compact]
 ```
 
 ## References

@@ -20,7 +20,7 @@ if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
 from icann_rdap_lookup import fetch_rdap, format_ip_summary, format_domain_summary, format_asn_summary
-from euvd_lookup import query_euvd_search, query_euvd_by_id, format_vuln_item
+from euvd_lookup import query_euvd_search, query_euvd_by_id, format_vuln_item, is_urgent_sla
 from dns_auditor import format_dns_audit_report
 from mxtoolbox_lookup import check_ip_blacklist, check_domain_email_sec, format_mxtoolbox_report, is_ip as is_ip_addr
 from web_monitor import capture_snapshot, format_markdown_report, audit_tls_two_pass
@@ -63,7 +63,10 @@ def dispatch_vuln(target: str, args) -> None:
         if "error" in data:
             print(f"[Vulnerability Error] {data['error']}", file=sys.stderr)
             return
-        print(format_vuln_item(data))
+        if args.urgent and not is_urgent_sla(data):
+            print(f"[INFO] {target.upper()} 未達 3天/14天 處置門檻，已過濾。")
+            return
+        print(format_vuln_item(data, compact=args.compact))
         return
 
     data = query_euvd_search(target, size=args.size, from_score=args.min_score, from_epss=args.min_epss)
@@ -74,12 +77,14 @@ def dispatch_vuln(target: str, args) -> None:
         print(f"[Vulnerability Error] {data['error']}", file=sys.stderr)
         return
     items = data.get("items", [])
+    if args.urgent:
+        items = [it for it in items if is_urgent_sla(it)]
     if not items:
-        print(f"[WARNING] 雙引擎資料庫皆無符合 '{target}' 之紀錄")
+        print(f"[WARNING] 無符合 '{target}' 之紀錄")
         return
     print(f"[Vulnerability Intelligence Report (Dual-Engine)] 關鍵字: '{target}':\n")
     for idx, item in enumerate(items, start=1):
-        print(format_vuln_item(item))
+        print(format_vuln_item(item, compact=args.compact))
         if idx < len(items):
             print("\n" + "─" * 60 + "\n")
 
@@ -98,6 +103,8 @@ def main():
     parser.add_argument("--size", type=int, default=3, help="Max vulnerability results (default: 3)")
     parser.add_argument("--min-score", type=float, default=None, help="Min CVSS base score")
     parser.add_argument("--min-epss", type=float, default=None, help="Min EPSS probability percentage")
+    parser.add_argument("--urgent", action="store_true", help="Only show 3-day or 14-day SLA vulnerabilities")
+    parser.add_argument("--compact", action="store_true", help="Compact output without long descriptions or timestamps")
     parser.add_argument("--json", action="store_true", help="Output raw JSON format")
     args = parser.parse_args()
 

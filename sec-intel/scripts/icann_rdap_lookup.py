@@ -8,7 +8,7 @@ Pure Python Standard Library (Zero Dependencies).
 import json
 import argparse
 import ipaddress
-import urllib.request
+from urllib import request
 import re
 from typing import Dict, Any, Optional, Tuple, List
 
@@ -29,8 +29,8 @@ def detect_target_type(target: str) -> Tuple[str, str]:
 def fetch_from_url(url: str, timeout: int = 8) -> Optional[Dict[str, Any]]:
     headers = {"User-Agent": "Antigravity-RDAP/1.0 (+https://lookup.icann.org)", "Accept": "application/rdap+json, application/json"}
     try:
-        req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
+        req = request.Request(url, headers=headers)
+        with request.urlopen(req, timeout=timeout) as resp:
             return json.loads(resp.read().decode("utf-8", errors="replace")) if resp.status == 200 else None
     except Exception:
         return None
@@ -39,8 +39,8 @@ def fetch_from_url(url: str, timeout: int = 8) -> Optional[Dict[str, Any]]:
 def fetch_rapiddns_fallback(target: str, timeout: int = 6) -> Optional[Dict[str, Any]]:
     url = f"https://rapiddns.io/s/{target}"
     try:
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "text/html"})
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
+        req = request.Request(url, headers={"User-Agent": "Mozilla/5.0", "Accept": "text/html"})
+        with request.urlopen(req, timeout=timeout) as resp:
             html = resp.read().decode("utf-8", errors="replace")
             rows = re.findall(r'<tr[^>]*>(.*?)</tr>', html, re.DOTALL)
             results = []

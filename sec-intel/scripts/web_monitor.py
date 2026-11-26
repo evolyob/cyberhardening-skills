@@ -7,7 +7,8 @@ Web Endpoint Security & Integrity Auditor (v2.0 High-Reliability)
 Pure Python Standard Library (Zero Dependencies, Zero Disk Writes).
 """
 
-import re, json, hashlib, argparse, ssl, socket, urllib.request, urllib.error, urllib.parse
+import re, json, hashlib, argparse, ssl, socket
+from urllib import error, parse, request
 from datetime import datetime, timezone
 from typing import Dict, Any, List, Tuple
 
@@ -112,7 +113,7 @@ def extract_meta_and_framework(html_text: str) -> Tuple[str, str, str]:
 def extract_csp_domains(csp: str) -> List[str]:
     if not csp:
         return []
-    domains = {urllib.parse.urlparse(t).netloc.lower() for t in re.findall(r"https?://[^\s;'\"]+", csp)}
+    domains = {parse.urlparse(t).netloc.lower() for t in re.findall(r"https?://[^\s;'\"]+", csp)}
     return sorted(d for d in domains if d)
 
 
@@ -124,7 +125,7 @@ def audit_high_conf_secrets(src: str, filename: str) -> List[str]:
 def inspect_scripts(url: str, html_text: str, timeout: int = 6) -> List[Dict[str, Any]]:
     """Snapshot external scripts and compute SHA256 integrity."""
     scripts = re.findall(r'<script[^>]+src=[\"\x27]?([^\"\'\x27\s>]+)', html_text, re.I)
-    js_urls = [urllib.parse.urljoin(url, s) for s in scripts if not s.startswith("data:")]
+    js_urls = [parse.urljoin(url, s) for s in scripts if not s.startswith("data:")]
     targets = [u for u in js_urls if any(k in u for k in ["vendor", "chunk", "app", "main"])] or js_urls[:3]
 
     bundles = []
@@ -132,8 +133,8 @@ def inspect_scripts(url: str, html_text: str, timeout: int = 6) -> List[Dict[str
     for u in targets:
         fname = u.split("/")[-1].split("?")[0] or "script.js"
         try:
-            req = urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36"})
-            with urllib.request.urlopen(req, timeout=timeout, context=unverified_ctx) as jr:
+            req = request.Request(u, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36"})
+            with request.urlopen(req, timeout=timeout, context=unverified_ctx) as jr:
                 js_bytes = jr.read()
                 js_text = js_bytes.decode("utf-8", errors="replace")
                 bundles.append({
@@ -151,18 +152,18 @@ def capture_snapshot(url: str, timeout: int = 10) -> Dict[str, Any]:
     if not re.match(r'^https?://', url, re.I):
         url = "https://" + url
 
-    parsed = urllib.parse.urlparse(url)
+    parsed = parse.urlparse(url)
     hostname = parsed.hostname or url
     tls_info = audit_tls_two_pass(hostname, port=parsed.port or 443, timeout=min(timeout, 5))
 
     unverified_ctx = ssl._create_unverified_context()
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36"})
+    req = request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36"})
 
     raw_headers, status, body_bytes = [], 0, b""
     try:
-        with urllib.request.urlopen(req, timeout=timeout, context=unverified_ctx) as resp:
+        with request.urlopen(req, timeout=timeout, context=unverified_ctx) as resp:
             status, body_bytes, raw_headers = resp.status, resp.read(), list(resp.headers.items())
-    except urllib.error.HTTPError as e:
+    except error.HTTPError as e:
         status = e.code
         body_bytes = e.read() if hasattr(e, "read") else b""
         raw_headers = list(e.headers.items()) if hasattr(e, "headers") else []
